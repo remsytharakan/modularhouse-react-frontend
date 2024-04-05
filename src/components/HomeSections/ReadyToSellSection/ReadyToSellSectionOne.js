@@ -40,7 +40,7 @@ function ReadyToSellSectionOne() {
             lineHeight: '40px',
             textAlign: 'left',
             textTransform: 'capitalize',
-            whiteSpace: 'nowrap',
+            // whiteSpace: 'nowrap',
             zIndex: 9,
           }}
         >

@@ -8,7 +8,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Toaster } from 'react-hot-toast';
 
 function Login() {
-    const isDesktop = useMediaQuery('(min-width:600px)');
+    const isDesktop = useMediaQuery('(min-width:1024px)');
 
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
@@ -61,14 +61,14 @@ function Login() {
     };
 
     return (
-        <Grid container>
+        <Grid container style={{height:'100vh'}}>
             {isDesktop && (
-                <Grid item xs={12} sm={8}>
-                    <img src={logoo} alt="Image1" style={{ width: '90%', height: '90%' }} />
+                <Grid item xs={12} sm={8} style={{height:'100vh'}}>
+                    <img src={logoo} alt="Image1" style={{ width: '100%', height: '100%' }} />
                 </Grid>
             )}
             <Grid item xs={12} sm={isDesktop ? 4 : 12} style={{ backgroundColor: '#F3F4F6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px', padding: '0 20px', background: 'white', borderRadius: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width:'100%', maxWidth: '400px', padding: '20px', background: 'white', borderRadius: '16px' }}>
                     <h2 style={{ color: '#10B981', textAlign: 'center', marginBottom: '20px' }}>Login</h2>
                     <h4 style={{ margin: '0px' }}>Email</h4>
                     <TextField
