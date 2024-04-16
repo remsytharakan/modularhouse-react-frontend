@@ -21,7 +21,7 @@ window.scrollTo(0,0);
    <Custom3/> 
  <CostHeader/> 
    <CostDetail/>  
-   <Custom4/>
+   <Custom4/> 
     </div>
   )
 }
