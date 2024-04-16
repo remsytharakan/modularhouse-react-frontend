@@ -12,7 +12,7 @@ function AboutUsSectionTwo() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', paddingLeft: '40px', paddingRight:{ xs: '35px', sm: '40px', md: '80px', lg: '100px' }, marginTop: '120px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', paddingLeft: '40px', paddingRight:{ xs: '35px', sm: '40px', md: '80px', lg: '100px' }, marginTop: '10px' }}>
       <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ maxWidth: '800px' }}>
           <Grid item xs={12}>
               <Typography variant="h4" align="center">About Us</Typography>
