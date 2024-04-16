@@ -1,30 +1,29 @@
-// MainSection1.js
 import React from 'react';
-import { Typography, Box, useMediaQuery } from '@mui/material';
+import { Typography, Box, useMediaQuery, TextField, InputAdornment, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 function MainSection1() {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery('(max-width:700px)');
   
   return (
     <Box
-      paddingTop={isMobile ? '20px' : '180px'}
-      paddingLeft={isMobile ? '20px' : '120px'}
-      paddingRight={isMobile ? '20px' : '120px'}
+      paddingTop={isMobile ? '20px' : '150px'}
+      paddingLeft={{ xs: '20px', sm: '40px', md: '80px', lg: '100px' }}
+      paddingRight={isMobile ? '20px' : '100px'}
     >
       <Box>
         <Typography
           variant="h1"
           sx={{
             color: 'black',
-            fontFamily: 'Lexend, var(--default-font-family)',
             fontSize: isMobile ? '32px' : '40px',
-            fontWeight: 600,
+            fontWeight: 'bold',
             lineHeight: isMobile ? '40px' : '50px',
             textTransform: 'capitalize',
-            WebkitTextStroke: '1px #d4e597',
           }}
         >
-         Experience The Future<br/>of <span style={{ color: '#49dd7b' }}>Home Building</span> <br />With Modular Design.
+          Experience The Future<br/>
+          of <span style={{ color: '#49dd7b' }}>Home Building</span> <br />With Modular Design.
         </Typography>
       </Box>
       {!isMobile && (
@@ -33,7 +32,6 @@ function MainSection1() {
             variant="h2"
             sx={{
               color: 'black',
-              fontFamily: 'Lexend, var(--default-font-family)',
               fontSize: '16px',
               fontWeight: 400,
               lineHeight: '30px',
@@ -46,6 +44,32 @@ function MainSection1() {
           </Typography>
         </Box>
       )}
+      {/* Search Field */}
+      <Box paddingTop='70px'>
+        <TextField
+          variant="outlined"
+          placeholder="Search for your dream home"
+          fullWidth
+          sx={{
+            borderRadius: '32px', // Setting border radius to 32px
+            '& fieldset': {
+              borderRadius: '32px', // Setting border radius for the fieldset
+            },
+            '& .MuiIconButton-root': {
+              color: '#49dd7b', // Setting color for the search icon button
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
     </Box>
   );
 }

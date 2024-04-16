@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactSwipe from 'react-swipe';
-import { Box, Typography, Grid, Button } from '@mui/material';
+import { Box, Typography, Grid, Button ,OutlinedInput} from '@mui/material';
 import './HouseCard.css';
 // import './HousePage.css';
 import HouseCard from './HouseCard';
@@ -9,6 +9,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import VillaIcon from '@mui/icons-material/Villa';
 function OurRecommendation() {
+
+  
   // let reactSwipeEl;
   return (
     <div>
@@ -21,7 +23,7 @@ function OurRecommendation() {
       > */}
       {/* <div style={{ height: 500 }}> */}
 
-        <Box paddingLeft='120px'>
+        <Box sx={{ marginTop: '20px',  paddingLeft:{ xs: '20px', sm: '40px', md: '80px', lg: '100px' },  paddingRight:{ xs: '35px', sm: '40px', md: '80px', lg: '100px' } }}>
           {/* Common heading and buttons */}
           <Box className="heading-container">
             <Box className="heading">
@@ -29,24 +31,31 @@ function OurRecommendation() {
                 Featured Houses
               </Typography>
             </Box>
-            <Box className="button-container">
-              <button className="button-container">
-                <IconButton>< HomeIcon /></IconButton>
-                <span>Cube House</span>
-              </button>
-              <button className="button-container">
-                <IconButton>< VillaIcon /></IconButton>
-                <span>Standard</span>
-              </button>
-              <button className="button-container">
-                <IconButton>< ApartmentIcon /></IconButton>
-                <span>Premium</span>
-              </button>
-            </Box>
+            <Box sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+      <OutlinedInput
+        className="button-container"
+        style={{ borderRadius: '32px',width:'160px', marginRight: '10px' }}
+        startAdornment={<IconButton><HomeIcon /></IconButton>}
+        endAdornment={<span>Cube</span>}
+      />
+      <OutlinedInput
+        className="button-container"
+        style={{ borderRadius: '32px', marginRight: '10px',width:'160px' }}
+        startAdornment={<IconButton><VillaIcon /></IconButton>}
+        endAdornment={<span>Standard</span>}
+      />
+      <OutlinedInput
+        className="button-container"
+        style={{ borderRadius: '32px', width: '160px' }}
+        startAdornment={<IconButton><ApartmentIcon /></IconButton>}
+        endAdornment={<span>Premium</span>}
+      />
+    </Box>
+
           </Box>
 
           {/* House cards */}
-          <Grid container spacing={2} justifyContent="center">
+          <Grid container spacing={1} justifyContent="center">
             <Grid item xs={12} sm={6} md={4}>
               <HouseCard
                 imageSrc="/Image/house1.png"

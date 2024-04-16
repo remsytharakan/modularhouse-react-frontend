@@ -3,8 +3,16 @@ import { Box } from '@mui/material';
 import './HouseCard.css'; // Import CSS file
 import IconButton from '@mui/material/IconButton';
 import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function HouseCard({ imageSrc, title, price, bedroomCount }) {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleClick = () => {
+    // Navigate to the desired page when IconButton is clicked
+    navigate('/DetailPage');
+  };
+
   return (
     <Box className="house-card">
       <Box className="img" style={{position:'relative'}}>
@@ -24,10 +32,10 @@ function HouseCard({ imageSrc, title, price, bedroomCount }) {
           </Box>
           <span className="bedroom">{bedroomCount} Bedroom</span>
         </Box>
-        <button className="customize">
-          <IconButton>< HomeIcon /></IconButton>
-          <span>Customize</span>
-        </button>
+        <Box className="customize">
+          <IconButton ><HomeIcon /></IconButton> {/* Added onClick to IconButton */}
+          <span onClick={handleClick}>Customize</span>
+        </Box>
       </Box>
     </Box>
   );

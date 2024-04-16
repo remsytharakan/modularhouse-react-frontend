@@ -1,22 +1,15 @@
 import React from 'react';
-import { Box, Card, CardMedia, Grid } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
+import img from '../../../Assets/decor1.png';
 
-function AboutUsSectionOne() {
+function AboutUsOne() {
+  const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
+
   return (
-    <div>
-      <Box mt={4} sx={{ display: 'flex', justifyContent: 'center' ,top:100}}>
-        <Card sx={{ maxWidth: 700,maxHeight:800 }}>
-          <CardMedia
-            component="img"
-            height="auto"
-            image="Image/decor.png"
-            alt="Image description"
-            sx={{  width: '100%' }} // Set width to '100%' to ensure the image takes up the entire width
-          />
-        </Card>
-      </Box>
-    </div>
+    <Box sx={{ marginTop: '90px',  paddingLeft:{ xs: '20px', sm: '40px', md: '80px', lg: '100px' }, marginRight: { xs: '32px', sm: '20px' } }}>
+      <img src={img} alt="main" style={{ width: isMobile ? 'calc(100% + 40px)' : '100%', height: '100%', objectFit: 'cover' }} />
+    </Box>
   );
 }
- 
-export default AboutUsSectionOne;
+
+export default AboutUsOne;

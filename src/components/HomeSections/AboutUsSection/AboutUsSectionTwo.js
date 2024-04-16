@@ -10,12 +10,12 @@ import { useMediaQuery } from '@mui/material';
 function AboutUsSectionTwo() {
   const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+    
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', paddingLeft: '40px', paddingRight: '50px', marginTop: '20px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', paddingLeft: '40px', paddingRight:{ xs: '35px', sm: '40px', md: '80px', lg: '100px' }, marginTop: '120px' }}>
       <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ maxWidth: '800px' }}>
           <Grid item xs={12}>
-              <Typography variant="h2" align="center" gutterBottom>About Us</Typography>
+              <Typography variant="h4" align="center">About Us</Typography>
           </Grid>
           <Grid item xs={12}>
               <Typography variant="body1" align="justify" sx={{ lineHeight: 2, font: '18px', color: '#414141', marginBottom: '20px' }}>
@@ -57,7 +57,8 @@ function AboutUsSectionTwo() {
           </Grid>
       </Grid>
   </Box>
-    );
+    )
 }
+
 
 export default AboutUsSectionTwo;
