@@ -74,8 +74,11 @@ function Register() {
     return (
         <Grid container>
             {isDesktop && (
-                <Grid item xs={8}>
-                    <img src={logoo} alt="Image1" style={{ maxWidth: '100%', height: 'auto' }} />
+               // <Grid item xs={8}>
+                //     <img src={logoo} alt="Image1" style={{ maxWidth: '100%', height: 'auto' }} />
+                // </Grid>
+                <Grid item xs={12} sm={8} style={{height:'100vh'}}>
+                    <img src={logoo} alt="Image1" style={{ width: '100%', height: '100%' }} />
                 </Grid>
             )}
             <Grid item xs={isDesktop ? 4 : 12}>
