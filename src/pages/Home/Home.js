@@ -46,12 +46,12 @@ function Home() {
                     </Grid>
                 </Grid>
             </div>
-            {/* <div>
+            <div>
                 <SeeOurReviewSection />
             </div>
             <div>
                 <SubscribeForSection />
-            </div>  */}
+            </div> 
         </div>
     )
 }
