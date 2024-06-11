@@ -10,7 +10,7 @@ function UserRoutes() {
         </div>  
          <Routes>
         
-         <Route path="/home" element={<Home/>} /> 
+         <Route path="/" element={<Home/>} /> 
          
         
         

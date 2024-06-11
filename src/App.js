@@ -11,9 +11,9 @@ function App() {
    <div>
     <AdminRoutes/>
    </div>
-   {/* <div>
+  <div>
     <UserRoutes/>
-   </div> */}
+   </div> 
   
    
  
