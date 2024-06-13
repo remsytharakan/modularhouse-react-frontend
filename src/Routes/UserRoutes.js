@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Home from '../pages/Home/Home';
 import Navbar from '../components/Navbar/Navbar';
+import DetailPage from '../pages/Detail/DetailPage';
 function UserRoutes() {
     return (
       <div>
@@ -11,7 +12,7 @@ function UserRoutes() {
          <Routes>
         
          <Route path="/" element={<Home/>} /> 
-         
+         <Route path="/details" element={<DetailPage/>} /> 
         
         
   
