@@ -30,9 +30,9 @@ function ModuleDetails() {
 
 
       <Grid item xs={12} md={6}>
-        <Box ml={5}mr={4}  >
+      <Box ml={{ xs: 4, md: 10, lg: 10 }} mr={{ xs: 4, md: 4, lg: 4 }} >
           <Grid container spacing={3} sx={{ mb: 6 }}>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={3} >
               <CardMedia component="img" image={pic2} alt="Image description" />
             </Grid>
             <Grid item xs={12} md={9}>
@@ -41,11 +41,11 @@ function ModuleDetails() {
                   <IconButton>
                     <PermMediaOutlinedIcon />
                   </IconButton>
-                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400, marginLeft: '10px' }}>
+                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400,  }}>
                     Roofing
                   </Typography>
                 </Box>
-                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px', textAlign: 'left', padding: '0 5%' }}>
+                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px',  }}>
                   Each cube-sized module measures for optimal versatility and ease of transportation. Module size is fixed.
                 </Typography>
               </Box>
@@ -62,11 +62,11 @@ function ModuleDetails() {
                   <IconButton>
                     <PermMediaOutlinedIcon />
                   </IconButton>
-                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400, marginLeft: '10px' }}>
+                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400,  }}>
                     Roofing
                   </Typography>
                 </Box>
-                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px', textAlign: 'left', padding: '0 5%' }}>
+                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px', }}>
                   Each cube-sized module measures for optimal versatility and ease of transportation. Module size is fixed.
                 </Typography>
               </Box>
@@ -83,11 +83,11 @@ function ModuleDetails() {
                   <IconButton>
                     <PermMediaOutlinedIcon />
                   </IconButton>
-                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400, marginLeft: '10px' }}>
+                  <Typography variant="body1" sx={{ color: '#3c4563', fontSize: '14px', fontWeight: 400,  }}>
                     Roofing
                   </Typography>
                 </Box>
-                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px', textAlign: 'left', padding: '0 5%' }}>
+                <Typography sx={{ color: '#1b1c57', fontSize: '14px', fontWeight: 500, lineHeight: '32px',  }}>
                   Each cube-sized module measures for optimal versatility and ease of transportation. Module size is fixed.
                 </Typography>
               </Box>
@@ -97,7 +97,7 @@ function ModuleDetails() {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Box ml={{ xs: 4 }} mr={{ xs: 4 ,lg:9}} >
+        <Box ml={{ xs: 4 }} mr={{ xs: 4 ,md: 6 ,lg:9}} >
           <img src={plan} alt="" style={{ width: '100%', height: 'auto' }} />
         </Box>
       </Grid>
