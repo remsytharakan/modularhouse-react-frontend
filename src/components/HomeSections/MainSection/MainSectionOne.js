@@ -1,76 +1,56 @@
 import React from 'react';
-import { Typography, Box, useMediaQuery, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Typography, Box, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 function MainSection1() {
-  const isMobile = useMediaQuery('(max-width:700px)');
-  
   return (
-    <Box
-      paddingTop={isMobile ? '20px' : '150px'}
-      paddingLeft={{ xs: '20px', sm: '40px', md: '80px', lg: '100px' }}
-      paddingRight={isMobile ? '20px' : '100px'}
-    >
-      <Box>
-        <Typography
-          variant="h1"
-          sx={{
-            color: 'black',
-            fontSize: isMobile ? '32px' : '40px',
-            fontWeight: 'bold',
-            lineHeight: isMobile ? '40px' : '50px',
-            textTransform: 'capitalize',
-          }}
-        >
+    <div>
+      <Box 
+        sx={{
+          mr: { xs: 1, md: 2, lg: 8 }, 
+          mt: { xs: 3, md: 6, lg: 16 }, 
+          ml: { xs: 2, md: 8, lg: 10 } 
+        }}
+      >
+        <Typography variant="h1"  gutterBottom sx={{  fontSize: { xs: '32px', sm: '40px' }, fontWeight: 'bold',  }}>
           Experience The Future<br/>
           of <span style={{ color: '#49dd7b' }}>Home Building</span> <br />With Modular Design.
         </Typography>
+      
+      <Box sx={{mt: "8%"}}>
+        <Typography variant="h8" sx={{   lineHeight: '30px', }}>
+          Everything you need about finding your place to live will be here, where it will be easier for you
+        </Typography>
       </Box>
-      {!isMobile && (
-        <Box paddingTop='40px'>
-          <Typography
-            variant="h2"
-            sx={{
-              color: 'black',
-              fontSize: '16px',
-              fontWeight: 400,
-              lineHeight: '30px',
-              textAlign: 'left',
-              opacity: 0.75,
-              zIndex: 31,
-            }}
-          >
-            Everything you need about finding your place to live will be here, where it will be easier for you
-          </Typography>
-        </Box>
-      )}
       {/* Search Field */}
-      <Box paddingTop='70px'>
-        <TextField
-          variant="outlined"
-          placeholder="Search for your dream home"
-          fullWidth
-          sx={{
-            borderRadius: '32px', // Setting border radius to 32px
-            '& fieldset': {
-              borderRadius: '32px', // Setting border radius for the fieldset
-            },
-            '& .MuiIconButton-root': {
-              color: '#49dd7b', // Setting color for the search icon button
-            },
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <IconButton>
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+      <Box sx={{ mt: { xs: '10%', md: '5%', lg: '14%' } }}>
+  <TextField
+    variant="outlined"
+    placeholder="Search for your dream home"
+    fullWidth
+    sx={{
+      '& fieldset': {
+        borderRadius: '32px', // Setting border radius for the fieldset
+      },
+      '& .MuiIconButton-root': {
+        color: '#49dd7b', // Setting color for the search icon button
+      },
+    }}
+    InputProps={{
+      endAdornment: (
+        <InputAdornment position="end">
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
+        </InputAdornment>
+      ),
+    }}
+  />
+</Box>
+
       </Box>
-    </Box>
+
+    </div>
   );
 }
 

@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
-import Navbar from '../../Dashboard/Navbar';
+import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
 import C1 from '../../Assets/C1.png';
 import C2 from '../../Assets/C2.png';

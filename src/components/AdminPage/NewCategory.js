@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Typography, Popover, Box, Paper, Button, Grid, IconButton, Tooltip, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Card } from '@mui/material';
+import { Typography, Popover, Box, Paper, Button, Grid, IconButton, Tooltip, TextField, Table, TableBody, TableCell, TableContainer, TableRow} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Newcat from '../../Assets/Newcat.png';
-import Navbar from '../../Dashboard/Navbar';
+import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
 
 const rows = [

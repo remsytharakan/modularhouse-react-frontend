@@ -12,7 +12,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import logo from '../Dashboard/DashImages/logo .png';
+import logo from '../Assets/DashImages/logo .png';
 
 const Sidebar = ({ open, onClose }) => {
   const theme = useTheme();
@@ -57,7 +57,7 @@ const Sidebar = ({ open, onClose }) => {
           <Button
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             color="inherit"
-            onClick={() => handleNavigate('/')}
+            onClick={() => handleNavigate('/admin')}
           >
             <div>
               <SettingsIcon />

@@ -11,10 +11,10 @@ import Reset from '../Auth/Reset';
  
 import Dashboard from '../../src/Dashboard/Dashboard';
 
-import Categories from '../pages/AdminPage/Categories';
-import NewCategories from '../pages/AdminPage/NewCategory';
-import NewModules from '../pages/AdminPage/NewModule';
-import Modules from '../pages/AdminPage/Modules';
+import Categories from '../components/AdminPage/Categories';
+import NewCategories from '../components/AdminPage/NewCategory';
+import NewModules from '../components/AdminPage/NewModule';
+import Modules from '../components/AdminPage/Modules';
 
 function App() {
   return (

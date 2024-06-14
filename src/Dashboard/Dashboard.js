@@ -5,7 +5,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
+  
   TableRow,
   Button,
   Paper,
@@ -14,19 +14,19 @@ import {
   Card
 } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import category from '../Dashboard/DashImages/category.png';
-import users from '../Dashboard/DashImages/Users.png';
-import modules from '../Dashboard/DashImages/Modules.png';
-import requests from '../Dashboard/DashImages/Requests.png';
+import category from '../Assets/DashImages/category.png';
+import users from '../Assets/DashImages/Users.png';
+import modules from '../Assets/DashImages/Modules.png';
+import requests from '../Assets/DashImages/Requests.png';
 
 
-import frame from '../Dashboard/DashImages/frame.png';
-import Navbar from './Navbar';
+import frame from '../Assets/DashImages/frame.png';
+import Navbar from './AdminNavbar';
 import Sidebar from './Sidebar';
-import icon from '../Dashboard/DashImages/Icon.png';
-import villa from '../Dashboard/DashImages/villa.png';
-import order from '../Dashboard/DashImages/order.png';
-import profile from '../Dashboard/DashImages/profile.png';
+import icon from '../Assets/DashImages/Icon.png';
+import villa from '../Assets/DashImages/villa.png';
+import order from '../Assets/DashImages/order.png';
+import profile from '../Assets/DashImages/profile.png';
 const Dashboard = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 

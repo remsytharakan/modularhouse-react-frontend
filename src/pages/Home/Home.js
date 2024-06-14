@@ -13,45 +13,45 @@ import { Grid } from '@mui/material';
 function Home() {
     return (
         <div>
-            <div>
+              <div>
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={5}>
+                    <Grid item xs={12} sm={12} md={6} lg={5}>
                         <MainSectionOne />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={7}>
+                    <Grid item xs={12} sm={12} md={6} lg={7}>
                         <MainSectionTwo />
                     </Grid>
                 </Grid>
-            </div>
-            <div>
+            </div>  
+             <div>
                 <OurRecommendation />
-            </div>
-          <div>
+            </div> 
+         <div>
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={7}>
+                    <Grid item xs={12} sm={12} md={6} lg={7}>
                         <ReadyToSellSectionOne />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={5}>
+                    <Grid item xs={12} sm={12} md={6} lg={5}>
                         <ReadyToSellSectionTwo />
                     </Grid>
                 </Grid>
             </div> 
-            <div>
+             <div>
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
                         <AboutUsSectionOne />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
                         <AboutUsSectionTwo />
                     </Grid>
                 </Grid>
-            </div>
-            <div>
+            </div> 
+             <div>
                 <SeeOurReviewSection />
-            </div>
+            </div> 
             <div>
                 <SubscribeForSection />
-            </div> 
+            </div>   
         </div>
     )
 }

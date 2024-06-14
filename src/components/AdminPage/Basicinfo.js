@@ -14,7 +14,7 @@ import {
   Switch,
   Accordion,
   Grid,
-  AccordionActions,
+  
   AccordionSummary,
   AccordionDetails,
   ThemeProvider,

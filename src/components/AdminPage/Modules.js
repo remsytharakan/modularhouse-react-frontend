@@ -25,10 +25,10 @@ import M2 from '../../Assets/C2.png';
 import M3 from '../../Assets/C3.png';
 import M4 from '../../Assets/C1.png';
 import M5 from '../../Assets/C2.png';
-import Navbar from '../../Dashboard/Navbar';
+import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 
 const rows = [
   { id: 1, image: M1, HouseName: 'Villa Arora', Price: '$2,000,000', Area: '2 Floors,Area:147.10m2', HouseType: 'Villa' },
@@ -50,8 +50,7 @@ const handleDelete = (params) => {
 
 function Modules() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const theme = useTheme();
-  const isXsScreen = useMediaQuery(theme.breakpoints.down('xs'));
+ 
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Box, useMediaQuery } from '@mui/material';
-import house from './house.png';
+import Box from '@mui/material/Box';
+import house from '../../../Assets/ready.png';
 
 function ReadyToSellSectionTwo() {
-  const isMobile = useMediaQuery('(max-width:768px)');
-
   return (
     <div>
-     <Box sx={{ marginTop: '70px', marginLeft: { xs: '30px', sm: '0' },   paddingRight:{ xs: '35px', sm: '40px', md: '80px', lg: '100px' } }}>
-      <img src={house} alt="main" style={{ width: isMobile ? 'calc(100% + 40px)' : '100%', height: '100%', objectFit: 'cover',borderRadius:'2%' }} />
-    </Box>
+      <Box sx={{ 
+        mt: { xs: '2%', md: '12%', lg: '12%' }, 
+        mr: { xs: '10%', md: '4%', lg: '3%' }, 
+        ml: { xs: '10%',  md: '0%',   } 
+      }}>
+        <img src={house} alt="main" style={{  width: '100%' }} />
+      </Box>
     </div>
   );
 }

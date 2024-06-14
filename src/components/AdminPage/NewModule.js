@@ -5,13 +5,12 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Typography } from '@mui/material';
-import Navbar from '../../Dashboard/Navbar';
+import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
 import Basicinfo from './Basicinfo';
 import Photos from './Photos';
 import Videos from './Videos';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 export default function LabTabs() {
   const [value, setValue] = useState('1');
