@@ -1,5 +1,20 @@
-import React, { useState } from 'react';
-import { Typography, Popover, Box, Paper, Button, Grid, IconButton, Tooltip, TextField, Table, TableBody, TableCell, TableContainer, TableRow} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  Typography,
+  Popover,
+  Box,
+  Paper,
+  Button,
+  Grid,
+  IconButton,
+  Tooltip,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +22,8 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Newcat from '../../Assets/Newcat.png';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
+import { getCategoryById, postCategory, updateCategory } from '../../Services/AdminServices';
+import toast, { Toaster } from 'react-hot-toast';
 
 const rows = [
   { id: 1, firstName: 'Villa', image: Newcat },
@@ -20,31 +37,80 @@ function NewCategories() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryName, setCategoryName] = useState('');
   const [selectedImage, setSelectedImage] = useState(Newcat);
+  const [categoryId, setCategoryId] = useState(null);
+  const [imageError, setImageError] = useState(false);
+  const [categoryNameError, setCategoryNameError] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-  const handleEdit = (params) => console.log('Edit:', params);
-  const handleDelete = (params) => console.log('Delete:', params);
+  const handleEdit = (id) => console.log('Edit:', id);
+  const handleDelete = (id) => console.log('Delete:', id);
   const handleCategoryNameChange = (event) => setCategoryName(event.target.value);
-  const handleSave = () => {
-    console.log('Save:', categoryName);
-    handleClose();
-  };
 
   const handleImageUpload = (event) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => setSelectedImage(e.target.result);
       reader.readAsDataURL(event.target.files[0]);
+      setImage(event.target.files[0]);
     }
   };
+
+  const saveClick = async () => {
+    let error = false;
+
+    if (!categoryId && !image) {
+      setImageError(true);
+      error = true;
+    } else {
+      setImageError(false);
+    }
+
+    if (categoryName === "") {
+      setCategoryNameError(true);
+      error = true;
+    } else {
+      setCategoryNameError(false);
+    }
+
+    if (error) return;
+
+    const formData = new FormData();
+    if (!categoryId || image) {
+      formData.append("image", image);
+    }
+    formData.append("categoryName", categoryName);
+
+    try {
+      if (categoryId) {
+        await updateCategory(categoryId, formData);
+      } else {
+        await postCategory(formData);
+      }
+      toast.success('Category saved successfully');
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (categoryId) {
+      getCategoryById(categoryId).then((res) => {
+        const data = res?.data?.ad;
+        setSelectedImage(data?.image?.url);
+        setCategoryName(data?.name);
+      });
+    }
+  }, [categoryId]);
 
   return (
     <Box sx={{ ml: [4, 25, 25], mr: [4, 6, 6], mt: [12, 15, 15] }}>
       <Navbar onMenuOpen={handleDrawerOpen} />
       <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
+      <Toaster />
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
@@ -53,17 +119,41 @@ function NewCategories() {
           </Typography>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-              <img src={Newcat} alt="New Category" style={{ maxWidth: '30%' }} />
+              <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, width: '100%' }}>
+                <img src={selectedImage} alt="Category" style={{ maxWidth: '100%', borderRadius: '10%' }} />
+                <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={handleImageUpload} />
+                <label htmlFor="icon-button-file" style={{ position: 'absolute' }}>
+                  <IconButton
+                    color="primary"
+                    component="span"
+                    sx={{
+                      color: 'darkblue',
+                      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                      '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)' },
+                      fontSize: '2rem'
+                    }}
+                  >
+                    <PhotoCamera fontSize="inherit" />
+                  </IconButton>
+                </label>
+              </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', flexGrow: 1 }}>
-                <Button variant="contained" color="primary" sx={{ mr: 1 }}>
-                  Save
+                <Button variant="contained" color="primary" sx={{ ml: 2 }} onClick={saveClick}>
+                  {categoryId ? "Update" : "Save"}
                 </Button>
-                <Button variant="contained" sx={{ color: 'white', borderColor: 'white' }}>
+                <Button variant="contained" sx={{ color: 'white', borderColor: 'white', ml: 2 }}>
                   Cancel
                 </Button>
               </Box>
             </Box>
-            <TextField variant="outlined" label="Category Name" />
+            <TextField
+              variant="outlined"
+              label="Category Name"
+              value={categoryName}
+              onChange={handleCategoryNameChange}
+              error={categoryNameError}
+              helperText={categoryNameError ? 'Category name is required' : ''}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -75,7 +165,7 @@ function NewCategories() {
           sx={{ backgroundColor: '#1bc5bd', textTransform: 'none', color: '#ffffff', fontFamily: 'Poppins, var(--default-font-family)', fontSize: '16px', fontWeight: 600 }}
           onClick={handleClick}
         >
-          Add New Category
+          Add Sub Category
         </Button>
       </Box>
 
@@ -96,8 +186,8 @@ function NewCategories() {
             </Box>
             <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, width: '100%' }}>
               <img src={selectedImage} alt="Sub" style={{ maxWidth: '100%', borderRadius: '10%' }} />
-              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={handleImageUpload} />
-              <label htmlFor="icon-button-file" style={{ position: 'absolute' }}>
+              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file-sub" type="file" onChange={handleImageUpload} />
+              <label htmlFor="icon-button-file-sub" style={{ position: 'absolute' }}>
                 <IconButton
                   color="primary"
                   component="span"
@@ -116,7 +206,7 @@ function NewCategories() {
               <Button variant="contained" sx={{ backgroundColor: '#f0f0f0', color: '#000000' }} onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant="contained" color="primary" onClick={handleSave}>
+              <Button variant="contained" color="primary" >
                 Save
               </Button>
             </Box>

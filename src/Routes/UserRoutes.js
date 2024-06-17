@@ -6,9 +6,9 @@ import DetailPage from '../pages/Detail/DetailPage';
 function UserRoutes() {
     return (
       <div>
-          <div>
+          {/* <div>
           <Navbar />
-        </div>  
+        </div>   */}
          <Routes>
         
          <Route path="/" element={<Home/>} /> 
