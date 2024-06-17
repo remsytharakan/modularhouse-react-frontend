@@ -8,11 +8,17 @@ import ReadyToSellSectionTwo from '../../components/HomeSections/ReadyToSellSect
 import ReadyToSellSectionOne from '../../components/HomeSections/ReadyToSellSection/ReadyToSellSectionOne';
 import AboutUsSectionOne from '../../components/HomeSections/AboutUsSection/AboutUsSectionOne';
 import AboutUsSectionTwo from '../../components/HomeSections/AboutUsSection/AboutUsSectionTwo';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 import { Grid } from '@mui/material';
 
 function Home() {
     return (
         <div>
+ <div>
+          <Navbar />
+        </div> 
+
               <div>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={5}>
@@ -51,7 +57,12 @@ function Home() {
             </div> 
             <div>
                 <SubscribeForSection />
-            </div>   
+            </div>  
+
+             <div>
+          <Footer />
+        </div>  
+
         </div>
     )
 }

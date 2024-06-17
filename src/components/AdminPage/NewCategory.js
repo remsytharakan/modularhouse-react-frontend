@@ -36,11 +36,14 @@ function NewCategories() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryName, setCategoryName] = useState('');
-  const [selectedImage, setSelectedImage] = useState(Newcat);
+  const [subcategoryName, setSubcategoryName] = useState('');
+  const [selectedCategoryImage, setSelectedCategoryImage] = useState(Newcat);
+  const [selectedSubcategoryImage, setSelectedSubcategoryImage] = useState(Newcat);
   const [categoryId, setCategoryId] = useState(null);
   const [imageError, setImageError] = useState(false);
   const [categoryNameError, setCategoryNameError] = useState(false);
   const [image, setImage] = useState(null);
+  const [subImage, setSubImage] = useState(null);
 
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
@@ -49,13 +52,21 @@ function NewCategories() {
   const handleEdit = (id) => console.log('Edit:', id);
   const handleDelete = (id) => console.log('Delete:', id);
   const handleCategoryNameChange = (event) => setCategoryName(event.target.value);
+  const handleSubcategoryNameChange = (event) => setSubcategoryName(event.target.value);
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = (event, isSubcategory) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (e) => setSelectedImage(e.target.result);
+      reader.onload = (e) => {
+        if (isSubcategory) {
+          setSelectedSubcategoryImage(e.target.result);
+          setSubImage(event.target.files[0]);
+        } else {
+          setSelectedCategoryImage(e.target.result);
+          setImage(event.target.files[0]);
+        }
+      };
       reader.readAsDataURL(event.target.files[0]);
-      setImage(event.target.files[0]);
     }
   };
 
@@ -100,7 +111,7 @@ function NewCategories() {
     if (categoryId) {
       getCategoryById(categoryId).then((res) => {
         const data = res?.data?.ad;
-        setSelectedImage(data?.image?.url);
+        setSelectedCategoryImage(data?.image?.url);
         setCategoryName(data?.name);
       });
     }
@@ -120,8 +131,8 @@ function NewCategories() {
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
               <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, width: '100%' }}>
-                <img src={selectedImage} alt="Category" style={{ maxWidth: '100%', borderRadius: '10%' }} />
-                <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={handleImageUpload} />
+                <img src={selectedCategoryImage} alt="Category" style={{ maxWidth: '100%', borderRadius: '10%' }} />
+                <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={(e) => handleImageUpload(e, false)} />
                 <label htmlFor="icon-button-file" style={{ position: 'absolute' }}>
                   <IconButton
                     color="primary"
@@ -182,11 +193,11 @@ function NewCategories() {
               Sub Category
             </Typography>
             <Box sx={{ bgcolor: "white", borderRadius: 2, p: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <TextField label="Name" variant="outlined" value={categoryName} onChange={handleCategoryNameChange} fullWidth />
+              <TextField label="Name" variant="outlined" value={subcategoryName} onChange={handleSubcategoryNameChange} fullWidth />
             </Box>
             <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, width: '100%' }}>
-              <img src={selectedImage} alt="Sub" style={{ maxWidth: '100%', borderRadius: '10%' }} />
-              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file-sub" type="file" onChange={handleImageUpload} />
+              <img src={selectedSubcategoryImage} alt="Sub" style={{ maxWidth: '100%', borderRadius: '10%' }} />
+              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file-sub" type="file" onChange={(e) => handleImageUpload(e, true)} />
               <label htmlFor="icon-button-file-sub" style={{ position: 'absolute' }}>
                 <IconButton
                   color="primary"
@@ -206,7 +217,7 @@ function NewCategories() {
               <Button variant="contained" sx={{ backgroundColor: '#f0f0f0', color: '#000000' }} onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant="contained" color="primary" >
+              <Button variant="contained" color="primary">
                 Save
               </Button>
             </Box>
