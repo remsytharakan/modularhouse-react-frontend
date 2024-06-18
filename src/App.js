@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
@@ -17,28 +17,61 @@ import Custom1 from './components/Custom1/Custom1';
 import CostHeader from './components/CostHeader/CostHeader';
 import CostDetail from './components/CostDetail/CostDetail';
 import Custom4 from './components/Custom4/Custom4';
- import DetailPage from './pages/Home/DetailPage';
+import DetailPage from './pages/Home/DetailPage';
+import AuthShield from './shields/AuthShield';
+import { useDispatch } from 'react-redux';
+import { getCurrentUser } from './Services/Services';
+import { useEffect } from 'react';
+import { finishLoadingUser } from './redux/slices/userLoadingSlice';
+import { setUser } from './redux/slices/userSlice';
 function App() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("authtoken")) {
+      getCurrentUser()
+        .then((response) => {
+          dispatch(setUser(response?.data));
+          dispatch(finishLoadingUser());
+        }).catch((err) => {
+          sessionStorage.removeItem("authtoken");
+          dispatch(finishLoadingUser());
+        });
+    } else {
+      dispatch(finishLoadingUser());
+    }
+  }, [dispatch]);
+
   return (
     <div>
-        <div>
+      <div>
         <Navbar />
-      </div> 
-       <Routes>
+      </div>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget" element={<ForgetPassword />} />
         <Route path="/verify" element={<Verify />} />
-        <Route path="/DetailPage" element={<DetailPage />} />
-      </Routes> 
-{/* 
+        <Route
+          path="/user"
+          element={
+            <AuthShield>
+              <Outlet />
+            </AuthShield>
+          }
+        >
+          <Route path="DetailPage" element={<DetailPage />} />
+        </Route>
+      </Routes>
+      {/* 
        <div>
         <Footer />
       </div>  */}
- 
- 
-    </div>
+
+
+    </div >
   );
 }
 
