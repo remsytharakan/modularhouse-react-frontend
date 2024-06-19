@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { Typography } from '@mui/material';
+import { Typography,Button } from '@mui/material';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
 import Basicinfo from './Basicinfo';
@@ -34,17 +34,41 @@ export default function LabTabs() {
         <Navbar onMenuOpen={handleDrawerOpen} />
         <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
         <Typography
-          color="textPrimary"
-          fontWeight="800"
-          sx={{
-            fontFamily: 'Roboto',
-            fontSize: '32px',
-            lineHeight: '26px',
-            marginBottom: '2%'
-          }}
-        >
+         sx={{
+          fontFamily: 'Roboto',
+          fontSize: '32px',
+          fontWeight:"800"
+        }}>
+       
           New Module
         </Typography>
+        <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#f0f0f0',
+                textTransform: 'none',
+                color: '#000000',
+               
+                fontSize: '16px',
+                fontWeight: 600,
+               
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: 'none',
+                color: '#ffffff',
+               
+                fontSize: '16px',
+                fontWeight: 600,
+               
+              }}
+            >
+              Save
+            </Button>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -60,8 +84,17 @@ export default function LabTabs() {
           <TabPanel value="3"><Videos /></TabPanel>
           <TabPanel value="4">Documents</TabPanel>
           <TabPanel value="5">Possible Extensions</TabPanel>
+         
         </TabContext>
-      </Box>
+
+
+     
+           
+           
+          </Box>
+
+
+      
     
   );
 }

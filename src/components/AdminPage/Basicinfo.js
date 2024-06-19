@@ -103,13 +103,13 @@ function Basicinfo() {
   const second = ['Anteroom', 'Bathroom', 'Room 1', 'Room 2','Room 3' ,'Parents room','Closet' ,'WC' ,'Terrace'];
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ p: 2 }}>
+   
+     <Box sx={{ mr:[4,8,8] }}>
         <Typography
           variant="h5"
           component="h2"
           sx={{
-            fontFamily: 'Poppins, var(--default-font-family)',
+           
             fontSize: '24px',
             fontWeight: 440,
             mb: 2,
@@ -128,7 +128,7 @@ function Basicinfo() {
             borderRadius: '8px',
             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
             [theme.breakpoints.down('sm')]: {
-              padding: '10px',
+              padding: '8px',
             },
           }}
         >
@@ -342,7 +342,7 @@ function Basicinfo() {
           </DialogActions>
         </Dialog>
       </Box>
-    </ThemeProvider>
+    
   );
 }
 

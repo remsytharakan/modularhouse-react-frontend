@@ -15,6 +15,7 @@ import {
   TableContainer,
   TableRow
 } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -32,7 +33,9 @@ const rows = [
   { id: 4, firstName: 'Tiny House', image: Newcat },
 ];
 
-function NewCategories() {
+function NewCategory() {
+  const navigate = useNavigate();
+  const { catId } = useParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categoryName, setCategoryName] = useState('');
@@ -73,7 +76,7 @@ function NewCategories() {
   const saveClick = async () => {
     let error = false;
 
-    if (!categoryId && !image) {
+    if (!catId && !image) {
       setImageError(true);
       error = true;
     } else {
@@ -96,8 +99,8 @@ function NewCategories() {
     formData.append("categoryName", categoryName);
 
     try {
-      if (categoryId) {
-        await updateCategory(categoryId, formData);
+      if (catId) {
+        await updateCategory(catId, formData);
       } else {
         await postCategory(formData);
       }
@@ -105,28 +108,54 @@ function NewCategories() {
     } catch (err) {
       toast.error(err.response.data.message);
     }
-  };
+    let data = {
+      categoryName: categoryName,
+      type: image,
+    }
+    if (catId) {
+      await updateCategory(catId, data).then((res) => {
+        toast.success(res?.data?.message);
+        setTimeout(() => {
+          navigate('/Category');
+        }, 2000);
+      }).catch((err) => { toast.error(err.response.data.message) })
+    } else {
+      await postCategory(data).then((res) => {
+        toast.success(res?.data?.message);
+        setTimeout(() => {
+          navigate('/Category');
+        }, 2000);
+      }).catch((err) => { toast.error(err.response.data.message) })
+    }
+  }
+  
 
   useEffect(() => {
-    if (categoryId) {
-      getCategoryById(categoryId).then((res) => {
-        const data = res?.data?.ad;
+    if (catId) {
+      getCategoryById(catId).then((res) => {
+        let data = res?.data?.category;
+        setCategoryName(data?.categoryName);
         setSelectedCategoryImage(data?.image?.url);
-        setCategoryName(data?.name);
-      });
+      })
     }
-  }, [categoryId]);
+  }, []);
+ 
 
   return (
-    <Box sx={{ ml: [4, 25, 25], mr: [4, 6, 6], mt: [12, 15, 15] }}>
+    <Box sx={{ ml: [4, 25, 25], mr: [12, 6, 8], mt: [12, 15, 15] }}>
       <Navbar onMenuOpen={handleDrawerOpen} />
       <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
       <Toaster />
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h6" component="div" gutterBottom>
-            Category
+          <Typography 
+            sx={{
+              fontFamily: 'Roboto',
+              fontSize: '32px',
+              fontWeight:"800"
+            }}>
+            New Category
           </Typography>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -149,22 +178,57 @@ function NewCategories() {
                 </label>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', flexGrow: 1 }}>
-                <Button variant="contained" color="primary" sx={{ ml: 2 }} onClick={saveClick}>
-                  {categoryId ? "Update" : "Save"}
-                </Button>
-                <Button variant="contained" sx={{ color: 'white', borderColor: 'white', ml: 2 }}>
-                  Cancel
-                </Button>
+              <Button
+  variant="contained"
+  color="primary"
+  sx={{
+    ml: 2,
+    ...(theme) => ({
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '0.75rem', // Adjust font size for xs screens
+      },
+    }),
+  }}
+  onClick={saveClick}
+>
+  {catId ? "Update" : "Save"}
+</Button>
+<Button
+  variant="contained"
+  sx={{
+    color: 'white',
+    borderColor: 'white',
+    ml: 2,
+    ...(theme) => ({
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '0.75rem', // Adjust font size for xs screens
+      },
+    }),
+  }}
+  onClick={() => navigate('/category')}
+>
+  Cancel
+</Button>
+
               </Box>
             </Box>
             <TextField
-              variant="outlined"
-              label="Category Name"
-              value={categoryName}
-              onChange={handleCategoryNameChange}
-              error={categoryNameError}
-              helperText={categoryNameError ? 'Category name is required' : ''}
-            />
+  variant="outlined"
+  label="Category Name"
+  value={categoryName}
+  onChange={handleCategoryNameChange}
+  error={categoryNameError}
+  helperText={categoryNameError ? 'Category name is required' : ''}
+  sx={{
+    ...(theme) => ({
+      width: '100%',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '0.875rem', // Adjust font size for xs screens
+      },
+    }),
+  }}
+/>
+
           </Box>
         </Grid>
       </Grid>
@@ -173,7 +237,8 @@ function NewCategories() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ backgroundColor: '#1bc5bd', textTransform: 'none', color: '#ffffff', fontFamily: 'Poppins, var(--default-font-family)', fontSize: '16px', fontWeight: 600 }}
+          sx={{ backgroundColor: '#1bc5bd', textTransform: 'none', color: '#ffffff',
+              fontSize: '0.875rem', fontWeight: 600 }}
           onClick={handleClick}
         >
           Add Sub Category
@@ -217,9 +282,11 @@ function NewCategories() {
               <Button variant="contained" sx={{ backgroundColor: '#f0f0f0', color: '#000000' }} onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant="contained" color="primary">
-                Save
-              </Button>
+              <Button
+            variant='contained'
+            style={{ backgroundColor: "#2A85FF", color: "white", borderRadius: 10, fontSize: 15 }}
+            onClick={() => { saveClick() }}
+          >{catId ? "Update" : "Save"}</Button>
             </Box>
           </Box>
         </Box>
@@ -257,6 +324,5 @@ function NewCategories() {
       </TableContainer>
     </Box>
   );
-}
-
-export default NewCategories;
+};
+export default NewCategory;

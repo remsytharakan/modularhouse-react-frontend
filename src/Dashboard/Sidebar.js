@@ -69,7 +69,7 @@ const Sidebar = ({ open, onClose }) => {
           <Button
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             color="inherit"
-            onClick={() => handleNavigate('/categories')}
+            onClick={() => handleNavigate('/category')}
           >
             <div>
               <CategoryIcon />

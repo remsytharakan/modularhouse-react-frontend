@@ -27,7 +27,8 @@ import M4 from '../../Assets/C1.png';
 import M5 from '../../Assets/C2.png';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
-
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const rows = [
@@ -65,20 +66,23 @@ function Modules() {
     navigate('/newmodules'); 
   };
 
+  const theme = useTheme();
+  const isXsScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
+
   return (
-    <Box sx={{  ml: [4, 25, 25], mt: [12, 15, 15] }}>
+    <Box sx={{  ml: [4, 25, 25], mt: [12, 15, 15] ,mr:[4,8,8]  }}>
       <Navbar onMenuOpen={handleDrawerOpen} />
       <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
 
       <Box>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Typography
-            color="textPrimary"
-            fontWeight="800"
+            
             sx={{
               fontFamily: 'Roboto',
-              fontSize: '32px',
-              lineHeight: '26px',
+              fontSize: '36px',
+              fontWeight:"800"
             }}
           >
             Modules
@@ -98,41 +102,48 @@ function Modules() {
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3%', marginTop: '-1.5%', marginRight: '2%', gap: '2%' }}>
-          <Button
-            variant="contained"
-            startIcon={<ArrowDropDownIcon />}
-            sx={{
-              backgroundColor: '#f0f0f0',
-              textTransform: 'none',
-              color: '#000000',
-              fontFamily: 'Poppins, var(--default-font-family)',
-              fontSize: '16px',
-              fontWeight: 600,
-              marginTop: { xs: '6%', sm: '3%', lg: '-1%' },
-              marginBottom: { xs: '6%', sm: '3%', lg: '2%' },
-            }}
-          >
-            Category
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            sx={{
-              backgroundColor: '#1bc5bd',
-              textTransform: 'none',
-              color: '#ffffff',
-              fontFamily: 'Poppins, var(--default-font-family)',
-              fontSize: '16px',
-              fontWeight: 600,
-              marginTop: { xs: '6%', sm: '3%', lg: '-1%' },
-              marginBottom: { xs: '6%', sm: '3%', lg: '2%' },
-            }}
-            onClick={handleAddNewModule}
-          >
-            Add New Module
-          </Button>
-        </div>
+       
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2,mt:[2,0,0],mb:[2,1,1]  }}>
+      <Button
+        variant="contained"
+        startIcon={<ArrowDropDownIcon />}
+        sx={{
+          backgroundColor: '#f0f0f0',
+          textTransform: 'none',
+          color: '#000000',
+        
+          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontWeight: 600,
+          minWidth: '120px',
+          [theme.breakpoints.down('xs')]: {
+            fontSize: '0.5rem', // Further adjust font size for xs screens
+          },
+        }}
+      >
+       Category
+      </Button>
+
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{
+          backgroundColor: '#1bc5bd',
+          textTransform: 'none',
+          color: '#ffffff',
+          fontFamily: 'Poppins, var(--default-font-family)',
+          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontWeight: 600,
+          minWidth: '160px', // Ensure consistent button width
+          [theme.breakpoints.down('xs')]: {
+            fontSize: '0.75rem', // Further adjust font size for xs screens
+            minWidth: '140px', // Adjust width for xs screens
+          },
+        }}
+        onClick={handleAddNewModule}
+      >
+        Add New Module
+      </Button>
+    </Box>
         <Card>
           <TableContainer>
             <Table>

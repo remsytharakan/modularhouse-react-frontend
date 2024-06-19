@@ -17,7 +17,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 import {  getAllCategories } from '../../Services/AdminServices';
@@ -73,23 +73,29 @@ const Categories = () => {
     navigate('/newcategory');
   };
 
+  const editCategory = (id) => {
+    navigate(`/edit-category/${id}`)
+  }
+
+
+
   return (
-    <Box sx={{ ml: [4, 25, 25], mt: [12, 15, 15] }}>
+    <Box sx={{ ml: [4, 25, 25], mt: [10, 15, 15],mr:[4,8,8] }}>
       <Navbar onMenuOpen={handleDrawerOpen} />
       <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
 
       <Box>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Typography
-            color="textPrimary"
-            fontWeight="800"
+          
+           
             sx={{
               fontFamily: 'Roboto',
-              fontSize: '32px',
-              lineHeight: '26px',
+              fontSize: '36px',
+              fontWeight:"800"
             }}
           >
-            Categories
+            Category
           </Typography>
 
           <div style={{ position: 'relative', marginLeft: '20px' }}>
@@ -119,53 +125,54 @@ const Categories = () => {
           </div>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginBottom: '3%',
-            marginTop: '-1.5%',
-            marginRight: '2%',
-            gap: '2%',
-          }}
-        >
-          <Button
-            variant="contained"
-            startIcon={<ArrowDropDownIcon />}
-            sx={{
-              backgroundColor: '#f0f0f0',
-              textTransform: 'none',
-              color: '#000000',
-              fontFamily: 'Poppins, var(--default-font-family)',
-              fontSize: '16px',
-              fontWeight: 600,
-            }}
-          >
-            Sort
-          </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2,mt:[2,0,0],mb:[2,1,1]  }}>
+      <Button
+        variant="contained"
+        startIcon={<ArrowDropDownIcon />}
+        sx={{
+          backgroundColor: '#f0f0f0',
+          textTransform: 'none',
+          color: '#000000',
+        
+          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontWeight: 600,
+          minWidth: '120px',
+          [theme.breakpoints.down('xs')]: {
+            fontSize: '0.5rem', // Further adjust font size for xs screens
+          },
+        }}
+      >
+        Sort
+      </Button>
 
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            sx={{
-              backgroundColor: '#1bc5bd',
-              textTransform: 'none',
-              color: '#ffffff',
-              fontFamily: 'Poppins, var(--default-font-family)',
-              fontSize: '16px',
-              fontWeight: 600,
-            }}
-            onClick={handleButtonClick}
-          >
-            Add New Category
-          </Button>
-        </div>
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{
+          backgroundColor: '#1bc5bd',
+          textTransform: 'none',
+          color: '#ffffff',
+          fontFamily: 'Poppins, var(--default-font-family)',
+          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontWeight: 600,
+          minWidth: '160px', // Ensure consistent button width
+          [theme.breakpoints.down('xs')]: {
+            fontSize: '0.75rem', // Further adjust font size for xs screens
+            minWidth: '140px', // Adjust width for xs screens
+          },
+        }}
+        onClick={handleButtonClick}
+      >
+        Add New Category
+      </Button>
+    </Box>
 
         <TableContainer component={Paper}>
           <Table>
             <TableBody>
               {categories.map((category) => (
-                <TableRow key={category.id}>
+               
+                <TableRow key={category?._id}>
                   <TableCell>
                     <img
                       src={category?.image?.url}
@@ -174,14 +181,15 @@ const Categories = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <span style={{ fontWeight: 'bold' }}>{category.categoryName}</span>
+                    <span style={{ fontWeight: 'bold' }}>{category?.categoryName}</span>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title="Edit">
-                      <IconButton onClick={() => handleEdit(category.id)} color="primary">
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+                  <Tooltip title="Edit">
+  <IconButton onClick={() => editCategory(category?._id)} color="primary">
+    <EditIcon />
+  </IconButton>
+</Tooltip>
+
                   </TableCell>
                   <TableCell>
                     <Tooltip title="Delete">
