@@ -42,7 +42,7 @@ export default function LabTabs() {
        
           New Module
         </Typography>
-        <Button
+        {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: '#f0f0f0',
@@ -55,8 +55,8 @@ export default function LabTabs() {
               }}
             >
               Cancel
-            </Button>
-            <Button
+            </Button> */}
+            {/* <Button
               variant="contained"
               sx={{
                 textTransform: 'none',
@@ -68,7 +68,7 @@ export default function LabTabs() {
               }}
             >
               Save
-            </Button>
+            </Button> */}
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">

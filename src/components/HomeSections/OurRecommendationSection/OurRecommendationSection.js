@@ -36,20 +36,22 @@ function OurRecommendation() {
         <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
           {categories && categories.map((cat, index) => (
             <Button
-              key={index}
-              variant="outlined"
-              className="button-container"
-              sx={{
-                borderRadius: 4,
-                width: { xs: 'auto' },
-                mr: { xs: 1, sm: 1 },
-                color: '#10B981',
-                textTransform: 'none'
-              }}
-              startIcon={cat.type === 'cube' ? <HomeIcon /> : cat.type === 'standard' ? <VillaIcon /> : <ApartmentIcon />}
-            >
-              {cat?.categoryName}
-            </Button>
+            key={index}
+            variant="outlined"
+            className="button-container"
+            sx={{
+              borderRadius: 4,
+              width: { xs: 'auto', sm: 'fit-content' }, // Adjusted width for xs and sm screens
+              mr: { xs: 1, sm: 1 },
+              mb: { xs: 1, sm: 1 },
+              color: '#10B981',
+              textTransform: 'none'
+            }}
+            startIcon={cat.type === 'cube' ? <HomeIcon /> : cat.type === 'standard' ? <VillaIcon /> : <ApartmentIcon />}
+          >
+            {cat?.categoryName}
+          </Button>
+          
           ))}
         </Box>
       </Box>

@@ -110,17 +110,17 @@
 /* Button container styles */
 .button-container {
   display: flex;
-  gap: 20px; /* Space between buttons */
+ 
   justify-content: center; /* Align buttons to center */
   border-radius: 32px;
   background-color: white;
-  height: 50px;
-  color: black;
+  height: 35px;
+  color:green;
   cursor: pointer;
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  margin-right: 40px;
+ 
 }
 
 /* Adjust button styles */

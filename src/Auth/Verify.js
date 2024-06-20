@@ -1,127 +1,107 @@
-import { Button, Icon, InputAdornment, TextField, Typography, Grid, useMediaQuery } from '@mui/material';
-import React, { useState } from 'react';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import { useNavigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import logoo from './logoo.png'; // Import the image
+import { Button, } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { unsetUser } from '../redux/slices/userSlice';
+import { verify } from '../Services/AdminServices';
+import OTPInput from 'react-otp-input';
+import toast, { Toaster } from 'react-hot-toast';
 
 function Verify() {
-  const navigate = useNavigate();
-  const isDesktop = useMediaQuery('(min-width:600px)');
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(false);
+    const [otp, setOtp] = useState('');
+    const [otpError, setOtpError] = useState(false);
 
-  const handleForgot = () => {
-    let error = false;
-    if (email === "") {
-      setEmailError(true);
-      error = true;
-    } else {
-      setEmailError(false);
-    }
-    if (error) return;
+    useEffect(() => {
+        sessionStorage.removeItem("authtoken");
+        dispatch(unsetUser());
+    }, []);
 
-    // Mocking API call
-    navigate('/reset', { state: { email } });
-  }
-
-  const forgotButton = {
-    backgroundColor: '#10B981',
-    fontSize: 15,
-    marginBottom: 3,
-    color: 'white',
-    borderRadius: 16 // Adding border radius
-  };
-
-  const textFieldStyle = {
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: '#10B981',
-            borderRadius: 16 // Adding border radius
-        },
-        '&:hover fieldset': {
-            borderColor: '#10B981'
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: '#10B981'
+    const handleVerify = async () => {
+        let error = false;
+        if (otp === "") {
+            setOtpError(true);
+            error = true;
+        } else {
+            setOtpError(false);
         }
+        if (error) return;
+
+        let data = {
+            otp: otp,
+        }
+        await verify(id, data).then((res) => {
+            toast.success(res?.data?.message);
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+        }).catch((err) => { toast.error(err.response.data.message) })
     }
-  };
 
-  return (
-  
-      
-      <Grid container>
-        {isDesktop && (
-          <Grid item xs={12} sm={6}>
-            <img src={logoo} alt="Image1" style={{ width: '100%', height: 'auto' }} />
-          </Grid>
-        )}
-        
-        <Grid item xs={12} sm={isDesktop ? 6 : 12} style={{ backgroundColor: '#F3F4F6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px', padding: '0 20px', background: 'white', borderRadius: '16px' }}>
-          <h4 style={{ margin: '0px' }}>Verification code</h4>
-          <TextField
-  error={emailError}
-  onChange={(e) => setEmail(e.target.value)}
-  placeholder='Enter OTP'
-  margin="dense"
-  variant="outlined"
-  fullWidth={true}
-  sx={{ mb: 3, ...textFieldStyle }}
-  InputProps={{
-    startAdornment: (
-      <InputAdornment position="start">
-        <Icon>
-          <EmailOutlinedIcon sx={{ color: '#10B981' }} />
-        </Icon>
-      </InputAdornment>
-    )
-  }}
-/>
+    const verifyButton = {
+        backgroundColor: '#575DFB',
+        fontSize: 15,
+        marginBottom: 3
+    };
 
-            <Button
-              type='submit'
-              style={forgotButton}
-              fullWidth={true}
-              color='primary'
-              variant='contained'
-              onClick={handleForgot}
-            >
-              Confirm
-            </Button>
-          </div>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-            toastOptions={{
-              success: {
-                style: {
-                  background: '#10B981',
-                  color: 'white'
-                },
-                iconTheme: {
-                  primary: '#10B981',
-                  secondary: 'white',
-                },
-              },
-              error: {
-                style: {
-                  background: 'rgb(211, 47, 47)',
-                  color: 'white'
-                },
-                iconTheme: {
-                  primary: 'rgb(211, 47, 47)',
-                  secondary: 'white',
-                },
-              },
-            }}
-          />
-        </Grid>
-      </Grid>
- 
-  );
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px', padding: '0 20px' }}>
+                <h2 style={{ color: '#575DFB', textAlign: 'center' }}>Verify</h2>
+                <h4 style={{ margin: '0px' }}>Enter OTP</h4>
+                <OTPInput
+                    value={otp}
+                    onChange={setOtp}
+                    numInputs={6}
+                    renderSeparator={<span>-</span>}
+                    inputStyle={{ width: '100%', height: '50px', borderColor: otpError ? 'red' : '' }}
+                    containerStyle={{ marginBottom: '30px' }}
+                    renderInput={(props) => <input {...props} />}
+                />
+                <Button
+                    type='submit'
+                    style={verifyButton}
+                    fullWidth={true}
+                    color='primary'
+                    variant='contained'
+                    onClick={handleVerify}
+                >
+                    Verify
+                </Button>
+            </div>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+                toastOptions={{
+                    success: {
+                        style: {
+                            background: 'rgb(46, 125, 50)',
+                            color: 'white'
+                        },
+                        iconTheme: {
+                            primary: 'rgb(46, 125, 50)',
+                            secondary: 'white',
+                        },
+
+                    },
+                    error: {
+                        style: {
+                            background: 'rgb(211, 47, 47)',
+                            color: 'white'
+                        },
+                        iconTheme: {
+                            primary: 'rgb(211, 47, 47)',
+                            secondary: 'white',
+                        },
+
+                    },
+                }}
+            />
+        </div>
+    );
 }
 
 export default Verify;

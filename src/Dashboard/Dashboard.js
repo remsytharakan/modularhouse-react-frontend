@@ -93,14 +93,14 @@ const Dashboard = () => {
     <div>
       <Navbar onMenuOpen={handleDrawerOpen} />
       <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
-      <Box sx={{ mb: 5, ml: { xs: 0, md: 18 }, mt: { xs: 7, md: 10 },backgroundColor: "#f0f0f0" }}>
+      <Box sx={{ mb: 5, ml: { xs: 0,sm:18, md: 18 }, mt: { xs: 7,sm:8, md: 8,lg:8 },backgroundColor: "#f0f0f0" }}>
         <Card sx={{ boxShadow: 'none', borderRadius: 5, p: 3,backgroundColor: "#f0f0f0"  }}>
           <Grid container spacing={2}>
             <Grid item xs={12}  md={4}>
               <Card sx={{ backgroundColor: "#68C3B3", borderRadius: 5, boxShadow: 'none', p: 3 }}>
                 <Grid container spacing={2}>
                 <Grid item xs={6}>
-                    <CategoryCard image={category} title="Categories" route="/categories" />
+                    <CategoryCard image={category} title="Categories" route="/admin/category" />
                   </Grid>
                   <Grid item xs={6}>
                     <CategoryCard image={users} title="Users" route="/categories" />

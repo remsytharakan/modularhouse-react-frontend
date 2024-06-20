@@ -13,7 +13,7 @@ import Modules from '../components/AdminPage/Modules';
 function App() {
   return (
     <div>
-      <Routes>
+      {/* <Routes>
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -25,7 +25,7 @@ function App() {
         <Route path="/newcategory" element={<NewCategory />} />
         <Route path="/newmodules" element={<NewModules />} />
         <Route path="/modules" element={<Modules />} />
-      </Routes>
+      </Routes> */}
     </div>
   );
 }

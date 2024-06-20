@@ -1,41 +1,92 @@
 import { Button, Icon, InputAdornment, TextField, Typography, Grid, useMediaQuery } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoo from './logoo.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import { getCurrentUser, login } from '../Services/AdminServices';
+import { useDispatch } from 'react-redux';
+import { setUser, unsetUser } from '../redux/slices/userSlice';
 
 function Login() {
     const isDesktop = useMediaQuery('(min-width:1024px)');
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
+    const [emailHelperText, setEmailHelperText] = useState("");
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    const [passwordHelperText, setPasswordHelperText] = useState("");
 
+    // Password Show & Hide
+    const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-    const handleLogin = () => {
-        let error = false;
-        if (email === "") {
-            setEmailError(true);
-            error = true;
-        } else {
-            setEmailError(false);
-        }
-        if (password === "") {
-            setPasswordError(true);
-            error = true;
-        } else {
-            setPasswordError(false);
-        }
-        if (error) return;
+    useEffect(() => {
+        sessionStorage.removeItem("authtoken");
+        dispatch(unsetUser());
+    }, []);
 
-        // Mocking login process
+    const handleEmailChange = (e) => {
+        const emailValue = e.target.value;
+        setEmail(emailValue);
+        setEmailError(!validateEmail(emailValue));
+        setEmailHelperText(validateEmail(emailValue) ? "" : "Please enter the valid email address");
     };
+
+    const handlePasswordChange = (e) => {
+        const passwordValue = e.target.value;
+        setPassword(passwordValue);
+        setPasswordError(!validatePassword(passwordValue));
+        setPasswordHelperText(validatePassword(passwordValue) ? "" : "Password must be at least 8 characters long");
+    };
+
+    const validateEmail = (email) => {
+        // Basic email validation using regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePassword = (password) => {
+        // Password validation logic, e.g., minimum length
+        return password.length >= 8;
+    };
+
+    const handleLogin = async () => {
+        sessionStorage.removeItem("authtoken");
+        if (!validateEmail(email)) {
+            setEmailError(true);
+            setEmailHelperText("Please enter the valid email address");
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            setPasswordError(true);
+            setPasswordHelperText("Password must be at least 8 characters long");
+            return;
+        }
+
+        let data = {
+            email: email,
+            password: password
+        }
+
+        try {
+            const loginResponse = await login(data);
+            sessionStorage.setItem("authtoken", loginResponse?.data?.token);
+            const currentUserResponse = await getCurrentUser();
+            dispatch(setUser(currentUserResponse?.data));
+            toast.success(loginResponse?.data?.message);
+            navigate('/admin');
+        } catch (err) {
+            toast.error(err.response.data.message);
+        }
+    }
 
     const loginButton = {
         backgroundColor: '#10B981',
@@ -61,19 +112,21 @@ function Login() {
     };
 
     return (
-        <Grid container style={{height:'100vh'}}>
+        <Grid container style={{ height: '100vh' }}>
             {isDesktop && (
-                <Grid item xs={12} sm={8} style={{height:'100vh'}}>
+                <Grid item xs={12} sm={8} style={{ height: '100vh' }}>
                     <img src={logoo} alt="Image1" style={{ width: '100%', height: '100%' }} />
                 </Grid>
             )}
             <Grid item xs={12} sm={isDesktop ? 4 : 12} style={{ backgroundColor: '#F3F4F6', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', width:'100%', maxWidth: '400px', padding: '20px', background: 'white', borderRadius: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px', padding: '20px', background: 'white', borderRadius: '16px' }}>
                     <h2 style={{ color: '#10B981', textAlign: 'center', marginBottom: '20px' }}>Login</h2>
                     <h4 style={{ margin: '0px' }}>Email</h4>
                     <TextField
                         error={emailError}
-                        onChange={(e) => setEmail(e.target.value)}
+                        helperText={emailHelperText}
+                        onChange={handleEmailChange}
+                        value={email}
                         placeholder='Email'
                         margin="dense"
                         variant="outlined"
@@ -92,7 +145,9 @@ function Login() {
                     <h4 style={{ margin: '0px' }}>Your Password</h4>
                     <TextField
                         error={passwordError}
-                        onChange={(e) => setPassword(e.target.value)}
+                        helperText={passwordHelperText}
+                        onChange={handlePasswordChange}
+                        value={password}
                         placeholder='Password'
                         margin="dense"
                         variant="outlined"

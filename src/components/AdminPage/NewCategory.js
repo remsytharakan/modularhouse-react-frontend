@@ -113,17 +113,18 @@ function NewCategory() {
       type: image,
     }
     if (catId) {
+      console.log("updateee");
       await updateCategory(catId, data).then((res) => {
         toast.success(res?.data?.message);
         setTimeout(() => {
-          navigate('/Category');
+          navigate('/admin/Category');
         }, 2000);
       }).catch((err) => { toast.error(err.response.data.message) })
     } else {
       await postCategory(data).then((res) => {
         toast.success(res?.data?.message);
         setTimeout(() => {
-          navigate('/Category');
+          navigate('/admin/Category');
         }, 2000);
       }).catch((err) => { toast.error(err.response.data.message) })
     }
@@ -205,7 +206,7 @@ function NewCategory() {
       },
     }),
   }}
-  onClick={() => navigate('/category')}
+  onClick={() => navigate('/admin/category')}
 >
   Cancel
 </Button>

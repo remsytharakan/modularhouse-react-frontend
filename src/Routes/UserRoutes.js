@@ -7,7 +7,7 @@ function UserRoutes() {
     return (
       <div>
             
-         <Routes>
+         {/* <Routes>
         
          <Route path="/" element={<Home/>} /> 
          <Route path="/details" element={<DetailPage/>} /> 
@@ -16,7 +16,7 @@ function UserRoutes() {
   
          
   
-        </Routes> 
+        </Routes>  */}
   
          
    

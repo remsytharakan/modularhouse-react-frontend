@@ -7,7 +7,7 @@ function MainSection1() {
     <div>
       <Box 
         sx={{
-          mr: { xs: 1, md: 2, lg: 8 }, 
+          mr: { xs: 1, md: 2, lg: 5 }, 
           mt: { xs: 3, md: 6, lg: 16 }, 
           ml: { xs: 2, md: 8, lg: 10 } 
         }}

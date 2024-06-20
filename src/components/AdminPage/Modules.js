@@ -62,8 +62,8 @@ function Modules() {
     setDrawerOpen(false);
   };
 
-  const handleAddNewModule = () => {
-    navigate('/newmodules'); 
+  const handleButtonClick = () => {
+    navigate('/admin/newmodule');
   };
 
   const theme = useTheme();
@@ -139,7 +139,7 @@ function Modules() {
             minWidth: '140px', // Adjust width for xs screens
           },
         }}
-        onClick={handleAddNewModule}
+        onClick={handleButtonClick}
       >
         Add New Module
       </Button>

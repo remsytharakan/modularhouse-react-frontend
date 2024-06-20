@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import AddIcon from '@mui/icons-material/Add';
+import {  Dialog, DialogContent, DialogTitle } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
@@ -20,26 +21,32 @@ import Sidebar from '../../Dashboard/Sidebar';
 import { useTheme, } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
-import {  getAllCategories } from '../../Services/AdminServices';
+import { deleteCategoryById, getAllCategories } from '../../Services/AdminServices';
+import toast, { Toaster } from 'react-hot-toast';
 
-const handleEdit = (id) => {
-  // Handle edit action here
-  console.log("Edit clicked", id);
-};
 
-const handleDelete = (id) => {
-  // Handle delete action here
-  console.log("Delete clicked", id);
-};
-
-const Categories = () => {
+function Category  ()  {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isXsScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+ 
   const [loading, setLoading] = useState(false);
+
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [CategoryId, setCategoryId] = useState("");
+
+  const deleteDialogOpen = (id) => {
+    setCategoryId(id);
+    setDeleteDialog(true);
+  }
+  const deleteDialogCancel = () => {
+    setCategoryId("");
+    setDeleteDialog(false);
+  }
+
 
   const getCategories = async () => {
     setLoading(true);
@@ -70,14 +77,26 @@ const Categories = () => {
   };
 
   const handleButtonClick = () => {
-    navigate('/newcategory');
+    navigate('/admin/newcategory');
   };
 
+  const deleteCategory = (id) => {
+    deleteCategoryById(id).then((res) => {
+      toast.success(res?.data?.message);
+      setTimeout(() => {
+        getCategories();
+        deleteDialogCancel();
+      }, 2000);
+    }).catch((err) => { toast.error(err.response.data.message) })
+  };
+
+
   const editCategory = (id) => {
-    navigate(`/edit-category/${id}`)
+    navigate(`/admin/edit-category/${id}`)
   }
 
 
+  
 
   return (
     <Box sx={{ ml: [4, 25, 25], mt: [10, 15, 15],mr:[4,8,8] }}>
@@ -192,11 +211,9 @@ const Categories = () => {
 
                   </TableCell>
                   <TableCell>
-                    <Tooltip title="Delete">
-                      <IconButton onClick={() => handleDelete(category.id)} color="error">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                  <span title="Delete Category">
+                          <DeleteIcon sx={{ cursor: 'pointer' }} color='error' onClick={() => { deleteDialogOpen(category?._id) }} />
+                        </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -204,8 +221,55 @@ const Categories = () => {
           </Table>
         </TableContainer>
       </Box>
+
+      <Dialog
+        fullWidth={true}
+        maxWidth="sm"
+        open={deleteDialog}
+        onClose={() => deleteDialogCancel()}
+      >
+        <DialogTitle>
+          Are you sure you want to remove this category?
+        </DialogTitle>
+        <DialogContent>
+          <div style={{ display: "flex", justifyContent: "center", gap: 2, flexDirection: 'wrap' }}>
+            <Button variant="contained" color='primary' sx={{ fontSize: 15 }} onClick={() => { deleteCategory(CategoryId) }}>YES</Button>
+            <Button color='error' sx={{ fontSize: 15 }} onClick={deleteDialogCancel} >NO</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          success: {
+            style: {
+              background: 'rgb(46, 125, 50)',
+              color: 'white'
+            },
+            iconTheme: {
+              primary: 'rgb(46, 125, 50)',
+              secondary: 'white',
+            },
+
+          },
+          error: {
+            style: {
+              background: 'rgb(211, 47, 47)',
+              color: 'white'
+            },
+            iconTheme: {
+              primary: 'rgb(211, 47, 47)',
+              secondary: 'white',
+            },
+
+          },
+        }}
+      />
+
+
     </Box>
   );
 };
 
-export default Categories;
+export default Category;

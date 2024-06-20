@@ -11,7 +11,7 @@ import {
 import CategoryIcon from '@mui/icons-material/Category';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import SettingsIcon from '@mui/icons-material/Settings';
+import HomeIcon from '@mui/icons-material/Home';
 import logo from '../Assets/DashImages/logo .png';
 
 const Sidebar = ({ open, onClose }) => {
@@ -54,22 +54,22 @@ const Sidebar = ({ open, onClose }) => {
         </Box>
         {/* Sidebar items */}
         <Box sx={{ p: 2 }}>
-          <Button
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        <Button
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center',ml:0.7 }}
             color="inherit"
             onClick={() => handleNavigate('/admin')}
           >
             <div>
-              <SettingsIcon />
+              <HomeIcon />
             </div>
             <Typography variant="body2" color="inherit" textTransform="none">
-              Settings
+             Home
             </Typography>
           </Button>
           <Button
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             color="inherit"
-            onClick={() => handleNavigate('/category')}
+            onClick={() => handleNavigate('/admin/category')}
           >
             <div>
               <CategoryIcon />
@@ -81,7 +81,7 @@ const Sidebar = ({ open, onClose }) => {
           <Button
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             color="inherit"
-            onClick={() => handleNavigate('/modules')}
+            onClick={() => handleNavigate('/admin/modules')}
           >
             <div>
               <ViewModuleIcon />
@@ -93,7 +93,7 @@ const Sidebar = ({ open, onClose }) => {
           <Button
             sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             color="inherit"
-            onClick={() => handleNavigate('/reports')}
+            onClick={() => handleNavigate('/admin/reports')}
           >
             <div>
               <AssessmentIcon />
