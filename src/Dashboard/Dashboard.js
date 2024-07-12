@@ -106,7 +106,7 @@ const Dashboard = () => {
                     <CategoryCard image={users} title="Users" route="/categories" />
                   </Grid>
                   <Grid item xs={6}>
-                    <CategoryCard image={modules} title="Modules"route="/Modules" />
+                    <CategoryCard image={modules} title="Modules"route="/admin/Modules" />
                   </Grid>
                   <Grid item xs={6}>
                     <CategoryCard image={requests} title="Requests"route="/categories" />

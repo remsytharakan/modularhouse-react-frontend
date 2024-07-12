@@ -54,3 +54,38 @@ export const updateCategory = (id, data) => {
 export const deleteCategoryById = (id) => {
     return api.delete(`/category/deleteCategory/${id}`);
 };
+
+export const postSubCategory = (id,data) => {
+    return api.post(`/category/create/subcategory/${id}`, data);
+};
+
+export const updateSubCategory = (id,subcategoryid, data) => {
+    return api.put(`category/updateSubCategory/${id}/${subcategoryid}`, data);
+};
+export const deleteSubCategoryById = (id) => {
+    return api.delete(`/category/deleteCategory/subcategory/${id}`);
+};
+
+//modules
+
+export const getAllHouses = () => {
+    return api.get("/house/getAll");
+};
+
+export const getHouseById = (id) => {
+    return api.get(`/house/getHouseById/${id}`);
+};
+
+export const  createHouse = (data) => {
+    return api.post("/house/create", data);
+};
+
+export const updateHouse = (id, data) => {
+    return api.put(`house/updateHouse/${id}`, data);
+};
+
+export const  deleteHouseById = (id) => {
+    return api.delete(`/house/deleteHouse/${id}`);
+};
+
+

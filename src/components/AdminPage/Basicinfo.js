@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -10,340 +10,394 @@ import {
   DialogActions,
   Select,
   MenuItem,
-  FormControlLabel,
-  Switch,
+  FormControl,
+  InputLabel,
   Accordion,
-  Grid,
-  
   AccordionSummary,
   AccordionDetails,
-  ThemeProvider,
-  createTheme,
+  Grid,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper,
+  IconButton,
+  OutlinedInput
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { getAllCategories } from '../../Services/AdminServices';
 
-const IOSSwitch = styled((props) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  '& .MuiSwitch-switchBase': {
-    padding: 0,
-    margin: 2,
-    transitionDuration: '300ms',
-    '&.Mui-checked': {
-      transform: 'translateX(16px)',
-      color: '#fff',
-      '& + .MuiSwitch-track': {
-        backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-        opacity: 1,
-        border: 0,
-      },
-      '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: 0.5,
-      },
-    },
-    '&.Mui-focusVisible .MuiSwitch-thumb': {
-      color: '#33cf4d',
-      border: '6px solid #fff',
-    },
-    '&.Mui-disabled .MuiSwitch-thumb': {
-      color:
-        theme.palette.mode === 'light'
-          ? theme.palette.grey[100]
-          : theme.palette.grey[600],
-    },
-    '&.Mui-disabled + .MuiSwitch-track': {
-      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-    },
-  },
-  '& .MuiSwitch-thumb': {
-    boxSizing: 'border-box',
-    width: 22,
-    height: 22,
-  },
-  '& .MuiSwitch-track': {
-    borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-    opacity: 1,
-    transition: theme.transitions.create(['background-color'], {
-      duration: 500,
-    }),
-  },
-}));
-
-const theme = createTheme();
-
-function Basicinfo() {
+const Basicinfo = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState('');
+  const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [categoryError, setCategoryError] = useState(false);
+  const [subcategoryError, setSubcategoryError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [accordionSelectedItem, setAccordionSelectedItem] = useState('');
+  const [accordionSelectedArea, setAccordionSelectedArea] = useState('');
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
+  useEffect(() => {
+    const getCategories = async () => {
+      setLoading(true);
+      try {
+        // Simulating API call
+        const response = await getAllCategories();
+        setCategories(response?.data?.categories || []);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getCategories();
+  }, []);
+
+  const handleCategoryChange = (e) => {
+    const categoryId = e.target.value;
+    setCategory(categoryId);
+    setSubcategory('');
   };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleChange = (event) => {
-    setSelectedFloor(event.target.value);
+  const handleSubcategoryChange = (e) => {
+    setSubcategory(e.target.value);
   };
 
   const handleAccordionChange = (event) => {
     setAccordionSelectedItem(event.target.value);
   };
 
+  const handleAccordionAreaChange = (event) => {
+    setAccordionSelectedArea(event.target.value);
+  };
+
+  const handleAddItem = () => {
+    if (accordionSelectedItem && accordionSelectedArea) {
+      setSelectedItems([...selectedItems, { room: accordionSelectedItem, area: accordionSelectedArea }]);
+      setAccordionSelectedItem('');
+      setAccordionSelectedArea('');
+    }
+  };
+
+  const handleDeleteItem = (index) => {
+    const updatedItems = [...selectedItems];
+    updatedItems.splice(index, 1);
+    setSelectedItems(updatedItems);
+  };
+
   const items = ['Lower Floor', 'First Floor', 'Second Floor'];
-  const lower = ['Service Room', 'Central Heating', 'Wine Cellar', 'Storage for equipment','Garage' ,'Sauna','Parking Shelter'  ];
-  const first = ['Hall', 'WC', 'Dinning Room', 'Living Room','Kitchen' ,'Food Storage','Terrace'  ];
-  const second = ['Anteroom', 'Bathroom', 'Room 1', 'Room 2','Room 3' ,'Parents room','Closet' ,'WC' ,'Terrace'];
+  const lower = ['Service Room', 'Central Heating', 'Wine Cellar', 'Storage for equipment', 'Garage', 'Sauna', 'Parking Shelter'];
+  const first = ['Hall', 'WC', 'Dinning Room', 'Living Room', 'Kitchen', 'Food Storage', 'Terrace'];
+  const second = ['Anteroom', 'Bathroom', 'Room 1', 'Room 2', 'Room 3', 'Parents room', 'Closet', 'WC', 'Terrace'];
 
   return (
-   
-     <Box sx={{ mr:[4,8,8] }}>
-        <Typography
-          variant="h5"
-          component="h2"
-          sx={{
-           
-            fontSize: '24px',
-            fontWeight: 440,
-            mb: 2,
-          }}
-        >
-          Basic Info
-        </Typography>
-        <Box
-          component="form"
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            padding: '20px',
-            backgroundColor: '#f9f9f9',
-            borderRadius: '8px',
-            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-            [theme.breakpoints.down('sm')]: {
-              padding: '8px',
+    <Box sx={{ mr: [0, 0, 4], ml: [-3, -2, -2] }}>
+      <Typography variant="h5" component="h2" sx={{ fontSize: '24px', fontWeight: 440, mb: 2 }}>
+        Basic Info
+      </Typography>
+      <Box
+        component="form"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+       <Box sx={{ display: 'flex', gap: '20px', border: 'none' }}>
+          <FormControl fullWidth sx={{ width: '49%' }} required={true} error={categoryError} variant="outlined">
+            <InputLabel id="category-label">Category</InputLabel>
+            <Select
+              labelId="category-label"
+              id="category-select"
+              value={category}
+              onChange={handleCategoryChange}
+              label="Category"
+              fullWidth
+              sx={{
+                '& .MuiOutlinedInput-input': {
+                  padding: '12px 14px',
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#808080',
+                },
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '15px',
+                  '& fieldset': {
+                    border: 'none',
+                  },
+                  '&:hover fieldset': {
+                    border: 'none',
+                  },
+                  '&.Mui-focused fieldset': {
+                    border: 'none',
+                  },
+                },
+              }}
+            >
+              {categories.map((cat) => (
+                <MenuItem key={cat._id} value={cat._id}>
+                  {cat.categoryName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth sx={{ width: '50%' }} required={true} error={subcategoryError} variant="outlined">
+            <InputLabel id="subcategory-label">Subcategory</InputLabel>
+            <Select
+              labelId="subcategory-label"
+              id="subcategory-select"
+              value={subcategory}
+              onChange={handleSubcategoryChange}
+              disabled={!category}
+              label="Subcategory"
+              fullWidth
+              sx={{
+                '& .MuiOutlinedInput-input': {
+                  padding: '12px 14px',
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#808080',
+                },
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '15px',
+                  '& fieldset': {
+                    border: 'none',
+                  },
+                  '&:hover fieldset': {
+                    border: 'none',
+                  },
+                  '&.Mui-focused fieldset': {
+                    border: 'none',
+                  },
+                },
+              }}
+            >
+              {categories
+                .find((cat) => cat._id === category)
+                ?.subcategories.map((subcat) => (
+                  <MenuItem key={subcat._id} value={subcat._id}>
+                    {subcat.subcategoryName}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <TextField
+          label="Name"
+          fullWidth
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            sx: {
+              borderRadius: '8px',
+              '& .MuiOutlinedInput-root': {
+                border: 'none',
+              },
+              '& .MuiOutlinedInput-input': {
+                padding: '12px 14px',
+              },
+              '& .MuiInputLabel-root': {
+                color: '#808080',
+              },
             },
           }}
-        >
-          <TextField label="Name" variant="outlined" fullWidth />
-          <TextField
-            label="Description"
-            multiline
-            rows={4}
-            variant="outlined"
-            fullWidth
-          />
-          <TextField label="Net Area" variant="outlined" fullWidth />
-          <TextField label="Living Space" variant="outlined" fullWidth />
-          <TextField
+        />
+        <TextField
+          label="Description"
+          multiline
+          rows={4}
+          fullWidth
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            sx: {
+              borderRadius: '8px',
+              '& .MuiOutlinedInput-root': {
+                border: 'none',
+              },
+              '& .MuiOutlinedInput-input': {
+                padding: '12px 14px',
+              },
+              '& .MuiInputLabel-root': {
+                color: '#808080',
+              },
+            },
+          }}
+        />
+        <TextField
+          label="Basic Price"
+          fullWidth
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            sx: {
+              borderRadius: '8px',
+              '& .MuiOutlinedInput-root': {
+                border: 'none',
+              },
+              '& .MuiOutlinedInput-input': {
+                padding: '12px 14px',
+              },
+              '& .MuiInputLabel-root': {
+                color: '#808080',
+              },
+            },
+          }}
+        />
+
+<TextField
   id="filled-number"
   label="No of Floors"
   type="number"
   InputLabelProps={{
     shrink: true,
   }}
+  variant="outlined"
   fullWidth
   sx={{
-    width: { xs: '100%', sm: '20%' },
+    width: '100%', // Set the width to 100%
+    maxWidth: '150px', // Set a maximum width if needed
+    '& .MuiOutlinedInput-root': {
+      border: 'none',
+      borderRadius: '8px',
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '12px 14px',
+    },
+    '& .MuiInputLabel-root': {
+      color: '#808080',
+    },
   }}
 />
-<Accordion defaultExpanded>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel3-content"
-              id="panel3-header"
-            >
-             Lower Floor
-            </AccordionSummary>
-            <AccordionDetails>
-  <Grid container spacing={2} alignItems="center">
-    <Grid item xs={12} sm={4}>
-      <Select
-        value={accordionSelectedItem}
-        onChange={handleAccordionChange}
-        displayEmpty
-        fullWidth
-        sx={{ minWidth: 50 }}
-      >
-        <MenuItem value="" disabled>
-          Select Rooms
-        </MenuItem>
-        {lower.map((lower, index) => (
-          <MenuItem key={index} value={lower}>
-            {lower}
-          </MenuItem>
-        ))}
-      </Select>
-    </Grid>
-    <Grid item xs={12} sm={3}>
-      <TextField
-        label="Area"
-        variant="outlined"
-        fullWidth
-      />
-    </Grid>
-    <Grid item xs={12} sm={2}>
-      <Button variant="contained" color="primary">
-        Save
-      </Button>
-    </Grid>
-  </Grid>
-</AccordionDetails>
 
 
+        <Accordion defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3-content" id="panel3-header">
+            Lower Floor
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={4}>
+                <Select
+                  value={accordionSelectedItem}
+                  onChange={handleAccordionChange}
+                  displayEmpty
+                  fullWidth
+                  sx={{ minWidth: 50 }}
+                >
+                  <MenuItem value="" disabled>
+                    Select Rooms
+                  </MenuItem>
+                  {lower.map((room, index) => (
+                    <MenuItem key={index} value={room}>
+                      {room}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  label="Area"
+                  variant="outlined"
+                  fullWidth
+                  value={accordionSelectedArea}
+                  onChange={handleAccordionAreaChange}
+                  InputProps={{
+                    sx: {
+                      borderRadius: '8px',
+                      '& .MuiOutlinedInput-root': {
+                        border: 'none',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        padding: '12px 14px',
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: '#808080',
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Button variant="contained" color="primary" onClick={handleAddItem}>
+                  <AddIcon />
+                </Button>
+              </Grid>
+            </Grid>
 
-          </Accordion>
+            <TableContainer component={Paper} style={{ marginTop: 20 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 'bold' }}>Selected Rooms</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Area</TableCell>
+                    <TableCell ></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {selectedItems.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.room}</TableCell>
+                      <TableCell>{item.area}</TableCell>
+                      <TableCell>
+                        <IconButton color="danger" onClick={() => handleDeleteItem(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-          <Accordion defaultExpanded>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel3-content"
-              id="panel3-header"
-            >
-              First Floor
-            </AccordionSummary>
-            <AccordionDetails>
-  <Grid container spacing={2} alignItems="center">
-    <Grid item xs={12} sm={4}>
-      <Select
-        value={accordionSelectedItem}
-        onChange={handleAccordionChange}
-        displayEmpty
-        fullWidth
-        sx={{ minWidth: 50 }}
-      >
-        <MenuItem value="" disabled>
-          Select Rooms
-        </MenuItem>
-        {first.map((first, index) => (
-          <MenuItem key={index} value={first}>
-            {first}
-          </MenuItem>
-        ))}
-      </Select>
-    </Grid>
-    <Grid item xs={12} sm={3}>
-      <TextField
-        label="Area"
-        variant="outlined"
-        fullWidth
-      />
-    </Grid>
-    <Grid item xs={12} sm={2}>
-      <Button variant="contained" color="primary">
-        Save
-      </Button>
-    </Grid>
-  </Grid>
-</AccordionDetails>
+          </AccordionDetails>
+        </Accordion>
 
-
-
-          </Accordion>
-
-          <Accordion defaultExpanded>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel3-content"
-              id="panel3-header"
-            >
-              Second Floor
-            </AccordionSummary>
-            <AccordionDetails>
-  <Grid container spacing={2} alignItems="center">
-    <Grid item xs={12} sm={4}>
-      <Select
-        value={accordionSelectedItem}
-        onChange={handleAccordionChange}
-        displayEmpty
-        fullWidth
-        sx={{ minWidth: 50 }}
-      >
-        <MenuItem value="" disabled>
-          Select Rooms
-        </MenuItem>
-        {second.map((second, index) => (
-          <MenuItem key={index} value={second}>
-            {second}
-          </MenuItem>
-        ))}
-      </Select>
-    </Grid>
-    <Grid item xs={12} sm={3}>
-      <TextField
-        label="Area"
-        variant="outlined"
-        fullWidth
-      />
-    </Grid>
-    <Grid item xs={12} sm={2}>
-      <Button variant="contained" color="primary">
-        Save
-      </Button>
-    </Grid>
-  </Grid>
-</AccordionDetails>
-
-
-
-          </Accordion>
-
-
-
-
-
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="contained" color="primary" onClick={handleOpenModal}>
-              Add
-            </Button>
-          </Box>
-
-          <FormControlLabel
-            control={<IOSSwitch defaultChecked />}
-            label="Available"
-            labelPlacement="start"
-            sx={{ alignSelf: 'flex-start', gap: '12px' }}
-          />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="contained" color="primary" onClick={() => setModalOpen(true)}>
+            Add
+          </Button>
         </Box>
-
-        <Dialog open={modalOpen} onClose={handleCloseModal}>
-          <DialogTitle>Select Floor</DialogTitle>
-          <DialogContent>
-            <Select
-              value={selectedFloor}
-              onChange={handleChange}
-              displayEmpty
-              fullWidth
-            >
-              <MenuItem value="" disabled>
-                Floor
-              </MenuItem>
-              {items.map((item, index) => (
-                <MenuItem key={index} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </Select>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseModal} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleCloseModal} color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
       </Box>
-    
+
+      <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+        <DialogTitle>Select Floor</DialogTitle>
+        <DialogContent>
+          <Select value={selectedFloor} onChange={(e) => setSelectedFloor(e.target.value)} displayEmpty fullWidth>
+            <MenuItem value="" disabled>
+              Floor
+            </MenuItem>
+            {items.map((item, index) => (
+              <MenuItem key={index} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setModalOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => setModalOpen(false)} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
-}
+};
 
 export default Basicinfo;

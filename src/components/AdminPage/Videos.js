@@ -9,36 +9,7 @@ function Videos() {
     <div>
       <Box  paddingRight='3%'>
        
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', paddingLeft: '28%' }}>
-            {/* Container for buttons */}
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#f0f0f0',
-                textTransform: 'none',
-                color: '#000000',
-                fontFamily: 'Poppins, var(--default-font-family)',
-                fontSize: '16px',
-                fontWeight: 600,
-                marginBottom: { xs: '6%', sm: '3%', lg: '2%' },
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: 'none',
-                color: '#ffffff',
-                fontFamily: 'Poppins, var(--default-font-family)',
-                fontSize: '16px',
-                fontWeight: 600,
-                marginBottom: { xs: '6%', sm: '3%', lg: '2%' },
-              }}
-            >
-              Save
-            </Button>
-          </Box>
+          
 
           <Box
             sx={{

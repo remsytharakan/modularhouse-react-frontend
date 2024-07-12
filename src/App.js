@@ -20,6 +20,7 @@ import { getCurrentUser } from './Services/AdminServices';
 import { useEffect } from 'react';
 import { finishLoadingUser } from './redux/slices/userLoadingSlice';
 import { setUser } from './redux/slices/userSlice';
+import CollectionPage from './pages/Collection/CollectionPage';
 
 
 
@@ -46,46 +47,22 @@ function App() {
     <div>
          
    <div>
-   {/* <Routes>
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/reset" element={<Reset />} />
-        <Route path="/forget" element={<ForgetPassword />} />
-        <Route path="/verify" element={<Verify />} />
-        <Route
-                path="/admin"
-                element={
-                    <AuthShield>
-                        <Outlet />
-                    </AuthShield>
-                }
-            >
-        <Route path="/edit-category/:catId" element={<NewCategory />} /> 
-        <Route path="/category" element={<Category />} />
-        <Route path="/newcategory" element={<NewCategory />} />
-        <Route path="/newmodules" element={<NewModules />} />
-        <Route path="/modules" element={<Modules />} />
-        </Route>
-
-        <Route path="/" element={<Home/>} /> 
-         <Route path="/details" element={<DetailPage/>} /> 
-      </Routes> */}
+  
       <Routes>
-    {/* Public routes */}
+   
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/reset" element={<Reset />} />
     <Route path="/forget" element={<ForgetPassword />} />
     <Route path="/verify/:id" element={<Verify />} />
 
-    {/* Protected routes under /admin */}
+   
     <Route
       path="/admin"
       element={
         <AuthShield>
-          {/* <Dashboard /> */}
-          <Outlet /> {/* This renders child routes */}
+         
+          <Outlet /> 
         </AuthShield>
       }
     >
@@ -97,12 +74,16 @@ function App() {
       <Route path="/admin/modules" element={<Modules />} />
     </Route>
 
-    {/* Other routes */}
+   
     <Route path="/" element={<Home />} />
     <Route path="/details" element={<DetailPage />} />
+    <Route path="/collection" element={<CollectionPage />} />
+
+
+
   </Routes>
    </div>
- 
+  
    
  
  

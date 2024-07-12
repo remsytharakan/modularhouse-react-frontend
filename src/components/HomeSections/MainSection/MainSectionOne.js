@@ -2,12 +2,12 @@ import React from 'react';
 import { Typography, Box, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-function MainSection1() {
+function MainSectionOne() {
   return (
     <div>
       <Box 
         sx={{
-          mr: { xs: 1, md: 2, lg: 5 }, 
+          mr: { xs: 2, md: 2, lg: 5 }, 
           mt: { xs: 3, md: 6, lg: 16 }, 
           ml: { xs: 2, md: 8, lg: 10 } 
         }}
@@ -54,4 +54,4 @@ function MainSection1() {
   );
 }
 
-export default MainSection1;
+export default MainSectionOne;

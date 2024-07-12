@@ -18,7 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
-import { useTheme, } from '@mui/material/styles';
+import { useTheme, } from '@mui/material/ ';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 import { deleteCategoryById, getAllCategories } from '../../Services/AdminServices';
@@ -54,7 +54,7 @@ function Category  ()  {
       .then((res) => {
 
         let response = res?.data?.categories;
-        console.log(response);
+        
         setCategories(response);
         setLoading(false);
       })
@@ -109,9 +109,9 @@ function Category  ()  {
           
            
             sx={{
-              fontFamily: 'Roboto',
+              
               fontSize: '36px',
-              fontWeight:"800"
+              
             }}
           >
             Category
@@ -153,11 +153,11 @@ function Category  ()  {
           textTransform: 'none',
           color: '#000000',
         
-          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontSize: '0.875rem', 
           fontWeight: 600,
           minWidth: '120px',
           [theme.breakpoints.down('xs')]: {
-            fontSize: '0.5rem', // Further adjust font size for xs screens
+            fontSize: '0.5rem', 
           },
         }}
       >
@@ -172,12 +172,12 @@ function Category  ()  {
           textTransform: 'none',
           color: '#ffffff',
           fontFamily: 'Poppins, var(--default-font-family)',
-          fontSize: '0.875rem', // Adjust font size for smaller screens
+          fontSize: '0.875rem', 
           fontWeight: 600,
-          minWidth: '160px', // Ensure consistent button width
+          minWidth: '160px', 
           [theme.breakpoints.down('xs')]: {
-            fontSize: '0.75rem', // Further adjust font size for xs screens
-            minWidth: '140px', // Adjust width for xs screens
+            fontSize: '0.75rem', 
+            minWidth: '140px', 
           },
         }}
         onClick={handleButtonClick}
