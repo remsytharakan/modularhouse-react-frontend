@@ -18,7 +18,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
 import Navbar from '../../Dashboard/AdminNavbar';
 import Sidebar from '../../Dashboard/Sidebar';
-import { useTheme, } from '@mui/material/ ';
+import { useTheme } from '@mui/material/styles';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 import { deleteCategoryById, getAllCategories } from '../../Services/AdminServices';
