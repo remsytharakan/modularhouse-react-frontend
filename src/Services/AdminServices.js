@@ -35,10 +35,10 @@ export const updateProfile = (data) => {
 
 
 // Categories
+
 export const getAllCategories = () => {
     return api.get("/category/getAll");
 };
-
 export const getCategoryById = (id) => {
     return api.get(`/category/getCategoryById/${id}`);
 };

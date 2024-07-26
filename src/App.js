@@ -12,6 +12,8 @@ import NewCategory from './components/AdminPage/NewCategory';
 import NewModules from './components/AdminPage/NewModule';
 import Modules from './components/AdminPage/Modules';
 import Home from './pages/Home/Home';
+import Navbar from './components/Navbar/Navbar';
+import Order from './components/Orderhistory/Order';
 
 import DetailPage from './pages/Detail/DetailPage';
 import AuthShield from './shields/AuthShield';
@@ -46,7 +48,7 @@ function App() {
     <div>
          
    <div>
-   {/* <Routes>
+ <Routes>
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -61,31 +63,33 @@ function App() {
                     </AuthShield>
                 }
             >
-        <Route path="/edit-category/:catId" element={<NewCategory />} /> 
-        <Route path="/category" element={<Category />} />
-        <Route path="/newcategory" element={<NewCategory />} />
-        <Route path="/newmodules" element={<NewModules />} />
-        <Route path="/modules" element={<Modules />} />
+        {/* <Route path="/edit-category/:catId" element={<NewCategory />} />  */}
+        <Route path="/admin/category" element={<Category />} />
+        <Route path="/admin/newcategory" element={<NewCategory />} />
+        <Route path="/admin/newmodules" element={<NewModules />} />
+        <Route path="/admin/modules" element={<Modules />} />
         </Route>
 
         <Route path="/" element={<Home/>} /> 
          <Route path="/details" element={<DetailPage/>} /> 
-      </Routes> */}
-      <Routes>
-    {/* Public routes */}
+      </Routes> 
+     
+
+      {/* <Routes>
+  
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/reset" element={<Reset />} />
     <Route path="/forget" element={<ForgetPassword />} />
     <Route path="/verify/:id" element={<Verify />} />
 
-    {/* Protected routes under /admin */}
+  
     <Route
       path="/admin"
       element={
         <AuthShield>
-          {/* <Dashboard /> */}
-          <Outlet /> {/* This renders child routes */}
+        
+          <Outlet />
         </AuthShield>
       }
     >
@@ -97,15 +101,16 @@ function App() {
       <Route path="/admin/modules" element={<Modules />} />
     </Route>
 
-    {/* Other routes */}
+    
     <Route path="/" element={<Home />} />
     <Route path="/details" element={<DetailPage />} />
-  </Routes>
+  </Routes>  */}
+  
    </div>
  
    
- 
- 
+  {/* <Navbar />
+ <Order/>  */}
 
 
 
