@@ -100,7 +100,7 @@ function Modules() {
   };
 
   const editHouse = (id) => {
-    navigate(`/admin/newmodule`)
+    navigate(`/admin/newmodule/${id}`)
   }
 
 

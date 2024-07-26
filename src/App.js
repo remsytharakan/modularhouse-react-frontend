@@ -72,6 +72,8 @@ function App() {
       <Route path="/admin/newcategory" element={<NewCategory />} />
       <Route path="/admin/newmodule" element={<NewModules />} />
       <Route path="/admin/modules" element={<Modules />} />
+      <Route path="/admin/basicinfo" element={<Basicinfo />} />
+
     </Route>
 
    
