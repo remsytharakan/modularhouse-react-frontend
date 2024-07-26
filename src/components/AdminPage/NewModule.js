@@ -15,7 +15,7 @@ import Videos from './Videos';
 export default function LabTabs() {
   const [value, setValue] = useState('1');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
+ 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,45 +29,19 @@ export default function LabTabs() {
     setDrawerOpen(false);
   };
 
+ 
+
+  
+
+
   return (
     <Box sx={{  ml: [4, 25, 25], mt: [12, 15, 15],  mr: [1,1, 1]   }}>
         <Navbar onMenuOpen={handleDrawerOpen} />
         <Sidebar open={drawerOpen} onClose={handleDrawerClose} />
-        <Typography
-         sx={{
-         
-         fontSize: '36px',
-          
-        }}>
-       
-          New Module
+        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>
+        New Module
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end'     }}>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: '#f0f0f0',
-              textTransform: 'none',
-              color: '#000000',
-              fontSize: '16px',
-              fontWeight: 600,
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              textTransform: 'none',
-              color: '#ffffff',
-              backgroundColor: '#1976d2',
-              fontSize: '16px',
-              fontWeight: 600,
-            }}
-          >
-            Save
-          </Button>
-        </Box>
+      
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -78,7 +52,9 @@ export default function LabTabs() {
               <Tab label="Possible Extensions" value="5" />
             </TabList>
           </Box>
-          <TabPanel value="1"><Basicinfo /></TabPanel>
+          <TabPanel value="1">
+          <Basicinfo  />  
+        </TabPanel>
           <TabPanel value="2"><Photos /></TabPanel>
           <TabPanel value="3"><Videos /></TabPanel>
           <TabPanel value="4">Documents</TabPanel>

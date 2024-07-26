@@ -106,17 +106,9 @@ function Category  ()  {
 
       <Box>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-          
-           
-            sx={{
-              
-              fontSize: '36px',
-              
-            }}
-          >
-            Category
-          </Typography>
+        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>
+          Category
+        </Typography>
 
           <div style={{ position: 'relative', marginLeft: '20px' }}>
             <InputBase

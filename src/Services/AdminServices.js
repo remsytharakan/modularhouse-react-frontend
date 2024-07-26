@@ -55,6 +55,11 @@ export const deleteCategoryById = (id) => {
     return api.delete(`/category/deleteCategory/${id}`);
 };
 
+export const getSubcategoryById = (id) => {
+    return api.get(`/category/getSubcategoryById/${id}`);
+};
+
+
 export const postSubCategory = (id,data) => {
     return api.post(`/category/create/subcategory/${id}`, data);
 };
@@ -62,9 +67,10 @@ export const postSubCategory = (id,data) => {
 export const updateSubCategory = (id,subcategoryid, data) => {
     return api.put(`category/updateSubCategory/${id}/${subcategoryid}`, data);
 };
-export const deleteSubCategoryById = (id) => {
-    return api.delete(`/category/deleteCategory/subcategory/${id}`);
+export const deleteSubCategoryById = (id, subcategoryid) => {
+    return api.delete(`category/deleteSubCategory/${id}/${subcategoryid}`);
 };
+
 
 //modules
 

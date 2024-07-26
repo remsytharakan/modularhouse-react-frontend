@@ -113,15 +113,9 @@ function Modules() {
 
       <Box>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-            sx={{
-              
-              fontSize: '36px',
-              
-            }}
-          >
-            Modules
-          </Typography>
+        <Typography variant="h5" gutterBottom sx={{fontWeight:'bold'}}>
+          Modules
+        </Typography>
           <div
             style={{
               position: 'relative',
