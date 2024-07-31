@@ -1,45 +1,57 @@
-import { Box,  Button } from '@mui/material';
 import React from 'react';
-
+import { Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import Video from '../../Assets/Images(1).png';
 
-function Videos() {
+function Videos({ videos, setVideos }) {
+  const handleAddVideosClick = () => {
+    document.getElementById('file-input').click();
+  };
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setVideos(prevVideos => [...prevVideos, ...files]);
+  };
+
   return (
     <div>
-      <Box  paddingRight='3%'>
-       
-          
-
-          <Box
+      <Box paddingRight='3%'>
+        <Box>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
             sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginRight: '16%',
-              paddingTop: '-3%',
+              backgroundColor: '#1bc5bd',
+              textTransform: 'none',
+              color: '#ffffff',
+              fontFamily: 'Poppins, var(--default-font-family)',
+              fontSize: '16px',
+              fontWeight: 600,
             }}
+            onClick={handleAddVideosClick}
           >
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{
-                backgroundColor: '#1bc5bd',
-                textTransform: 'none',
-                color: '#ffffff',
-                fontFamily: 'Poppins, var(--default-font-family)',
-                fontSize: '16px',
-                fontWeight: 600,
-                width: { xs: '60%', sm: '50%', lg: '14%' }
-              }}
-            >
-              Add Videos
-            </Button>
-          </Box>
+            Add Videos
+          </Button>
+          <input
+            id="file-input"
+            type="file"
+            accept="video/*"
+            multiple
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+        </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <img src={Video} alt="placeholder" style={{ maxWidth: '80%' }} />
-          </Box>
-       
+        <Box sx={{ marginTop: 2, display: 'flex', flexWrap: 'wrap' }}>
+          {videos.map((video, index) => (
+            <Box key={index} sx={{ margin: 1 }}>
+              <video
+                src={URL.createObjectURL(video)}
+                controls
+                style={{ width: '200px', height: 'auto' }}
+              />
+            </Box>
+          ))}
+        </Box>
       </Box>
     </div>
   );

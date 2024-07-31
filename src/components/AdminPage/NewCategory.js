@@ -55,7 +55,7 @@ function NewCategory() {
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false); // State to handle delete success snackbar
-
+  const buttonDisabled = !catId;
   const getData = () => {
     if (catId) {
         getCategoryById(catId)
@@ -361,6 +361,7 @@ const handleSubcategoryImageUpload = (e) => {
               startIcon={<AddIcon />}
               sx={{ mb: 2 }}
               onClick={handleClick}
+              disabled={buttonDisabled} 
             >
               Add Subcategory
             </Button>

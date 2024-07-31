@@ -26,8 +26,13 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getAllHouses, deleteHouseById } from '../../Services/AdminServices';
 import toast,   { Toaster }   from 'react-hot-toast';
+import {  useParams } from 'react-router-dom';
+
+
 import {  Dialog, DialogContent, DialogTitle } from '@mui/material';
 function Modules() {
+
+  const { houseId } = useParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [houses, setHouses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -75,16 +80,14 @@ function Modules() {
     // Implement edit functionality or navigation to edit page
   };
 
-  const handleDelete = async (house) => {
-    console.log('Delete:', house);
-    try {
-      await deleteHouseById(house.id);
-      getHouses(); // Refetch houses after deletion
-      toast.success('House deleted successfully.');
-    } catch (error) {
-      console.error('Error deleting house:', error);
-      toast.error('Failed to delete house.');
-    }
+  const deleteHouse = (id) => {
+    deleteHouseById(id).then((res) => {
+      toast.success(res?.data?.message);
+      setTimeout(() => {
+        getHouses();
+        deleteDialogCancel();
+      }, 2000);
+    }).catch((err) => { toast.error(err.response.data.message) })
   };
 
   const handleButtonClick = () => {
@@ -100,10 +103,10 @@ function Modules() {
   };
 
   const editHouse = (id) => {
-    navigate(`/admin/newmodule/${id}`)
+    navigate(`/admin/edit-house/${id}`)
   }
 
-
+  
 
 
   return (
@@ -284,7 +287,7 @@ function Modules() {
         </DialogTitle>
         <DialogContent>
           <div style={{ display: "flex", justifyContent: "center", gap: 2, flexDirection: 'wrap' }}>
-            <Button variant="contained" color='primary' sx={{ fontSize: 15 }} onClick={() => { deleteDialogOpen(HouseId) }}>YES</Button>
+            <Button variant="contained" color='primary' sx={{ fontSize: 15 }} onClick={() => { deleteHouse(HouseId) }}>YES</Button>
             <Button color='error' sx={{ fontSize: 15 }} onClick={deleteDialogCancel} >NO</Button>
           </div>
         </DialogContent>

@@ -70,9 +70,10 @@ function App() {
       <Route path="/admin/edit-category/:catId" element={<NewCategory />} />
       <Route path="/admin/category" element={<Category />} />
       <Route path="/admin/newcategory" element={<NewCategory />} />
+      <Route path="/admin/edit-house/:houseId" element={<NewModules />} />
       <Route path="/admin/newmodule" element={<NewModules />} />
       <Route path="/admin/modules" element={<Modules />} />
-      <Route path="/admin/basicinfo" element={<Basicinfo />} />
+      
 
     </Route>
 
