@@ -30,11 +30,10 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {   getHouseById ,getAllCategories, createHouse, updateHouse  } from '../../Services/AdminServices';
+import { getHouseById, getAllCategories, createHouse, updateHouse } from '../../Services/AdminServices';
 
 const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
   const [categories, setCategories] = useState([]);
- 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState('');
   const [floorSelected, setFloorSelected] = useState(false);
@@ -46,9 +45,16 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
   const [firstFloorItems, setFirstFloorItems] = useState([]);
   const [secondFloorItems, setSecondFloorItems] = useState([]);
   const [accordionExpanded, setAccordionExpanded] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMedium = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   useEffect(() => {
     if (basicInfo.categories && basicInfo.category) {
+      console.log(basicInfo);
       const selectedCategory = basicInfo.categories.find(cat => cat._id === basicInfo.category);
+      console.log(selectedCategory);
       if (selectedCategory) {
         updateBasicInfo({
           subcategories: selectedCategory.subcategories
@@ -57,20 +63,30 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
     }
   }, [basicInfo.categories, basicInfo.category]);
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+  
     if (name === 'category') {
+      // Find the selected category
       const selectedCategory = basicInfo.categories.find(cat => cat._id === value);
-      updateBasicInfo({ 
+  
+      // Update the state with the new category and reset subcategory and subcategories
+      updateBasicInfo(prevInfo => ({
+        ...prevInfo,
         [name]: value,
         subcategory: '', // Reset subcategory when category changes
         subcategories: selectedCategory ? selectedCategory.subcategories : []
-      });
+      }));
     } else {
-      updateBasicInfo({ [name]: value });
+      // For other fields, update the state normally
+      updateBasicInfo(prevInfo => ({
+        ...prevInfo,
+        [name]: value
+      }));
     }
   };
+  
+
   const handleClose = () => {
     setModalOpen(false);
   };
@@ -135,6 +151,9 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
     updateBasicInfo({ [floorItemsKey]: updatedItems });
   };
 
+
+ 
+
   const handleDeleteFloor = (floorType) => {
     setOpenAccordions(prev => prev.filter(floor => floor !== floorType));
     updateBasicInfo({ [`${floorType}FloorItems`]: [] });
@@ -146,7 +165,7 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
   const second = ['Anteroom', 'Bathroom', 'Room 1', 'Room 2', 'Room 3', 'Parents room', 'Closet', 'WC', 'Terrace'];
 
   return (
-    <Box sx={{ mr: [0, 0, 4], ml: [-3, -2, -2] }}>
+    <Box sx={{ mr: [0, 0, 4], ml: [-3, -2, -2], px: [2, 3, 4] }}>
       <Box
         component="form"
         sx={{
@@ -158,128 +177,143 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
           backgroundColor: '#fafafa'
         }}
       >
-        <div style={{ display: 'flex', gap: '16px' }}>
-        <FormControl fullWidth sx={{ width: 'calc(25% - 8px)', backgroundColor: 'white' }} required={true} variant="outlined">
-        <InputLabel id="category-label" sx={{ color: '#9e9e9e' }}>Category</InputLabel>
-        <Select
-          labelId="category-label"
-          id="category-select"
-          value={basicInfo.category || ''}
-          onChange={handleInputChange}
-          name="category"
-          label="Category"
-          fullWidth
-        >
-          {basicInfo.categories?.map((cat) => (
-            <MenuItem key={cat._id} value={cat._id}>
-              {cat.categoryName}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} lg={4}>
+            <FormControl fullWidth sx={{ backgroundColor: 'white' }} required={true} variant="outlined">
+              <InputLabel id="category-label" sx={{ color: '#9e9e9e' }}>Category</InputLabel>
+              <Select
+                labelId="category-label"
+                id="category-select"
+                value={basicInfo.category || ''}
+                onChange={handleInputChange}
+                name="category"
+                label="Category"
+                fullWidth
+              >
+                {basicInfo.categories?.map((cat) => (
+                  <MenuItem key={cat._id} value={cat._id}>
+                    {cat.categoryName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6} lg={4} >
+            <FormControl fullWidth sx={{ backgroundColor: 'white' }} required={true} variant="outlined">
+              <InputLabel id="subcategory-label" sx={{ color: '#9e9e9e' }}>Subcategory</InputLabel>
+              <Select
+                labelId="subcategory-label"
+                id="subcategory-select"
+                value={basicInfo.subcategory || ''}
+                onChange={handleInputChange}
+                name="subcategory"
+                disabled={!basicInfo.category}
+                label="Subcategory"
+                fullWidth
+              >
+                {basicInfo.subcategories?.map((subcat) => (
+                  <MenuItem key={subcat._id} value={subcat._id}>
+                    {subcat.subcategoryName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
 
-      <FormControl fullWidth sx={{ width: 'calc(25% - 8px)', backgroundColor: 'white' }} required={true} variant="outlined">
-        <InputLabel id="subcategory-label" sx={{ color: '#9e9e9e' }}>Subcategory</InputLabel>
-        <Select
-          labelId="subcategory-label"
-          id="subcategory-select"
-          value={basicInfo.subcategory || ''}
-          onChange={handleInputChange}
-          name="subcategory"
-          disabled={!basicInfo.category}
-          label="Subcategory"
-          fullWidth
-        >
-          {basicInfo.categories
-            ?.find((cat) => cat._id === basicInfo.category)
-            ?.subcategories.map((subcat) => (
-              <MenuItem key={subcat._id} value={subcat._id}>
-                {subcat.subcategoryName}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={4}  lg={4} >
+            <Typography variant="body1" sx={{color:'#757575'}}>House Name</Typography>
+          </Grid>
+          <Grid item xs={12} sm={8}  lg={4}  >
+            <TextField
+              id="outlined-basic"
+              label=""
+              name="name"
+              value={basicInfo.name}
+              onChange={handleInputChange}
+              sx={{ backgroundColor: 'white' }}
+              variant="outlined"
+              required
+              fullWidth
+            />
+          </Grid>
+        </Grid>
 
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={4} lg={4} >
+            <Typography variant="body1" sx={{ color: '#757575' }}>Description</Typography>
+          </Grid>
+          <Grid item xs={12} sm={8}  lg={4} >
+            <TextField
+              id="outlined-multiline-static"
+              label=""
+              multiline
+              rows={4}
+              name="description"
+              value={basicInfo.description}
+              onChange={handleInputChange}
+              sx={{ backgroundColor: 'white' }}
+              variant="outlined"
+              required
+              fullWidth
+            />
+          </Grid>
+        </Grid>
 
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={4} lg={4}  >
+            <Typography variant="body1" sx={{color:'#757575'}}>Basic Price</Typography>
+          </Grid>
+          <Grid item xs={12} sm={8} lg={4}  >
+            <TextField
+              id="outlined-basic"
+              label=""
+              name="basicPrice"
+              value={basicInfo.basicPrice}
+              onChange={handleInputChange}
+              sx={{ backgroundColor: 'white' }}
+              variant="outlined"
+              required
+              fullWidth
+            />
+          </Grid>
+        </Grid>
 
-
-
-
-        </div>
-
-        <Box style={{ display: 'flex', gap: '18.1%', alignItems: 'center' }}>
-          <Typography variant="h7" sx={{color:'#757575'}} >House Name</Typography>
-          <TextField
-            id="outlined-basic"
-            label=""
-            name="name"
-            value={basicInfo.name}
-            onChange={handleInputChange}
-            sx={{ backgroundColor: 'white', width: '33.3ch' }}
-            variant="outlined"
-            required
-          />
-        </Box>
-
-        <Box style={{ display: 'flex', gap: '19.1%', alignItems: 'center' }}>
-          <Typography variant="h7" sx={{ color: '#757575' }}>Description</Typography>
-          <TextField
-            id="outlined-multiline-static"
-            label=""
-            multiline
-            rows={4}
-            name="description"
-            value={basicInfo.description}
-            onChange={handleInputChange}
-            sx={{ backgroundColor: 'white', width: '33.2ch' }}
-            variant="outlined"
-            required
-          />
-        </Box>
-
-        <Box style={{ display: 'flex', gap: '19.8%', alignItems: 'center' }}>
-          <Typography variant="h7" sx={{color:'#757575'}} >Basic Price</Typography>
-          <TextField
-            id="outlined-basic"
-            label=""
-            name="basicPrice"
-            value={basicInfo.basicPrice}
-            onChange={handleInputChange}
-            sx={{ backgroundColor: 'white', width: '33.3ch' }}
-            variant="outlined"
-            required
-          />
-        </Box>
-
-        <Box style={{ display: 'flex', gap: '18%', alignItems: 'center' }}>
-          <Typography variant="h7" sx={{ color: '#757575' }}>Custom Floor</Typography>
-          <TextField
-            id="outlined-basic"
-            label=""
-            name="customfloor"
-            value={basicInfo.customfloor}
-            onChange={handleInputChange}
-            sx={{ backgroundColor: 'white', width: '33.3ch' }}
-            variant="outlined"
-            required
-            InputProps={{
-              startAdornment: (
-                <IconButton
-                  sx={{
-                    color: 'blue',
-                    marginRight: '8px',
-                    fontSize: 'small',
-                    padding: '8px',
-                  }}
-                  onClick={() => setModalOpen(true)}
-                >
-                  <AddIcon />
-                  <span>Add</span>
-                </IconButton>
-              ),
-            }}
-          />
-        </Box>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={4}  lg={4} >
+            <Typography variant="body1" sx={{ color: '#757575' }}>Custom Floor</Typography>
+          </Grid>
+          <Grid item xs={12} sm={8 }  lg={4} >
+            <TextField
+              id="outlined-basic"
+              label=""
+              name="customfloor"
+              value={basicInfo.customfloor}
+              onChange={handleInputChange}
+              sx={{ backgroundColor: 'white' }}
+              variant="outlined"
+              required
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <IconButton
+                    sx={{
+                      color: 'blue',
+                      marginRight: '8px',
+                      fontSize: 'small',
+                      padding: '8px',
+                    }}
+                    onClick={() => setModalOpen(true)}
+                  >
+                    <AddIcon />
+                    <span>Add</span>
+                  </IconButton>
+                ),
+              }}
+            />
+          </Grid>
+        </Grid>
 
         <Dialog open={modalOpen} onClose={handleClose}>
           <DialogTitle>Select Floor</DialogTitle>
@@ -310,8 +344,16 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
           </DialogActions>
         </Dialog>
 
+        <Grid container spacing={2} alignItems="center">
+        <Grid item xs={12} sm={4}  lg={4} >
+
+          <Typography></Typography>
+        </Grid>
+        <Grid item xs={12} sm={4}  lg={4} >
+
+
         {openAccordions.map((floorType, index) => (
-          <Box key={floorType} sx={{ width: '45%', marginLeft: '26.8%', marginBottom: 5 }}>
+          <Box key={floorType} sx={{ width: '100%', mb: 5 }}>
           <Accordion defaultExpanded={accordionExpanded}>
               <AccordionSummary 
                 expandIcon={<ExpandMoreIcon />} 
@@ -320,7 +362,7 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
               >
                 <Typography>{`${floorType.charAt(0).toUpperCase() + floorType.slice(1)} Floor`}</Typography>
                 <Typography style={{ marginLeft: 'auto' }} component="p">
-                  Add Room
+                 
                 </Typography>
                 <IconButton
                   onClick={(e) => {
@@ -333,8 +375,8 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
                 </IconButton>
               </AccordionSummary>
               <AccordionDetails>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}>
+              <Grid container spacing={2}>
+              <Grid item xs={6} sm={8} lg={6} >
                     <FormControl fullWidth variant="outlined">
                       <InputLabel id="select-room">Room</InputLabel>
                       <Select
@@ -352,8 +394,8 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
                         ))}
                       </Select>
                     </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
+                    </Grid>
+                    <Grid item xs={6} sm={4}  lg={6}  >
                     <TextField
                       id="outlined-basic"
                       label="Area"
@@ -451,9 +493,12 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
             </Accordion>
           </Box>
         ))}
+
+</Grid>
+</Grid>
       </Box>
     </Box>
   );
 };
-  
+
 export default Basicinfo;

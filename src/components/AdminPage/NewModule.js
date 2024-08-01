@@ -143,8 +143,17 @@ export default function LabTabs() {
             lowerFloorItems: houseData?.lowerFloorItems || [],
             firstFloorItems: houseData?.firstFloorItems || [],
             secondFloorItems: houseData?.secondFloorItems || [],
-            categories: categoriesData
+            categories: categoriesData,
+            subcategories: []
           });
+
+          const selectedCategory = categoriesData.find(cat => cat._id === houseData?.category?._id);
+          if (selectedCategory) {
+            setBasicInfo(prevState => ({
+              ...prevState,
+              subcategories: selectedCategory.subcategories || []
+            }));
+          }
   
           if (houseData.videos && houseData.videos.length > 0) {
             setVideos(houseData.videos.map(videoUrl => new File([], videoUrl)));
@@ -152,7 +161,8 @@ export default function LabTabs() {
         } else {
           setBasicInfo(prevState => ({
             ...prevState,
-            categories: categoriesData
+            categories: categoriesData,
+            subcategories: []
           }));
         }
       } catch (err) {
