@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Typography,
@@ -30,7 +31,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getHouseById, getAllCategories, createHouse, updateHouse } from '../../Services/AdminServices';
+
 
 const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
   const [categories, setCategories] = useState([]);
@@ -63,29 +64,22 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
     }
   }, [basicInfo.categories, basicInfo.category]);
 
+  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
   
     if (name === 'category') {
-      // Find the selected category
       const selectedCategory = basicInfo.categories.find(cat => cat._id === value);
-  
-      // Update the state with the new category and reset subcategory and subcategories
-      updateBasicInfo(prevInfo => ({
-        ...prevInfo,
+      updateBasicInfo({
         [name]: value,
-        subcategory: '', // Reset subcategory when category changes
+        subcategory: '', 
         subcategories: selectedCategory ? selectedCategory.subcategories : []
-      }));
+      });
     } else {
-      // For other fields, update the state normally
-      updateBasicInfo(prevInfo => ({
-        ...prevInfo,
-        [name]: value
-      }));
+      updateBasicInfo({ [name]: value });
     }
   };
-  
 
   const handleClose = () => {
     setModalOpen(false);
@@ -318,11 +312,13 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
         <Dialog open={modalOpen} onClose={handleClose}>
           <DialogTitle>Select Floor</DialogTitle>
           <DialogContent>
+
             <Select
               value={selectedFloor}
               onChange={(e) => setSelectedFloor(e.target.value)}
               displayEmpty
               fullWidth
+              sx={{ marginTop: '2px' }}
             >
               <MenuItem value="" disabled>
                 Floor
@@ -333,6 +329,9 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
                 </MenuItem>
               ))}
             </Select>
+
+
+            
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -349,7 +348,7 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
 
           <Typography></Typography>
         </Grid>
-        <Grid item xs={12} sm={4}  lg={4} >
+        <Grid item xs={12} sm={8}  lg={4} >
 
 
         {openAccordions.map((floorType, index) => (
@@ -502,3 +501,7 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
 };
 
 export default Basicinfo;
+
+
+
+

@@ -30,7 +30,10 @@ function HouseCard({ imageSrc, title, price, bedroomCount }) {
           <Box className="bed">
             <img src="/Image/bed1.png" alt="House 1" />
           </Box>
-          <span className="bedroom">{bedroomCount} Bedroom</span>
+          <span className="bedroom">
+  {bedroomCount}<span className="gap">Floors</span>
+</span>
+
         </Box>
         <Box className="customize">
           <IconButton ><HomeIcon /></IconButton> {/* Added onClick to IconButton */}

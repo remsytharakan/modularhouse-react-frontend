@@ -19,7 +19,7 @@ function Home() {
           <Navbar />
         </div> 
 
-              <div>
+             <div>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={5}>
                         <MainSectionOne />
@@ -28,11 +28,11 @@ function Home() {
                         <MainSectionTwo />
                     </Grid>
                 </Grid>
-            </div>  
+            </div>
              <div>
                 <OurRecommendation />
             </div> 
-         <div>
+          <div>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={7}>
                         <ReadyToSellSectionOne />
@@ -52,7 +52,7 @@ function Home() {
                     </Grid>
                 </Grid>
             </div> 
-             <div>
+             <div    >
                 <SeeOurReviewSection />
             </div> 
             <div>

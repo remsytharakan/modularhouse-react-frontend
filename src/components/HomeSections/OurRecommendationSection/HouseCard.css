@@ -153,6 +153,9 @@
     width: 100%; /* Make buttons full width */
   }
 }
+.gap {
+  margin-left: 4px; /* Adjust the value as needed for the desired gap */
+}
 
 
 /* styles.css */
@@ -164,3 +167,18 @@
   margin-left: 10px;
   white-space: nowrap;
 }
+/* ViewMoreButton.css */
+
+.view-more-button {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between text and arrow */
+}
+
+.view-more-button .arrow {
+  font-size: 20px; /* Size of the arrow */
+  color: #10B981; /* Green color for the arrow */
+}
+
+
+

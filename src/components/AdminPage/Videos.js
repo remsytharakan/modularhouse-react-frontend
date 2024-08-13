@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Button, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Videos({ videos, setVideos }) {
   const handleAddVideosClick = () => {
@@ -11,6 +12,17 @@ function Videos({ videos, setVideos }) {
     const files = Array.from(event.target.files);
     setVideos(prevVideos => [...prevVideos, ...files]);
   };
+
+  const handleDeleteVideo = (index) => {
+    setVideos(prevVideos => prevVideos.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    // Clean up URLs when component unmounts
+    return () => {
+      videos.forEach(video => URL.revokeObjectURL(video.preview));
+    };
+  }, [videos]);
 
   return (
     <div>
@@ -43,12 +55,24 @@ function Videos({ videos, setVideos }) {
 
         <Box sx={{ marginTop: 2, display: 'flex', flexWrap: 'wrap' }}>
           {videos.map((video, index) => (
-            <Box key={index} sx={{ margin: 1 }}>
+            <Box key={index} sx={{ position: 'relative', margin: 1 }}>
               <video
                 src={URL.createObjectURL(video)}
                 controls
-                style={{ width: '200px', height: 'auto' }}
+                style={{ width: '500px', height: 'auto' }}
               />
+              <IconButton
+                sx={{
+                  position: 'absolute',
+                  top: 8,
+                  right: 8,
+                  backgroundColor: 'rgba(255, 255, 255, 10)',
+                  '&:hover': { backgroundColor: 'rgba(255, 255, 255, 15)' },
+                }}
+                onClick={() => handleDeleteVideo(index)}
+              >
+                <DeleteIcon />
+              </IconButton>
             </Box>
           ))}
         </Box>

@@ -79,7 +79,8 @@ function App() {
 
    
     <Route path="/" element={<Home />} />
-    <Route path="/details" element={<DetailPage />} />
+    
+    <Route path="/house-details/:houseId" element={<DetailPage />} />
     <Route path="/collection" element={<CollectionPage />} />
 
 

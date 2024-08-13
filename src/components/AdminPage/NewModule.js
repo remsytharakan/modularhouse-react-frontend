@@ -19,9 +19,10 @@ export default function LabTabs() {
   const navigate = useNavigate();
   const [value, setValue] = useState('1');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [photos, setPhotos] = useState([]);
+  const [newImages, setNewImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [videos, setVideos] = useState([]);
- 
+
   const [basicInfo, setBasicInfo] = useState({
     name: '',
     description: '',
@@ -29,9 +30,7 @@ export default function LabTabs() {
     customfloor: '',
     category: '',
     subcategory: '',
-    lowerFloorItems: [],
-    firstFloorItems: [],
-    secondFloorItems: []
+    floors: '',
   });
 
   const handleChange = (event, newValue) => {
@@ -52,6 +51,7 @@ export default function LabTabs() {
 
   const handleSave = async () => {
     let error = false;
+    // Validate required fields
     if (!basicInfo.name) {
       toast.error('House name is required');
       error = true;
@@ -72,57 +72,55 @@ export default function LabTabs() {
       toast.error('Subcategory is required');
       error = true;
     }
-
+  
     if (error) return;
-
+  
     const formData = new FormData();
-
-   
-    photos.forEach((photo, index) => {
-      formData.append('photos', photo);
-    });
-
-    videos.forEach((video, index) => {
-      formData.append(`videos`, video);
-    });
-
-   
-    formData.append("name", basicInfo.name);
-    formData.append("description", basicInfo.description);
-    formData.append("basicPrice", basicInfo.basicPrice);
-    formData.append("customfloor", basicInfo.customfloor);
-    formData.append("category", basicInfo.category);
-    formData.append("subcategory", basicInfo.subcategory);
-    formData.append("lowerFloorItems", JSON.stringify(basicInfo.lowerFloorItems));
-    formData.append("firstFloorItems", JSON.stringify(basicInfo.firstFloorItems));
-    formData.append("secondFloorItems", JSON.stringify(basicInfo.secondFloorItems));
-
     
+    newImages.forEach((image) => {
+      formData.append('newImages', image.file);
+    });
+  
+    formData.append('existingImages', JSON.stringify(existingImages));
 
-
-
+    videos.forEach((video) => {
+      if (video.file) {
+        formData.append('videos', video.file);
+      }
+    });
+  
+    // Append other fields
+    Object.keys(basicInfo).forEach(key => {
+      if (key === 'floors') {
+        formData.append(key, JSON.stringify(basicInfo[key]));
+      } else {
+        formData.append(key, basicInfo[key]);
+      }
+    });
+  
     try {
       let res;
       if (houseId) {
-        
         res = await updateHouse(houseId, formData);
       } else {
-       
         res = await createHouse(formData);
       }
+  
+      toast.success(res?.data?.message || 'Operation successful');
+  
+      if (res.data.house && res.data.house.images) {
+        setExistingImages(res.data.house.images);
+        setNewImages([]);
+      }
       
-      toast.success(res?.data?.message);
-
-     
       setTimeout(() => {
         navigate('/admin/modules');
       }, 2000);
     } catch (err) {
-      
       toast.error(err.response?.data?.message || 'An error occurred');
     }
   };
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -134,15 +132,13 @@ export default function LabTabs() {
           const houseData = houseResponse?.data?.house;
   
           setBasicInfo({
-            name: houseData?.name,
-            description: houseData?.description,
-            basicPrice: houseData?.basicPrice,
-            customfloor: houseData?.customfloor,
-            category: houseData?.category?._id || '',
-            subcategory: houseData?.subcategory?._id || '',
-            lowerFloorItems: houseData?.lowerFloorItems || [],
-            firstFloorItems: houseData?.firstFloorItems || [],
-            secondFloorItems: houseData?.secondFloorItems || [],
+            name: houseData?.name || '',
+            description: houseData?.description || '',
+            basicPrice: houseData?.basicPrice || '',
+            customfloor: houseData?.customfloor || '',
+            category: houseData?.category || '',
+            subcategory: houseData?.subcategory || '',
+            floors: houseData?.floors || [],
             categories: categoriesData,
             subcategories: []
           });
@@ -155,8 +151,15 @@ export default function LabTabs() {
             }));
           }
   
-          if (houseData.videos && houseData.videos.length > 0) {
-            setVideos(houseData.videos.map(videoUrl => new File([], videoUrl)));
+          if (houseData?.images && Array.isArray(houseData.images)) {
+            setExistingImages(houseData.images);
+          }
+
+          if (houseData?.videos && Array.isArray(houseData.videos)) {
+            setVideos(houseData.videos.map(video => ({
+              ...video,
+              preview: video.url  
+            })));
           }
         } else {
           setBasicInfo(prevState => ({
@@ -172,6 +175,7 @@ export default function LabTabs() {
   
     fetchData();
   }, [houseId]);
+
   return (
     <Box sx={{ ml: [4, 25, 25], mt: [12, 15, 15], mr: [1, 1, 1] }}>
       <Navbar onMenuOpen={handleDrawerOpen} />
@@ -203,11 +207,17 @@ export default function LabTabs() {
           <Basicinfo basicInfo={basicInfo} updateBasicInfo={updateBasicInfo} houseId={houseId} />
         </TabPanel>
         <TabPanel value="2">
-          <Photos photos={photos} setPhotos={setPhotos} />
+          <Photos 
+            newImages={newImages} 
+            setNewImages={setNewImages} 
+            existingImages={existingImages} 
+            setExistingImages={setExistingImages} 
+            houseId={houseId} 
+          />
         </TabPanel>
         <TabPanel value="3">
-      <Videos videos={videos} setVideos={setVideos} />
-    </TabPanel>
+          <Videos videos={videos} setVideos={setVideos} />
+        </TabPanel>
         <TabPanel value="4">Documents</TabPanel>
         <TabPanel value="5">Possible Extensions</TabPanel>
       </TabContext>

@@ -14,7 +14,7 @@ function MainSectionOne() {
       >
         <Typography variant="h1"  gutterBottom sx={{  fontSize: { xs: '32px', sm: '40px' }, fontWeight: 'bold',  }}>
           Experience The Future<br/>
-          of <span style={{ color: '#49dd7b' }}>Home Building</span> <br />With Modular Design.
+          of <span style={{ color: '#10B981' }}>Home Building</span> <br />With Modular Design.
         </Typography>
       
       <Box sx={{mt: "8%"}}>

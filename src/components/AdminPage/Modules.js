@@ -223,18 +223,35 @@ function Modules() {
                   </TableRow>
                 ) : (
                   houses.map((house) => (
-                    <TableRow key={house.id}>
-                      <TableCell>
-                        <img
-                          src={house.images}
-                          alt="House"
-                          style={{
-                            width: 100,
-                            height: 95,
-                            borderRadius: '5%',
-                          }}
-                        />
-                      </TableCell>
+                    <TableRow key={houseId}>
+                     <TableCell>
+      {house.images && house.images.length > 0 ? (
+        <img
+          src={house.images[0].url}
+          alt={house.name}
+          style={{
+            width: 100,
+            height: 95,
+            borderRadius: '5%',
+            objectFit: 'cover',
+          }}
+        />
+      ) : (
+        <Box
+          sx={{
+            width: 100,
+            height: 95,
+            borderRadius: '5%',
+            backgroundColor: '#e0e0e0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          No Image
+        </Box>
+      )}
+    </TableCell>
                       <TableCell>
                         <span style={{ fontWeight: 'bold' }}>
                           {house.name}
