@@ -94,4 +94,14 @@ export const  deleteHouseById = (id) => {
     return api.delete(`/house/deleteHouse/${id}`);
 };
 
+//customization
+
+export const getCustomizationTypes = () => {
+    return api.get("/customizationOption/getCustomizationTypes");
+  };
+
+export const getCustomizationOptionsByType = (type) => {
+    return api.get(`/customizationOption/getCustomizationOptionsByType/${type}`);
+};
+
 

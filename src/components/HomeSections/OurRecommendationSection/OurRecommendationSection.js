@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Button } from '@mui/material';
-import HouseCard from './HouseCard';
+
 import HomeIcon from '@mui/icons-material/Home';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import VillaIcon from '@mui/icons-material/Villa';
 import { getAllCategories, getAllHouses } from '../../../Services/AdminServices';
 import './HouseCard.css';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+
+import toast  from 'react-hot-toast';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import IconButton from '@mui/material/IconButton';
+
 function OurRecommendation() {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { houseId } = useParams();
-  const [houses, setHouses] = useState([]);
-  const [HouseId, setHouseId] = useState("");
+  const [loading, setLoading] = useState(false); 
+  const [houses, setHouses] = useState([]);  
 
   useEffect(() => {
     getHouses();
-  }, []);
+    getCategories();
+  });
 
   const getHouses = async () => {
     setLoading(true);
@@ -47,11 +48,12 @@ function OurRecommendation() {
     }
   };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
+ 
 
   const navigate = useNavigate();
+  const handleClickDetail = (houseId) => {
+    navigate(`/housedetails/${houseId}`);
+  };
 
   const handleClick = () => {
     navigate('/collection');
@@ -64,7 +66,7 @@ function OurRecommendation() {
           Featured Houses
         </Typography>
 
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mt:3}}>
         <Grid container spacing={2}>
           {categories.map((cat, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -89,28 +91,30 @@ function OurRecommendation() {
               </Button>
             </Grid>
           ))}
-          <Grid item xs={12}>
-            <Button
-              variant="text"
-              sx={{
-                color: '#10B981',
-                fontWeight: '600',
-                textTransform: 'none',
-                fontSize: '0.9rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                '&:hover': {
-                  color: '#0D9C6F',
-                },
-              }}
-              onClick={handleClick}
-              endIcon={<DoubleArrowIcon sx={{ fontSize: 30 }} />}
-            >
-              View More
-            </Button>
-          </Grid>
+      <Grid item xs={12}  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  <Button
+    variant="text"
+    sx={{
+      color: '#10B981',
+      fontWeight: '600',
+      textTransform: 'none',
+      fontSize: '0.9rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 'auto',  // Set to auto to make the button fit its content
+      '&:hover': {
+        color: '#0D9C6F',
+      },
+    }}
+    onClick={handleClick}
+    endIcon={<DoubleArrowIcon sx={{ fontSize: 30 }} />}
+  >
+    View More
+  </Button>
+</Grid>
+
+
         </Grid>
       </Box>
 
@@ -120,15 +124,41 @@ function OurRecommendation() {
       {/* House cards */}
       <Grid container spacing={2} justifyContent="center">
         {houses && houses.map((house, index) => (
-          <Grid item xs={12} sm={6} md={6} lg={4} key={house.id || index}>
-            <HouseCard
-              imageSrc={house.images[0].url || '/Image/house1.png'}
-              title={house.name || 'MH01'}
-              
+          <Grid item xs={12} sm={6} md={6} lg={4} key={house._id || index}>
+             <Box className="house-container">
+      <Box className="house-card">
+        <Box className="img" style={{ position: 'relative' }}>
+          <img src={house.images[0].url} alt="House" style={{ height: '100%' }} />
+          <Box className="badge">
+            <img src="/Image/home3.png" alt="Badge Icon" />
+            <span>New House</span>
+          </Box>
+        </Box>
 
-              price={house.basicPrice || '€ 24000.000'}
-              bedroomCount={house.floors.length || 0}
-            />
+        <Box className="title">{house.name}</Box>
+        <Box className="price">{house.basicPrice}</Box>
+        <Box className="contact-info">
+          <Box className="bedrooms">
+            <Box className="bed">
+              <img src="/Image/bed1.png" alt="Bed Icon" />
+            </Box>
+            <span className="bedroom">
+              {house.floors.length}<span className="gap">Floors</span>
+            </span>
+          </Box>
+          <Box className="customize">
+  <IconButton><HomeIcon /></IconButton>
+  <span
+    onClick={() => handleClickDetail(house._id)} // Corrected onClick
+    style={{ cursor: 'pointer' }}
+  >
+    Customize
+  </span>
+</Box>
+
+        </Box>
+      </Box>
+    </Box>
           </Grid>
         ))}
       </Grid>

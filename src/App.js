@@ -80,7 +80,7 @@ function App() {
    
     <Route path="/" element={<Home />} />
     
-    <Route path="/house-details/:houseId" element={<DetailPage />} />
+    <Route path="/housedetails/:houseId" element={<DetailPage />} />
     <Route path="/collection" element={<CollectionPage />} />
 
 

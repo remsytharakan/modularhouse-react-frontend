@@ -6,7 +6,6 @@ import {
   Box,
   Button,
 } from '@mui/material';
-import pic2 from '../../Assets/pic2.png';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,9 +15,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const columns = ['', 'Product', 'Price', 'Quantity', 'Subtotal'];
+const columns = ['', 'Product', 'Type', 'Price', 'Quantity', 'Subtotal'];
 
-const ProductDetails = () => {
+const ProductDetails = ({ selectedCards, onRemoveCard }) => {
+  const calculateTotal = () => {
+    return selectedCards.reduce((total, card) => total + card.price, 0);
+  };
+
   return (
     <Box mx={{ xs: 2, sm: 3, md: 4, lg: 8 }} mt={8}>
       <Grid container spacing={2}>
@@ -33,58 +36,27 @@ const ProductDetails = () => {
                         <Typography variant="h6" color="textSecondary">{column}</Typography>
                       </TableCell>
                     ))}
-                    <TableCell></TableCell> {/* For the Delete column */}
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <img src={pic2} alt="" style={{ width: '50px' }} />
-                    </TableCell>
-                    <TableCell>Fleet-set1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow>
-                    <TableCell>
-                      <img src={pic2} alt="" style={{ width: '50px' }} />
-                    </TableCell>
-                    <TableCell>Fleet-set1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-
-
-                  <TableRow>
-                    <TableCell>
-                      <img src={pic2} alt="" style={{ width: '50px' }} />
-                    </TableCell>
-                    <TableCell>Fleet-set1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>€4000.00</TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-
-
-
+                  {selectedCards.map((card, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <img src={card.image?.url || ''} alt="" style={{ width: '50px' }} />
+                      </TableCell>
+                      <TableCell>{card.name}</TableCell>
+                      <TableCell>{card.type}</TableCell>
+                      <TableCell>€{card.price.toFixed(2)}</TableCell>
+                      <TableCell>1</TableCell>
+                      <TableCell>€{card.price.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <IconButton onClick={() => onRemoveCard(card.type)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -95,11 +67,11 @@ const ProductDetails = () => {
             <Typography variant="h4" fontWeight="bold">Product Details</Typography>
             <Box mt={3} display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
               <Typography variant="h6" mr={8}>Subtotal</Typography>
-              <Typography variant="h8">€ 30,000.0</Typography>
+              <Typography variant="h8">€ {calculateTotal().toFixed(2)}</Typography>
             </Box>
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt={3} mb={6}>
               <Typography variant="h6" mr={8}>Total</Typography>
-              <Typography variant="h8">€ 30,000.0</Typography>
+              <Typography variant="h8">€ {calculateTotal().toFixed(2)}</Typography>
             </Box>
             <Button style={{ border: '2px solid #000', marginBottom: '50px' }}>Check Out</Button>
           </Box>

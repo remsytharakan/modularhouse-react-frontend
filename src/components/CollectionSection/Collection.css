@@ -1,0 +1,176 @@
+.house-card {
+    position: relative;
+    width:100%; /* Adjust width considering gap */
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 40px 0 10px 0; /* Adjusted margin for spacing */
+    padding: 0px;
+   
+  }
+  .house-card-container {
+  
+    display: flex;
+    flex-wrap: wrap;
+    gap: 90px; /* Increased gap between cards */
+    padding: 20px; /* Optional padding around the container */
+    justify-content: flex-start; /* Align cards to the start (left) */
+  }
+  .house-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+  }
+  
+  .house-card .badge {
+    position: absolute;
+    bottom: 20px; /* Adjusted position */
+    left: 20px; /* Adjusted position */
+    background-color: #DBEAFE;
+    padding: 3px;
+    border-radius: 32px;
+  }
+  
+  .house-card .badge img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+  
+  .house-card .title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-top: 24px;
+    text-align: left;
+  }
+  
+  .house-card .price {
+    color: #3C4563;
+    font-size: 20px;
+    text-align: left; /* Align the price to the left */
+  }
+  
+  .house-card .contact-info {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+  }
+  
+  .house-card .bedrooms {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+  }
+  
+  .house-card .bedrooms img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .house-card .bedroom {
+    color: #3C4563;
+    font-size: 16px;
+  }
+  
+  .house-card .customize {
+    background-color: #10B981;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .house-card .customize img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+  
+  .house-page-heading {
+    text-align: left;
+    margin: 10px 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .house-card {
+      width: 100%; /* Make the card full width on small screens */
+      margin: 0; /* Remove margin */
+    }
+  }
+  
+  /* Heading styles */
+  .heading-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: #1B1C57;
+    font-size: 32px;
+    text-align: center; /* Center text */
+    margin-bottom: 20px;
+    margin-left: 30px;
+  }
+  
+  /* Button container styles */
+  .button-container {
+    display: flex;
+    justify-content: center; /* Align buttons to center */
+    border-radius: 32px;
+    background-color: white;
+    height: 35px;
+    color: green;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  /* Adjust button styles */
+  .button {
+    color: white; /* Change text color to white */
+    background-color: #10B981; /* Change background color */
+    border: none;
+    border-radius: 32px;
+    cursor: pointer;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding */
+  }
+  
+  /* Mobile responsiveness */
+  @media screen and (max-width: 768px) {
+    .heading-container {
+      flex-direction: column; /* Stack items vertically */
+      text-align: center; /* Center text */
+      margin-left: 0; /* Remove left margin */
+    }
+  
+    .button-container {
+      width: 100%; 
+      display: flex; /* Make the container full width */
+    }
+  
+    .button {
+      width: 100%; /* Make buttons full width */
+    }
+  }
+  
+  .gap {
+    margin-left: 4px; /* Adjust the value as needed for the desired gap */
+  }
+  
+  .iconButton {
+    margin-right: 4px;
+  }
+  
+  .categoryName {
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+  
+  

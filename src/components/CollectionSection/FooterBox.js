@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 
 function FooterBox() {
   return (
-    <Box sx={{ backgroundColor: '#F1B66C', p: 8, pt: 10, pb: 15 }}>
+    <Box sx={{ backgroundColor: '#F1B66C', p: 8, pt: 10, pb: 8 }}>
       <Grid container spacing={2}>
         {/* Left side content */}
         <Grid item xs={12} md={6}>
@@ -41,7 +41,7 @@ function FooterBox() {
         <Grid item xs={12} md={6}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography sx={{ fontSize: { xs: '12px', sm: '14px' }, color: 'white' }}>
+              <Typography sx={{ fontSize: { xs: '12px', sm: '16px' }, color: 'white' }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
                 tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae
                 erat.
@@ -53,7 +53,7 @@ function FooterBox() {
                 <Typography variant="h4" sx={{ color: 'white', fontSize: '22px' }}>
                   99%
                 </Typography>
-                <Typography sx={{ fontSize: { xs: '12px', sm: '14px' }, color: 'white' }}>
+                <Typography sx={{ fontSize: { xs: '12px', sm: '16px' }, color: 'white' }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
                 </Typography>
               </Box>
@@ -64,7 +64,7 @@ function FooterBox() {
                 <Typography variant="h4" sx={{ color: 'white', fontSize: '22px' }}>
                   100%
                 </Typography>
-                <Typography sx={{ fontSize: { xs: '12px', sm: '14px' }, color: 'white' }}>
+                <Typography sx={{ fontSize: { xs: '12px', sm: '16px' }, color: 'white' }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.
                 </Typography>
               </Box>

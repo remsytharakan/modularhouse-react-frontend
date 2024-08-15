@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Grid, TextField, InputAdornment, Drawer, useMediaQuery, useTheme, IconButton, Button, Card, CardContent, List, ListItem, Checkbox, FormControlLabel, Divider } from '@mui/material';
+import {
+  Typography, Box, Grid, TextField, InputAdornment, Drawer,
+  useMediaQuery, useTheme, IconButton, Button, Card, CardContent,
+  List, ListItem, Checkbox, FormControlLabel, Divider
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import KingBedIcon from '@mui/icons-material/KingBed';
 import CabinTwoToneIcon from '@mui/icons-material/CabinTwoTone';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import MenuIcon from '@mui/icons-material/Menu';
-import { getAllHouses, getAllCategories,getHouseById } from '../../Services/AdminServices';
+import { getAllHouses, getAllCategories } from '../../Services/AdminServices';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import toast, { Toaster } from 'react-hot-toast';
+import HomeIcon from '@mui/icons-material/Home';
+import './Collection.css';
 
 // CheckboxList Component
 const CheckboxList = ({ checkedItems, handleChange, items }) => (
@@ -55,7 +59,7 @@ const GlitteringTypography = styled(Typography)(({ theme }) => ({
 // Collection Component
 function Collection() {
   const [houses, setHouses] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [checkedItems, setCheckedItems] = useState({});
   const [categories, setCategories] = useState([]);
   const [checkedDimensions, setCheckedDimensions] = useState({});
@@ -63,62 +67,54 @@ function Collection() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('xs'));
-  const [houseImage, setHouseImage] = useState('/Image/house1.png');
-  const [houseName, setHouseName] = useState('MH01');
-  const [housePrice, setHousePrice] = useState('€ 24000.000');
-  const [houseFloors, setHouseFloors] = useState(0);
   const [filteredHouses, setFilteredHouses] = useState([]);
   const navigate = useNavigate();
-  const [selectedHouseId, setSelectedHouseId] = useState(null);
-
-  const getData = (houseId) => {
-    if (houseId) {
-      getHouseById(houseId)
-        .then((res) => {
-          let data = res?.data?.house;
-          setHouseImage(data?.image?.url || '/Image/house1.png');
-          setHouseName(data?.name || 'MH01');
-          setHousePrice(data?.basicPrice || '€ 24000.000');
-          setHouseFloors(data?.floors?.length || 0);
-        })
-        .catch((err) => {
-          toast.error(err.response?.data?.message || 'Failed to fetch house');
-        });
-    }
-  };
-  
-
 
   useEffect(() => {
-    if (selectedHouseId) {
-      getData(selectedHouseId);
-    }
-  }, [selectedHouseId]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [housesResponse, categoriesResponse] = await Promise.all([
+          getAllHouses(),
+          getAllCategories()
+        ]);
 
+        const fetchedHouses = housesResponse?.data?.houses || [];
+        setHouses(fetchedHouses);
+        setFilteredHouses(fetchedHouses);
 
-  useEffect(() => {
-    getHouses();
-    getCategories();
+        const fetchedCategories = categoriesResponse?.data?.categories || [];
+        const categoryNames = fetchedCategories.map(cat => cat.categoryName || cat.toString());
+        setCategories(categoryNames);
+
+        const initialCheckedItems = Object.fromEntries(
+          categoryNames.map(cat => [cat, false])
+        );
+        setCheckedItems(initialCheckedItems);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
     const applyFilters = () => {
-      const filtered = filterHouses();
+      const selectedCategories = Object.keys(checkedItems).filter(item => checkedItems[item]);
+      const filtered = selectedCategories.length === 0 
+        ? houses 
+        : houses.filter(house => selectedCategories.includes(house.category));
       setFilteredHouses(filtered);
     };
-
     applyFilters();
   }, [checkedItems, houses]);
 
-  const filterHouses = () => {
-    const selectedCategories = Object.keys(checkedItems).filter(item => checkedItems[item]);
-    if (selectedCategories.length === 0) {
-      return houses;
-    }
-    return houses.filter(house =>
-      selectedCategories.includes(house.category)
-    );
+  const handleClickDetail = (houseId) => {
+    navigate(`/housedetails/${houseId}`);
   };
 
   const handleDrawerToggle = () => {
@@ -126,85 +122,46 @@ function Collection() {
   };
 
   const handleDimensionChange = (event) => {
-    setCheckedDimensions({
-      ...checkedDimensions,
+    setCheckedDimensions(prev => ({
+      ...prev,
       [event.target.name]: event.target.checked
-    });
+    }));
   };
 
   const handlePriceChange = (event) => {
-    setCheckedPrices({
-      ...checkedPrices,
+    setCheckedPrices(prev => ({
+      ...prev,
       [event.target.name]: event.target.checked
-    });
-  };
-
-  const getHouses = async () => {
-    setLoading(true);
-    try {
-      const response = await getAllHouses();
-      setHouses(response?.data?.houses || []);
-    } catch (error) {
-      console.error('Error fetching houses:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getCategories = async () => {
-    setLoading(true);
-    try {
-      const response = await getAllCategories();
-      const { categories = [] } = response?.data || {};
-      setCategories(categories.map(cat => cat.categoryName || cat.toString()));
-
-      // Initialize checkedItems state
-      const initialCheckedItems = {};
-      categories.forEach(cat => {
-        initialCheckedItems[cat.categoryName || cat] = false;
-      });
-      setCheckedItems(initialCheckedItems);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    } finally {
-      setLoading(false);
-    }
+    }));
   };
 
   const handleChange = (event) => {
-    setCheckedItems({
-      ...checkedItems,
+    setCheckedItems(prev => ({
+      ...prev,
       [event.target.name]: event.target.checked
-    });
+    }));
   };
 
-  const handleClick = (houseId) => {
-   
-    navigate(`/house-details/${houseId}`);
-  };
-  
-  
   const handleTypographyClick = () => {
     navigate('/');
   };
 
   return (
     <div>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 9 }}>
             <CabinTwoToneIcon sx={{ fontSize: '2rem', color: '#000' }} />
             <ArrowRightAltIcon sx={{ fontSize: '2rem', color: '#000', ml: 1 }} />
-            <GlitteringTypography  
-              variant="body1" 
-              sx={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#10B981', cursor: 'pointer' }} 
+            <GlitteringTypography
+              variant="body1"
+              sx={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#10B981', cursor: 'pointer' }}
               onClick={handleTypographyClick}
             >
               Modular House
             </GlitteringTypography>
           </Box>
 
-          {/* Filter Drawer for xs screens */}
           <Drawer
             anchor="left"
             open={drawerOpen}
@@ -258,7 +215,6 @@ function Collection() {
             </Box>
           </Drawer>
 
-          {/* Button to open the Drawer on xs screens */}
           {isXs && (
             <IconButton
               onClick={handleDrawerToggle}
@@ -268,7 +224,6 @@ function Collection() {
             </IconButton>
           )}
 
-          {/* Card for larger screens */}
           {!isXs && (
             <Box sx={{ mt: 3, mr: 3, ml: 4 }}>
               <Card sx={{ boxShadow: 3, borderRadius: 2, height: '500px', overflowY: 'auto' }}>
@@ -306,13 +261,14 @@ function Collection() {
         </Grid>
 
         <Grid item xs={12} md={9}>
-          <Box sx={{ mt: '6%', mb: '5%', ml: '2%' }}>
+          <Box sx={{ mt: '6%', mb: '5%', ml: '5%' ,mr:'5%'}}>
             <Typography
               variant="h2"
               gutterBottom
               sx={{
                 fontSize: { xs: '26px', sm: '32px' },
                 fontWeight: 600,
+                textAlign: { xs: 'center', sm: 'left' }
               }}
             >
               Our Collection Of Houses
@@ -356,42 +312,40 @@ function Collection() {
                   </Typography>
                 </Box>
 
-                <Grid container spacing={2}>
-                  {filteredHouses.map((house) => (
-                    <Grid item xs={12} sm={6} md={4} key={house.id}>
-                      <Box sx={{ p: 5 }}>
-                        <img
-                          src={house.images[0]?.url || '/Image/house1.png'}
-                          alt={house.name || 'House Image'}
-                          style={{ maxWidth: '100%', height: 'auto' }}
-                        />
-                        <Box sx={{ mt: '12%', ml: '5%' }}>
-                          <Typography sx={{ mb: 2, fontWeight: 'bold' }}>{house.name || 'MH01'}</Typography>
-                          <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{house.basicPrice || '€ 24000.000'}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <IconButton>
-                            <KingBedIcon />
-                          </IconButton>
-                          <Typography
-                            variant="body1"
-                            sx={{ fontWeight: 'bold', fontSize: '0.9rem', mr: '6%' }}
-                          >
-                            {house.floors.length || 0}
-                          </Typography>
-                          <Button
-                            variant="contained"
-                            sx={{
-                              backgroundColor: '#10B981',
-                              color: '#fff',
-                              textTransform: 'none',
-                              fontSize: '0.9rem',
-                              borderRadius: '32px',
-                            }}
-                            onClick={() => handleClick(house.id)}
-                          >
-                            Customize
-                          </Button>
+                <Grid container spacing={2} justifyContent="center">
+                  {filteredHouses.map((house, index) => (
+                    <Grid item xs={12} sm={6} md={6} lg={4} key={house._id || index}>
+                      <Box className="house-container">
+                        <Box className="house-card">
+                          <Box className="img" style={{ position: 'relative' }}>
+                            <img src={house.images[0].url} alt="House" style={{ height: '100%' }} />
+                            <Box className="badge">
+                              <img src="/Image/home3.png" alt="Badge Icon" />
+                              <span>New House</span>
+                            </Box>
+                          </Box>
+
+                          <Box className="title">{house.name}</Box>
+                          <Box className="price">{house.basicPrice}</Box>
+                          <Box className="contact-info">
+                            <Box className="bedrooms">
+                              <Box className="bed">
+                                <img src="/Image/bed1.png" alt="Bed Icon" />
+                              </Box>
+                              <span className="bedroom">
+                                {house.floors.length}<span className="gap">Floors</span>
+                              </span>
+                            </Box>
+                            <Box className="customize">
+                              <IconButton><HomeIcon /></IconButton>
+                              <span
+                                onClick={() => handleClickDetail(house._id)}
+                                style={{ cursor: 'pointer' }}
+                              >
+                                Customize
+                              </span>
+                            </Box>
+                          </Box>
                         </Box>
                       </Box>
                     </Grid>
