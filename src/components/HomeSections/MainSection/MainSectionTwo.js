@@ -4,12 +4,10 @@ import img from '../../../Assets/mainhome.jpg';
 
 function MainSection2() {
   return (
-    <Box sx={{
-      mr: { xs: 2 },
-      mt: { xs: 3 },
-      ml: { xs: 2 }
-    }}>
-      <img src={img} alt="main" style={{ width: '100%', objectFit: 'cover', borderRadius: '5%' }} />
+    <Box 
+     
+   >
+      <img src={img} alt="main" style={{ width: '100%', }} />
     </Box>
     
   );

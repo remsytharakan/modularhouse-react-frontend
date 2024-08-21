@@ -56,8 +56,8 @@ function ReadyToSellSectionOne() {
             Manager Director
           </Typography>
         </Box>
-        <Box ml={{ xs: '4px',  lg: '30px' }}>
-          <Button variant="contained" startIcon={<PhoneAndroidIcon />} sx={{ backgroundColor: '#10b981', textTransform: 'none', borderRadius: '50px' }}>
+        <Box ml={{ xs: '4px',  lg: '100px' }}>
+          <Button variant="contained" startIcon={<PhoneAndroidIcon />} sx={{ backgroundColor: '#388e3c', textTransform: 'none', borderRadius: '50px' }}>
             Contact Now
           </Button>
         </Box>

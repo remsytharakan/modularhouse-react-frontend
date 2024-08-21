@@ -10,12 +10,18 @@ window.scrollTo(0,0);
 
   return (
     <div>
-       <Categories/>   
-    <NewCategory/>    
+    <div>
+       <Categories/>
+       </div>
+         <div>
+    <NewCategory/> 
+    </div>
+         <div>
      <Modules/> 
-  
-
+     </div>
+     <div>
  <NewModule/> 
+    </div>
     </div>
   )
 }

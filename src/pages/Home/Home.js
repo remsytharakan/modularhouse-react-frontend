@@ -15,9 +15,9 @@ import { Grid } from '@mui/material';
 function Home() {
     return (
         <div>
- <div>
+
           <Navbar />
-        </div> 
+      
 
              <div>
                 <Grid container>

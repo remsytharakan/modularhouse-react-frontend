@@ -16,7 +16,7 @@
   position: absolute;
   bottom: 20px; /* Adjusted position */
   left: 20px; /* Adjusted position */
-  background-color: #DBEAFE;
+  background-color:#388e3c;
   padding: 3px;
   border-radius: 32px;
 }
@@ -30,13 +30,13 @@
 
 .house-card .title {
   font-weight: bold;
-  font-size: 24px;
-  margin-top: 24px;
+  font-size: 20px;
+
   text-align: left; 
 }
 
 .house-card .price {
-  color: #3C4563;
+  color:#388e3c;
   font-size: 20px;
   text-align: left; /* Align the price to the left */
 }
@@ -68,7 +68,7 @@
 }
 
 .house-card .customize {
-  background-color: #10B981;
+  background-color: #388e3c;
   color: #fff;
   border: none;
   padding: 8px 16px;

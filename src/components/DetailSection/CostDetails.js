@@ -65,14 +65,14 @@ function CostDetail() {
 
       <Grid item xs={12} lg={6} md={6} >
         <Box sx={{ ml: { xs: 3, }, mr: { xs: 3, md: 10, lg: 8 }, mt: 3 }} >
-          <Typography variant="h4" gutterBottom>{house.name}</Typography>
-          <Typography variant="h6" gutterBottom>${house.basicPrice}</Typography>
+          <Typography variant="h4"   style={{  fontSize: '2em', fontWeight: 700 }}   >{house.name}</Typography>
+          <Typography variant="h6"  style={{ color: '#10B981', fontSize: '2em', fontWeight: 700 }}    > €&nbsp;{house.basicPrice}</Typography>
           <Typography variant="body1" sx={{ lineHeight: 2, color: '#414141' }}>
             Lorem ipsum dolor sit amet, consectetuer adipi scing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magn.
             Lorem ipsum dolor sit amet, consectetuer adipi scing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magn. <br /><br />
 
             
-            Lorem ipsum dolor sit amet, consectetuer adipi scing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magn.
+            Lorem ipsum dolor sit amet, consectetuer adipi scing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magn. 
           </Typography>
           <Grid container spacing={2} >
             <Grid item xs={12}>

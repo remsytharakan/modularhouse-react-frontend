@@ -23,11 +23,12 @@
   
   .house-card .badge {
     position: absolute;
-    bottom: 20px; /* Adjusted position */
-    left: 20px; /* Adjusted position */
-    background-color: #DBEAFE;
-    padding: 3px;
-    border-radius: 32px;
+    bottom: 280px; 
+    left: 20px; 
+    background-color: #388e3c;
+    padding: 8px;
+    border-radius: 16px;
+    color:#fff;
   }
   
   .house-card .badge img {
@@ -38,14 +39,16 @@
   
   .house-card .title {
     font-weight: bold;
-    font-size: 24px;
-    margin-top: 24px;
+    font-size: 22px;
+    
     text-align: left;
+    
   }
   
   .house-card .price {
-    color: #3C4563;
-    font-size: 20px;
+    color: #388e3c;
+    font-weight: bold;
+    font-size: 30px;
     text-align: left; /* Align the price to the left */
   }
   
@@ -75,13 +78,14 @@
   }
   
   .house-card .customize {
-    background-color: #10B981;
+    background-color: #388e3c;
     color: #fff;
     border: none;
     padding: 8px 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    
   }
   
   .house-card .customize img {
@@ -132,7 +136,7 @@
   /* Adjust button styles */
   .button {
     color: white; /* Change text color to white */
-    background-color: #10B981; /* Change background color */
+    background-color: #388e3c; /* Change background color */
     border: none;
     border-radius: 32px;
     cursor: pointer;

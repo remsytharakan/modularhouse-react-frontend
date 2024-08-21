@@ -103,14 +103,7 @@ export default function Customize({ onCardSelect }) {
   };
 
 
-  if (loading) {
-    return <Typography>Loading...</Typography>;
-  }
-
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
-  }
-
+  
 
 
 
@@ -213,20 +206,20 @@ export default function Customize({ onCardSelect }) {
                       <CardActionArea>
                         <CardMedia
                           component="img"
-                          height="140"
+                          height="300"
                           image={option.image?.url || m2}
                           alt={option.name}
                         />
                         <CardContent>
-                          <Typography gutterBottom variant="h6" component="div">
+                          <Typography gutterBottom variant="h5" component="div">
                             {option.name}
                           </Typography>
                           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <Typography variant="body2" color="text.secondary">
                               {option.type}
                             </Typography>
-                            <Typography variant="body2" color="text.primary">
-                            €{option.price}
+                            <Typography variant="h5" color=" #10B981"style={{fontWeight:'bold'   }} >
+                            €&nbsp;{option.price}
                             </Typography>
                           </Box>
                         </CardContent>

@@ -14,26 +14,26 @@ function MainSectionOne() {
       >
         <Typography variant="h1"  gutterBottom sx={{  fontSize: { xs: '32px', sm: '40px' }, fontWeight: 'bold',  }}>
           Experience The Future<br/>
-          of <span style={{ color: '#10B981' }}>Home Building</span> <br />With Modular Design.
+          of <span style={{ color: '#388e3c' }}>Home Building</span> <br />With Modular Design.
         </Typography>
       
       <Box sx={{mt: "8%"}}>
-        <Typography variant="h8" sx={{   lineHeight: '30px', }}>
+        <Typography variant="h7" sx={{   lineHeight: '30px', }}>
           Everything you need about finding your place to live will be here, where it will be easier for you
         </Typography>
       </Box>
       {/* Search Field */}
-      <Box sx={{ mt: { xs: '10%', md: '5%', lg: '14%' } }}>
+      <Box sx={{ mt: { xs: '10%', md: '5%', lg: '14%' },  mb: { xs: '6%'}, }}>
   <TextField
     variant="outlined"
     placeholder="Search for your dream home"
     fullWidth
     sx={{
       '& fieldset': {
-        borderRadius: '32px', // Setting border radius for the fieldset
+        borderRadius: '32px', 
       },
       '& .MuiIconButton-root': {
-        color: '#49dd7b', // Setting color for the search icon button
+        color: '#388e3c', 
       },
     }}
     InputProps={{

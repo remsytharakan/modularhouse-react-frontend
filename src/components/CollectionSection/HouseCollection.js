@@ -1,73 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Typography, Box, Grid, TextField, InputAdornment, Drawer,
-  useMediaQuery, useTheme, IconButton, Button, Card, CardContent,
-  List, ListItem, Checkbox, FormControlLabel, Divider
+  Typography, Box, Grid, Button, Menu, MenuItem, IconButton
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CabinTwoToneIcon from '@mui/icons-material/CabinTwoTone';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 import { getAllHouses, getAllCategories } from '../../Services/AdminServices';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import HomeIcon from '@mui/icons-material/Home';
 import './Collection.css';
-
-// CheckboxList Component
-const CheckboxList = ({ checkedItems, handleChange, items }) => (
-  <List>
-    {items.map((item) => (
-      <ListItem key={item}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={checkedItems[item]}
-              onChange={handleChange}
-              name={item}
-            />
-          }
-          label={typeof item === 'string' ? item.charAt(0).toUpperCase() + item.slice(1) : item}
-        />
-      </ListItem>
-    ))}
-  </List>
-);
-
-// GlitteringTypography Component
-const GlitteringTypography = styled(Typography)(({ theme }) => ({
-  position: 'relative',
-  display: 'inline-block',
-  color: theme.palette.text.primary,
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: 'linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.5) 50%, transparent 55%)',
-    backgroundSize: '200% 200%',
-    animation: 'glitter 6s linear infinite',
-  },
-  '@keyframes glitter': {
-    '0%': { backgroundPosition: '0% 50%' },
-    '100%': { backgroundPosition: '200% 50%' },
-  },
-}));
+import  BusinessIcon from '@mui/icons-material/Business';
+// // GlitteringTypography Component
+// const GlitteringTypography = styled(Typography)(({ theme }) => ({
+//   position: 'relative',
+//   display: 'inline-block',
+//   color: theme.palette.text.primary,
+//   '&::after': {
+//     content: '""',
+//     position: 'absolute',
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//     background: 'linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.5) 50%, transparent 55%)',
+//     backgroundSize: '200% 200%',
+//     animation: 'glitter 6s linear infinite',
+//   },
+//   '@keyframes glitter': {
+//     '0%': { backgroundPosition: '0% 50%' },
+//     '100%': { backgroundPosition: '200% 50%' },
+//   },
+// }));
 
 // Collection Component
 function Collection() {
   const [houses, setHouses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [checkedItems, setCheckedItems] = useState({});
   const [categories, setCategories] = useState([]);
-  const [checkedDimensions, setCheckedDimensions] = useState({});
-  const [checkedPrices, setCheckedPrices] = useState({});
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down('xs'));
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedDimension, setSelectedDimension] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState(null);
+ 
   const [filteredHouses, setFilteredHouses] = useState([]);
+  const [anchorEl, setAnchorEl] = useState({ categories: null, dimensions: null, prices: null });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +54,6 @@ function Collection() {
           getAllHouses(),
           getAllCategories()
         ]);
-
         const fetchedHouses = housesResponse?.data?.houses || [];
         setHouses(fetchedHouses);
         setFilteredHouses(fetchedHouses);
@@ -86,11 +61,6 @@ function Collection() {
         const fetchedCategories = categoriesResponse?.data?.categories || [];
         const categoryNames = fetchedCategories.map(cat => cat.categoryName || cat.toString());
         setCategories(categoryNames);
-
-        const initialCheckedItems = Object.fromEntries(
-          categoryNames.map(cat => [cat, false])
-        );
-        setCheckedItems(initialCheckedItems);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -104,53 +74,49 @@ function Collection() {
 
   useEffect(() => {
     const applyFilters = () => {
-      const selectedCategories = Object.keys(checkedItems).filter(item => checkedItems[item]);
-      const filtered = selectedCategories.length === 0 
-        ? houses 
-        : houses.filter(house => selectedCategories.includes(house.category));
+      const filtered = houses.filter(house => {
+        const categoryMatch = !selectedCategory || house.category === selectedCategory;
+        const dimensionMatch = !selectedDimension || house.dimension === selectedDimension;
+        const priceMatch = !selectedPrice || house.priceRange === selectedPrice;
+        return categoryMatch && dimensionMatch && priceMatch;
+      });
       setFilteredHouses(filtered);
     };
     applyFilters();
-  }, [checkedItems, houses]);
+  }, [selectedCategory, selectedDimension, selectedPrice, houses]);
+
+  const handleMenuOpen = (event, menuType) => {
+    setAnchorEl(prev => ({ ...prev, [menuType]: event.currentTarget }));
+  };
+
+  const handleMenuClose = (menuType) => {
+    setAnchorEl(prev => ({ ...prev, [menuType]: null }));
+  };
 
   const handleClickDetail = (houseId) => {
     navigate(`/housedetails/${houseId}`);
   };
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const handleDimensionChange = (event) => {
-    setCheckedDimensions(prev => ({
-      ...prev,
-      [event.target.name]: event.target.checked
-    }));
-  };
-
-  const handlePriceChange = (event) => {
-    setCheckedPrices(prev => ({
-      ...prev,
-      [event.target.name]: event.target.checked
-    }));
-  };
-
-  const handleChange = (event) => {
-    setCheckedItems(prev => ({
-      ...prev,
-      [event.target.name]: event.target.checked
-    }));
-  };
-
-  const handleTypographyClick = () => {
-    navigate('/');
+  
+      
+  const getDisplayText = (menuType) => {
+    if (menuType === 'categories') {
+      return selectedCategory || ' category';
+    }
+    if (menuType === 'dimensions') {
+      return selectedDimension || ' dimension';
+    }
+    if (menuType === 'prices') {
+      return selectedPrice || ' price';
+    }
+    return '';
   };
 
   return (
-    <div>
+    <Grid item xs={12} md={9}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 9 }}>
+        <Grid item xs={12}>
+          {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: 9 }}>
             <CabinTwoToneIcon sx={{ fontSize: '2rem', color: '#000' }} />
             <ArrowRightAltIcon sx={{ fontSize: '2rem', color: '#000', ml: 1 }} />
             <GlitteringTypography
@@ -160,112 +126,13 @@ function Collection() {
             >
               Modular House
             </GlitteringTypography>
-          </Box>
-
-          <Drawer
-            anchor="left"
-            open={drawerOpen}
-            onClose={handleDrawerToggle}
-          >
-            <Box
-              sx={{
-                width: 250,
-                padding: 2,
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Filters
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 2 }}>
-                Categories
-              </Typography>
-              <CheckboxList
-                items={categories}
-                checkedItems={checkedItems}
-                handleChange={handleChange}
-              />
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 2 }}>
-                Dimensions
-              </Typography>
-              <CheckboxList
-                items={['Small', 'Medium', 'Large']}
-                checkedItems={checkedDimensions}
-                handleChange={handleDimensionChange}
-              />
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 2 }}>
-                Prices
-              </Typography>
-              <CheckboxList
-                items={['$0 - $50,000', '$50,000 - $100,000', '$100,000+']}
-                checkedItems={checkedPrices}
-                handleChange={handlePriceChange}
-              />
-              <Button
-                onClick={handleDrawerToggle}
-                sx={{ mt: 'auto', backgroundColor: '#10B981', color: '#fff' }}
-              >
-                Close
-              </Button>
-            </Box>
-          </Drawer>
-
-          {isXs && (
-            <IconButton
-              onClick={handleDrawerToggle}
-              sx={{ position: 'fixed', top: 16, right: 16, zIndex: 1201 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-
-          {!isXs && (
-            <Box sx={{ mt: 3, mr: 3, ml: 4 }}>
-              <Card sx={{ boxShadow: 3, borderRadius: 2, height: '500px', overflowY: 'auto' }}>
-                <CardContent>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#616161', mb: 2 }}>
-                    Categories
-                  </Typography>
-                  <CheckboxList
-                    items={categories}
-                    checkedItems={checkedItems}
-                    handleChange={handleChange}
-                  />
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#616161', mb: 2 }}>
-                    Dimensions
-                  </Typography>
-                  <CheckboxList
-                    items={['Small', 'Medium', 'Large']}
-                    checkedItems={checkedDimensions}
-                    handleChange={handleDimensionChange}
-                  />
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#616161', mb: 2 }}>
-                    Prices
-                  </Typography>
-                  <CheckboxList
-                    items={['$0 - $50,000', '$50,000 - $100,000', '$100,000+']}
-                    checkedItems={checkedPrices}
-                    handleChange={handlePriceChange}
-                  />
-                </CardContent>
-              </Card>
-            </Box>
-          )}
-        </Grid>
-
-        <Grid item xs={12} md={9}>
-          <Box sx={{ mt: '6%', mb: '5%', ml: '5%' ,mr:'5%'}}>
+          </Box> */}
+          <Box sx={{ mt: '5%', mb: '8%', ml: '5%', mr: '5%' }}>
             <Typography
               variant="h2"
               gutterBottom
               sx={{
+                mb: '4%',
                 fontSize: { xs: '26px', sm: '32px' },
                 fontWeight: 600,
                 textAlign: { xs: 'center', sm: 'left' }
@@ -273,36 +140,91 @@ function Collection() {
             >
               Our Collection Of Houses
             </Typography>
-            <Box sx={{ mr: '5%', mt: '1%' }}>
-              <TextField
-                variant="outlined"
-                placeholder="Search an item"
-                fullWidth
+
+            <Box sx={{ flexGrow: 2, backgroundColor: '#388e3c', p: 2 }}>
+      <Grid container spacing={2} justifyContent="center">
+        {['categories', 'dimensions', 'prices'].map((menuType) => (
+          <Grid item xs={12} sm={4} md={3} key={menuType}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Button
+                variant="contained"
+                onClick={(e) => handleMenuOpen(e, menuType)}
+                endIcon={<ArrowDropDownIcon />}
                 sx={{
-                  '& fieldset': {
-                    borderRadius: '32px',
+                  width: '90%',
+                  height: 40,
+                  color: '#1C2365',
+                  backgroundColor: 'white',
+                  '&:hover': {
+                    backgroundColor: 'white',
+                    color: '#1C2365',
                   },
-                  '& .MuiIconButton-root': {
-                    color: '#49dd7b',
-                  },
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '0 16px',
                 }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              >
+                {getDisplayText(menuType)}
+              </Button>
+              <Menu
+                anchorEl={anchorEl[menuType]}
+                open={Boolean(anchorEl[menuType])}
+                onClose={() => handleMenuClose(menuType)}
+              >
+                {menuType === 'categories' && categories.map((item) => (
+                  <MenuItem key={item} onClick={() => {
+                    setSelectedCategory(item);
+                    handleMenuClose('categories');
+                  }}>
+                    {item}
+                  </MenuItem>
+                ))}
+                {menuType === 'dimensions' && ['Small', 'Medium', 'Large'].map((item) => (
+                  <MenuItem key={item} onClick={() => {
+                    setSelectedDimension(item);
+                    handleMenuClose('dimensions');
+                  }}>
+                    {item}
+                  </MenuItem>
+                ))}
+                {menuType === 'prices' && ['$0 - $50,000', '$50,000 - $100,000', '$100,000+'].map((item) => (
+                  <MenuItem key={item} onClick={() => {
+                    setSelectedPrice(item);
+                    handleMenuClose('prices');
+                  }}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Menu>
             </Box>
+          </Grid>
+        ))}
+        <Grid item xs={12} sm={4} md={3}>
+          <Button
+            variant="contained"
+            sx={{
+              color: 'white',
+              backgroundColor: '#1C2365',
+              '&:hover': {
+                backgroundColor: '#1C2365',
+                color: 'white',
+              },
+              width: '90%',
+              height: 40,
+            }}
+          >
+            Search
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
 
             {loading ? (
               <Typography>Loading...</Typography>
             ) : (
               <>
-                <Box sx={{ mt: '1%', ml: '5%' }}>
+                <Box sx={{ mt: '1%' }}>
                   <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
                     Showing 1–{filteredHouses.length} of {filteredHouses.length} item(s)
                   </Typography>
@@ -320,31 +242,32 @@ function Collection() {
                           <Box className="img" style={{ position: 'relative' }}>
                             <img src={house.images[0].url} alt="House" style={{ height: '100%' }} />
                             <Box className="badge">
-                              <img src="/Image/home3.png" alt="Badge Icon" />
-                              <span>New House</span>
+                             
+                              <span>For Sell</span>
                             </Box>
                           </Box>
 
+                          
+                          <Box className="price">€&nbsp;{house.basicPrice}</Box>
                           <Box className="title">{house.name}</Box>
-                          <Box className="price">{house.basicPrice}</Box>
                           <Box className="contact-info">
                             <Box className="bedrooms">
-                              <Box className="bed">
-                                <img src="/Image/bed1.png" alt="Bed Icon" />
-                              </Box>
+                            <Box className="bed">
+            < BusinessIcon  style={{ color: 'black' }} />&nbsp;
+            </Box>
                               <span className="bedroom">
-                                {house.floors.length}<span className="gap">Floors</span>
+                                {house.floors.length}<span className="gap">Floor</span>
                               </span>
                             </Box>
                             <Box className="customize">
-                              <IconButton><HomeIcon /></IconButton>
-                              <span
-                                onClick={() => handleClickDetail(house._id)}
-                                style={{ cursor: 'pointer' }}
-                              >
-                                Customize
-                              </span>
-                            </Box>
+  <HomeIcon />&nbsp;
+  <span
+    onClick={() => handleClickDetail(house._id)} // Corrected onClick
+    style={{ cursor: 'pointer' }}
+  >
+    Customize
+  </span>
+</Box>
                           </Box>
                         </Box>
                       </Box>
@@ -356,7 +279,7 @@ function Collection() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
 

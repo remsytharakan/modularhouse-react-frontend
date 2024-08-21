@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Button } from '@mui/material';
 
 import HomeIcon from '@mui/icons-material/Home';
-import ApartmentIcon from '@mui/icons-material/Apartment';
+import  BusinessIcon from '@mui/icons-material/Business'; 
 import VillaIcon from '@mui/icons-material/Villa';
 import { getAllCategories, getAllHouses } from '../../../Services/AdminServices';
 import './HouseCard.css';
 import { useNavigate } from 'react-router-dom';
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import toast  from 'react-hot-toast';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import IconButton from '@mui/material/IconButton';
+
 
 function OurRecommendation() {
   const [categories, setCategories] = useState([]);
@@ -77,12 +77,12 @@ function OurRecommendation() {
                   textTransform: 'none',
                   fontSize: '0.8rem',
                   fontWeight: '600',
-                  backgroundColor: '#10B981',
+                  backgroundColor: '#388e3c',
                   color: 'white',
                   width: '100%',
                   '&:hover': {
                     backgroundColor: 'white',
-                    color: '#10B981',
+                    color: '#388e3c',
                   },
                 }}
                 startIcon={cat.type === 'cube' ? <HomeIcon /> : cat.type === 'standard' ? <VillaIcon /> : <ApartmentIcon />}
@@ -95,10 +95,10 @@ function OurRecommendation() {
   <Button
     variant="text"
     sx={{
-      color: '#10B981',
+      color: '#388e3c',
       fontWeight: '600',
       textTransform: 'none',
-      fontSize: '0.9rem',
+      fontSize: '1.2rem',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -108,7 +108,7 @@ function OurRecommendation() {
       },
     }}
     onClick={handleClick}
-    endIcon={<DoubleArrowIcon sx={{ fontSize: 30 }} />}
+    endIcon={<DoubleArrowIcon sx={{ fontSize: 50 }} />}
   >
     View More
   </Button>
@@ -130,24 +130,25 @@ function OurRecommendation() {
         <Box className="img" style={{ position: 'relative' }}>
           <img src={house.images[0].url} alt="House" style={{ height: '100%' }} />
           <Box className="badge">
-            <img src="/Image/home3.png" alt="Badge Icon" />
-            <span>New House</span>
+            
+            <span>For Sell</span>
           </Box>
         </Box>
 
+       
+        <Box className="price">€&nbsp;{house.basicPrice}</Box>
         <Box className="title">{house.name}</Box>
-        <Box className="price">{house.basicPrice}</Box>
         <Box className="contact-info">
           <Box className="bedrooms">
             <Box className="bed">
-              <img src="/Image/bed1.png" alt="Bed Icon" />
+            < BusinessIcon  style={{ color: 'black' }} />&nbsp;
             </Box>
             <span className="bedroom">
-              {house.floors.length}<span className="gap">Floors</span>
+              {house.floors.length}<span className="gap">Floor</span>
             </span>
           </Box>
           <Box className="customize">
-  <IconButton><HomeIcon /></IconButton>
+  <HomeIcon />&nbsp;
   <span
     onClick={() => handleClickDetail(house._id)} // Corrected onClick
     style={{ cursor: 'pointer' }}

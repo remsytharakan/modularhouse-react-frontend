@@ -11,11 +11,21 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-const navItems = ['About Us', 'Article', 'Property', 'Sign Up!'];
+const navItems = [
+  { label: 'Home', path: '/' },
+  
+  { label: 'Modular House', path: '/collection' },
+  { label: 'FAQ', path: '/faq' },
+  { label: 'About Us', path: '/aboutus' },
+  { label: 'Contact Us', path: '/contactUs' },
+  { label: 'Project Process', path: '/contact-us' }
+];
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -25,16 +35,16 @@ export default function DrawerAppBar() {
   };
 
   const drawer = (
-    <Box sx={{ textAlign: 'center', bgcolor: 'white', color: 'black', height: '100vh' }}>
-      <Typography variant="h6" sx={{ color: 'white' }}>
+    <Box sx={{ textAlign: 'center', bgcolor: 'white', color: 'black', height: '200vh' }}>
+      <Typography variant="h6" sx={{ color: 'black' }}>
         Logo
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+        {navItems.map(({ label, path }) => (
+          <ListItem key={label} disablePadding>
+            <ListItemButton component={Link} to={path} sx={{ textAlign: 'center' }}>
+              <ListItemText primary={label} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -44,57 +54,71 @@ export default function DrawerAppBar() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        component="nav"
-        position="sticky" // Make the AppBar sticky
-        sx={{ backgroundColor: 'rgba(0, 0, 0, 0)', overflow: 'hidden', boxShadow: 'none' }}
-      >
+     
+     <AppBar
+  component="nav"
+  position="sticky"
+  sx={{
+    backgroundColor: '#388e3c',
+    overflow: 'hidden',
+    boxShadow: 'none',
+   
+  }}
+>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' }, color: 'black' }} // Set color to black
+            sx={{ mr: 2, display: { sm: 'none' }, color: 'white' }} 
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: 'black', textAlign: 'left', paddingLeft: '68px' }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: 'white', textAlign: 'left', paddingLeft: '68px' }}>
             Logo
           </Typography>
 
-          <Box sx={{ display: { xs: 'none', sm: 'flex', marginRight: '100px', marginTop: '20px' }, flexDirection: 'row', gap: '50px' }}>
-            {navItems.map((item) => (
+          <Box sx={{ display: { xs: 'none', sm: 'flex', marginRight: '20px'}, flexDirection: 'row', gap: '40px' }}> 
+            {navItems.map(({ label, path }) => (
               <Button
-                key={item}
+                key={label}
                 sx={{
-                  marginTop: '2px',
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '10px',
+                 
+                  alignItems: 'center',
                   textTransform: 'none',
-                  cursor: 'pointer',
-                  background: 'rgba(255, 255, 255, 0.93)',
                   borderRadius: '20px',
-                  color: 'black',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  textDecoration: 'none', // Remove underline
-                  ...(item === 'Sign Up!' && {
-                    backgroundColor: '#46a58a',
-                    color: 'white',
-                    fontFamily: 'Lexend, var(--default-font-family)',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                  }),
+                  color: 'white',
+                  fontSize: '18px',
+                  fontWeight: '300',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
                 }}
-                component={Link} // Use Link component
-                to={item === 'Sign Up!' ? '/register' : '/'}
+                component={Link} 
+                to={path} 
               >
-                {item}
+                {label}
               </Button>
             ))}
+            <IconButton
+              component={Link}
+              to="/register" 
+              sx={{ color: 'white',fontSize: '8rem' }}
+              aria-label="sign up"
+            >
+              <PersonAddAlt1OutlinedIcon />
+            </IconButton>
+            <IconButton
+              component={Link}
+              to="/cart" 
+              sx={{ color: 'white' }}
+              aria-label="cart"
+            >
+              <ShoppingCartOutlinedIcon />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

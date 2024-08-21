@@ -12,7 +12,7 @@ import NewCategory from './components/AdminPage/NewCategory';
 import NewModules from './components/AdminPage/NewModule';
 import Modules from './components/AdminPage/Modules';
 import Home from './pages/Home/Home';
-
+import Checkout from './components/DetailSection/Checkout';
 import DetailPage from './pages/Detail/DetailPage';
 import AuthShield from './shields/AuthShield';
 import { useDispatch } from 'react-redux';
@@ -21,8 +21,8 @@ import { useEffect } from 'react';
 import { finishLoadingUser } from './redux/slices/userLoadingSlice';
 import { setUser } from './redux/slices/userSlice';
 import CollectionPage from './pages/Collection/CollectionPage';
-
-
+import AboutUs from './pages/AboutUs';
+import ContactUs from './components/HomeSections/ContactUs';
 
 function App() {
   const dispatch = useDispatch();
@@ -82,9 +82,9 @@ function App() {
     
     <Route path="/housedetails/:houseId" element={<DetailPage />} />
     <Route path="/collection" element={<CollectionPage />} />
-
-
-
+    <Route path="/aboutus" element={<AboutUs />} />
+    <Route path="/Checkout" element={<Checkout />} />
+    <Route path="/contactUs" element={<ContactUs />} />
   </Routes>
    </div>
   
