@@ -191,6 +191,9 @@ function Checkout( ) {
     <AdjustIcon style={{ color: '#10B981', fontSize: '1em', marginRight: '0.5em' }} />
     Delivery within 90 days
   </Typography>
+  <Button onClick={handleClose} style={{ color: '#1C2365' }} >
+            Cancel
+          </Button>
   <Button 
             variant="contained"
             style={{

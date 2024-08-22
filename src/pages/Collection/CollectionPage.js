@@ -11,9 +11,7 @@ function CollectionPage() {
   return (
     <div>
 
-<div>
-          <Navbar />
-        </div> 
+
 
 
        <div>

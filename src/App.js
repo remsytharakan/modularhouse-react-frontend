@@ -1,4 +1,3 @@
-
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Login from './Auth/Login';
@@ -23,6 +22,7 @@ import { setUser } from './redux/slices/userSlice';
 import CollectionPage from './pages/Collection/CollectionPage';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './components/HomeSections/ContactUs';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +34,8 @@ function App() {
         .then((response) => {
           dispatch(setUser(response?.data));
           dispatch(finishLoadingUser());
-        }).catch((err) => {
+        })
+        .catch((err) => {
           sessionStorage.removeItem("authtoken");
           dispatch(finishLoadingUser());
         });
@@ -43,60 +44,57 @@ function App() {
     }
   }, [dispatch]);
 
+  // Check if the current route should display the Navbar
+  const showNavbar = !(
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/register') ||
+    location.pathname.startsWith('/reset') ||
+    location.pathname.startsWith('/forget') ||
+    location.pathname.startsWith('/verify') ||
+    location.pathname.startsWith('/admin')
+  );
+
   return (
-  
-         
-   <div>
-  
-      <Routes>
-   
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/reset" element={<Reset />} />
-    <Route path="/forget" element={<ForgetPassword />} />
-    <Route path="/verify/:id" element={<Verify />} />
+    <div>
+      {showNavbar && <Navbar />} {/* Conditionally render Navbar based on the route */}
 
-   
-    <Route
-      path="/admin"
-      element={
-        <AuthShield>
-         
-          <Outlet /> 
-        </AuthShield>
-      }
-    >
-        <Route path="/admin" element={<Dashboard />} />
-      <Route path="/admin/edit-category/:catId" element={<NewCategory />} />
-      <Route path="/admin/category" element={<Category />} />
-      <Route path="/admin/newcategory" element={<NewCategory />} />
-      <Route path="/admin/edit-house/:houseId" element={<NewModules />} />
-      <Route path="/admin/newmodule" element={<NewModules />} />
-      <Route path="/admin/modules" element={<Modules />} />
-      
+      <main>
+        <Routes>
+          {/* Authentication routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reset" element={<Reset />} />
+          <Route path="/forget" element={<ForgetPassword />} />
+          <Route path="/verify/:id" element={<Verify />} />
 
-    </Route>
+          {/* Admin routes */}
+          <Route
+            path="/admin"
+            element={
+              <AuthShield>
+                <Outlet /> {/* Nested routes will be rendered here */}
+              </AuthShield>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="edit-category/:catId" element={<NewCategory />} />
+            <Route path="category" element={<Category />} />
+            <Route path="newcategory" element={<NewCategory />} />
+            <Route path="edit-house/:houseId" element={<NewModules />} />
+            <Route path="newmodule" element={<NewModules />} />
+            <Route path="modules" element={<Modules />} />
+          </Route>
 
-   
-    <Route path="/" element={<Home />} />
-    
-    <Route path="/housedetails/:houseId" element={<DetailPage />} />
-    <Route path="/collection" element={<CollectionPage />} />
-    <Route path="/aboutus" element={<AboutUs />} />
-    <Route path="/Checkout" element={<Checkout />} />
-    <Route path="/contactUs" element={<ContactUs />} />
-  </Routes>
-   </div>
-  
-   
- 
- 
-
-
-
- 
-    
-   
+          {/* Public routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/housedetails/:houseId" element={<DetailPage />} />
+          <Route path="/collection" element={<CollectionPage />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/contactus" element={<ContactUs />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 

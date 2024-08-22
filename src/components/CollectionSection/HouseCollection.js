@@ -141,7 +141,7 @@ function Collection() {
               Our Collection Of Houses
             </Typography>
 
-            <Box sx={{ flexGrow: 2, backgroundColor: '#388e3c', p: 2 }}>
+            <Box sx={{ flexGrow: 2, backgroundColor: '#10B981', p: 2 }}>
       <Grid container spacing={2} justifyContent="center">
         {['categories', 'dimensions', 'prices'].map((menuType) => (
           <Grid item xs={12} sm={4} md={3} key={menuType}>

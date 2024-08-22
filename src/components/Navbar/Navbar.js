@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,15 +16,18 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const navItems = [
   { label: 'Home', path: '/' },
-  
   { label: 'Modular House', path: '/collection' },
   { label: 'FAQ', path: '/faq' },
   { label: 'About Us', path: '/aboutus' },
   { label: 'Contact Us', path: '/contactUs' },
-  { label: 'Project Process', path: '/contact-us' }
+
 ];
 
 export default function DrawerAppBar() {
@@ -53,73 +56,108 @@ export default function DrawerAppBar() {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
-     
-     <AppBar
-  component="nav"
-  position="sticky"
-  sx={{
-    backgroundColor: '#388e3c',
-    overflow: 'hidden',
-    boxShadow: 'none',
-   
-  }}
->
+    <Box sx={{ display: 'flex', flexDirection: 'column',  }}>
+      <AppBar position="static" sx={{ bgcolor: '#10B981' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <EmailIcon sx={{ mr: 1 }} />
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              info@example.com
+            </Typography>
+            <PhoneIcon sx={{ mr: 1 }} />
+            <Typography variant="body2">
+              +1 234 567 8900
+            </Typography>
+          </Box>
+          <Box>
+            <IconButton color="inherit" aria-label="facebook">
+              <FacebookIcon />
+            </IconButton>
+            <IconButton color="inherit" aria-label="whatsapp">
+              <WhatsAppIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      
+      <AppBar
+        component="nav"
+        position="sticky"
+        sx={{
+          backgroundColor: 'transparent',
+          overflow: 'hidden',
+          boxShadow: 'none',
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' }, color: 'white' }} 
+            sx={{ mr: 2, display: { sm: 'none' }, color: '#388e3c' }} 
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: 'white', textAlign: 'left', paddingLeft: '68px' }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: '#388e3c', textAlign: 'left', paddingLeft: '68px' }}>
             Logo
           </Typography>
 
-          <Box sx={{ display: { xs: 'none', sm: 'flex', marginRight: '20px'}, flexDirection: 'row', gap: '40px' }}> 
-            {navItems.map(({ label, path }) => (
-              <Button
-                key={label}
-                sx={{
-                  display: 'flex',
-                 
-                  alignItems: 'center',
-                  textTransform: 'none',
-                  borderRadius: '20px',
-                  color: 'white',
-                  fontSize: '18px',
-                  fontWeight: '300',
-                  textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                  },
-                }}
-                component={Link} 
-                to={path} 
-              >
-                {label}
-              </Button>
-            ))}
-            <IconButton
-              component={Link}
-              to="/register" 
-              sx={{ color: 'white',fontSize: '8rem' }}
-              aria-label="sign up"
-            >
-              <PersonAddAlt1OutlinedIcon />
-            </IconButton>
-            <IconButton
-              component={Link}
-              to="/cart" 
-              sx={{ color: 'white' }}
-              aria-label="cart"
-            >
-              <ShoppingCartOutlinedIcon />
-            </IconButton>
-          </Box>
+          <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' }, flexDirection: 'row', gap: '45px', mt: '20px' }}>
+  {navItems.map(({ label, path }) => (
+    <Button
+      key={label}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        textTransform: 'none',
+        borderRadius: '15px',
+        backgroundColor: 'white',
+        color: 'green',
+        fontSize: '16px',
+        fontWeight: '600',
+        textDecoration: 'none',
+        '&:hover': {
+          backgroundColor: '#10B981',
+          color:'white',
+          textDecoration: 'underline',
+        },
+      }}
+      component={Link}
+      to={path}
+    >
+      {label}
+    </Button>
+  ))}
+  <IconButton
+    component={Link}
+    to="/register"
+    sx={{
+      color: 'black',
+      fontSize: '8rem',
+      backgroundColor: 'white',
+      '&:hover': { backgroundColor: '#b0e57c' },
+      display: { xs: 'none', sm: 'flex', md: 'flex' },
+    }}
+    aria-label="sign up"
+  >
+    <PersonAddAlt1OutlinedIcon />
+  </IconButton>
+  <IconButton
+    component={Link}
+    to="/cart"
+    sx={{
+      color: 'black',
+      backgroundColor: 'white',
+      '&:hover': { backgroundColor: '#b0e57c' },
+      display: { xs: 'none', sm: 'flex', md: 'flex' },
+    }}
+    aria-label="cart"
+  >
+    <ShoppingCartOutlinedIcon />
+  </IconButton>
+</Box>
+
         </Toolbar>
       </AppBar>
       <Drawer
