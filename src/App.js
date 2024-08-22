@@ -23,6 +23,7 @@ import CollectionPage from './pages/Collection/CollectionPage';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './components/HomeSections/ContactUs';
 import Navbar from './components/Navbar/Navbar';
+import Faq from './components/HomeSections/Faq';
 
 function App() {
   const dispatch = useDispatch();
@@ -92,6 +93,7 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/faq" element={<Faq />} />
         </Routes>
       </main>
     </div>
