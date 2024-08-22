@@ -8,7 +8,7 @@ import ReadyToSellSectionTwo from '../../components/HomeSections/ReadyToSellSect
 import ReadyToSellSectionOne from '../../components/HomeSections/ReadyToSellSection/ReadyToSellSectionOne';
 import AboutUsSectionOne from '../../components/HomeSections/AboutUsSection/AboutUsSectionOne';
 import AboutUsSectionTwo from '../../components/HomeSections/AboutUsSection/AboutUsSectionTwo';
-import Navbar from '../../components/Navbar/Navbar';
+
 import Footer from '../../components/Footer/Footer';
 import { Grid } from '@mui/material';
 

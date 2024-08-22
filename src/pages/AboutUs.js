@@ -3,7 +3,10 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import AboutUsSectionOne from '../components/HomeSections/AboutUsSection/AboutUsSectionOne';
 import AboutUsSectionTwo from  '../components/HomeSections/AboutUsSection/AboutUsSectionTwo';
-import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
+
+
+
 const AboutUsPage = () => {
   return (
     <div>
@@ -16,6 +19,15 @@ const AboutUsPage = () => {
       <Grid item xs={12} sm={12} md={6} lg={6}>
         <AboutUsSectionTwo />
       </Grid>
+     
+
+             <div>
+          <Footer />
+        </div> 
+
+
+
+
     </Grid>
     </div> 
   );

@@ -81,7 +81,7 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 const ContactUs = () => {
   return (
     <div>
-      <Navbar />
+      
       <HeroSection sx={{mt:2}}>
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center" justifyContent="center">
@@ -112,7 +112,7 @@ const ContactUs = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <WhiteBackgroundForm>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h4" gutterBottom>
                   Get in Touch
                 </Typography>
                 <form noValidate autoComplete="off">
