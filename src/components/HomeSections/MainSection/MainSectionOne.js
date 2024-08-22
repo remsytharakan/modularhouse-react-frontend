@@ -18,12 +18,12 @@ function MainSectionOne() {
         </Typography>
       
       <Box sx={{mt: "8%"}}>
-        <Typography variant="h7" sx={{   lineHeight: '30px', }}>
+        <Typography variant="h7" sx={{   lineHeight: '30px',color:'#757575' }}>
           Everything you need about finding your place to live will be here, where it will be easier for you
         </Typography>
       </Box>
       {/* Search Field */}
-      <Box sx={{ mt: { xs: '10%', md: '5%', lg: '14%' },  mb: { xs: '6%'}, }}>
+      <Box sx={{ mt: { xs: '10%', md: '5%', lg: '14%' },  mb: { xs: '35%'}, }}>
   <TextField
     variant="outlined"
     placeholder="Search for your dream home"

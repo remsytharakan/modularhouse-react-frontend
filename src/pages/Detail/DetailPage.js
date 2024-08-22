@@ -75,9 +75,7 @@ function DetailPage() {
 
   return (
     <div>
-      <div>
-          <Navbar />
-        </div> 
+     
 
 <Grid item xs={12} sm={10} md={8} lg={6} >
   {houseImages.length > 0 ? (
