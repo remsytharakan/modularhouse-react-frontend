@@ -90,7 +90,7 @@ function DetailPage() {
       }}
     >
       <img 
-        src={houseImages[0].url}
+        src={houseImages[2].url}
         style={{
           width: '100%',
           height: '100%',

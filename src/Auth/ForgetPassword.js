@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import logoo from './logoo.png'; // Import the image
+import logoo from '../Assets/logoo.png'; // Import the image
 
 function Forgotpassword() {
   const navigate = useNavigate();

@@ -103,7 +103,7 @@ export default function DrawerAppBar() {
             Logo
           </Typography>
 
-          <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' }, flexDirection: 'row', gap: '45px', mt: '20px' }}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' }, flexDirection: 'row', gap: '40px', mt: '20px' }}>
   {navItems.map(({ label, path }) => (
     <Button
       key={label}
@@ -114,7 +114,7 @@ export default function DrawerAppBar() {
         borderRadius: '15px',
         backgroundColor: 'white',
         color: 'green',
-        fontSize: '16px',
+        fontSize: '14px',
         fontWeight: '600',
         textDecoration: 'none',
         '&:hover': {

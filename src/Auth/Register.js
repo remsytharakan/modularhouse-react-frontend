@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { unsetUser } from '../redux/slices/userSlice';
 import { register } from '../Services/AdminServices';
 import toast, { Toaster } from 'react-hot-toast';
-import logoo from './logoo.png';
+import logoo from '../Assets/logoo.png';
 
 function Register() {
     const navigate = useNavigate();

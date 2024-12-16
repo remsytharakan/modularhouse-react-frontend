@@ -104,4 +104,10 @@ export const getCustomizationOptionsByType = (type) => {
     return api.get(`/customizationOption/getCustomizationOptionsByType/${type}`);
 };
 
+//email
+
+export const sendCartDetails = (data) => {
+    return api.post("/customizationOption/sendCartDetails", data);
+  };
+
 

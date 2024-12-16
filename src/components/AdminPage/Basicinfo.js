@@ -406,7 +406,7 @@ const Basicinfo = ({ basicInfo, updateBasicInfo, houseId }) => {
                 </Grid>
                 <IconButton
                   sx={{
-                    color: 'black',
+                    color: 'black', 
                     marginRight: '8px',
                     fontSize: 'medium',
                     padding: '8px',

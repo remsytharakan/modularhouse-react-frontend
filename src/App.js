@@ -69,22 +69,7 @@ function App() {
           <Route path="/verify/:id" element={<Verify />} />
 
           {/* Admin routes */}
-          <Route
-            path="/admin"
-            element={
-              <AuthShield>
-                <Outlet /> {/* Nested routes will be rendered here */}
-              </AuthShield>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="edit-category/:catId" element={<NewCategory />} />
-            <Route path="category" element={<Category />} />
-            <Route path="newcategory" element={<NewCategory />} />
-            <Route path="edit-house/:houseId" element={<NewModules />} />
-            <Route path="newmodule" element={<NewModules />} />
-            <Route path="modules" element={<Modules />} />
-          </Route>
+                            
 
           {/* Public routes */}
           <Route path="/" element={<Home />} />

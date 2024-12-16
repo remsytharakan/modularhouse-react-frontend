@@ -132,6 +132,12 @@ const ProductDetails = ({ selectedCards, onRemoveCard, onCheckout, house }) => {
             </Button>
           </Box>
         </Grid>
+
+
+        <Grid item xs={12} sm={12} md={4} lg={12}  >
+
+
+        </Grid>
       </Grid>
     </Box>
   );

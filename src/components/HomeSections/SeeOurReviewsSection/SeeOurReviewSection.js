@@ -11,23 +11,23 @@ const SeeOurReviewSection = () => {
   const settings = {
     dots: true,
     infinite: false,
-    speed: 500,
-    slidesToShow: 3,
+    speed: 200,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    centerMode: true,
+    centerPadding: '0',
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
+          centerPadding: '10%',
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
+          centerPadding: '5%',
         }
       }
     ]
@@ -35,36 +35,36 @@ const SeeOurReviewSection = () => {
 
   const reviewData = [
     {
-      title: "Best! I got the house I wanted through Hounter",
+      title: "Best! I got the house I wanted through Modular House",
       content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
       name: "Dianne Russell",
       position: "Manager Director",
       rating: 4.6
     },
-    // Duplicate this object two more times for a total of three reviews
+   
     {
-      title: "Best! I got the house I wanted through Hounter",
-      content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
-      name: "Dianne Russell",
-      position: "Manager Director",
-      rating: 4.6
-    },
-    {
-      title: "Best! I got the house I wanted through Hounter",
+      title: "Best! I got the house I wanted through Modular House",
       content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
       name: "Dianne Russell",
       position: "Manager Director",
       rating: 4.6
     },
     {
-      title: "Best! I got the house I wanted through Hounter",
+      title: "Best! I got the house I wanted through Modular House",
       content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
       name: "Dianne Russell",
       position: "Manager Director",
       rating: 4.6
     },
     {
-      title: "Best! I got the house I wanted through Hounter",
+      title: "Best! I got the house I wanted through Modular House",
+      content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
+      name: "Dianne Russell",
+      position: "Manager Director",
+      rating: 4.6
+    },
+    {
+      title: "Best! I got the house I wanted through Modular House",
       content: "Through this website I can get a house with the type and specifications I want very easily, without a complicated process to be able to find information on the house we want.",
       name: "Dianne Russell",
       position: "Manager Director",
@@ -72,9 +72,11 @@ const SeeOurReviewSection = () => {
     },
   ];
 
+
+
   return (
-    <Box sx={{ mt: { xs: 2, sm: 3, md: 4, lg: 5 }, px: { xs: 4, sm: 2, md: 3, lg: 9} }}>
-      <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3, md: 4 } }}>
+    <Box sx={{ mt: { xs: 2, sm: 3, md: 4, lg: 5 }, px: 0 }}>
+      <Box sx={{ textAlign: 'center', mb: { xs: 2, sm: 3, md: 4 }, px: { xs: 4, sm: 2, md: 3, lg: 9} }}>
         <Box sx={{ width: { xs: 20, sm: 30, md: 40 }, height: 3, bgcolor: '#f59e0b', mx: 'auto', mb: 1 }} />
         <Typography sx={{ color: '#f59e0b', mb: 1 }}>See Our Review</Typography>
         <Typography variant="h4" sx={{ color: '#1b1c57', fontWeight: 600 }}>
@@ -84,12 +86,25 @@ const SeeOurReviewSection = () => {
 
       <Slider {...settings}>
         {reviewData.map((review, index) => (
-          <Box key={index} sx={{ p: { xs: 1, sm: 2, md: 3 }, mb: { xs: 2, sm: 3, md: 4 } }}>
+          <Box key={index} sx={{ px: 2 }}>
             <Box sx={{ position: 'relative', mb: 5 }}>
-              <img src={reviewpic} alt="Review" style={{ maxWidth: '100%', height: 'auto' }} />
-              
+            <Box sx={{ position: 'relative', paddingTop: '56.25%', overflow: 'hidden' }}>
+                <img 
+                  src={reviewpic} 
+                  alt="Review" 
+                  style={{ 
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '50%',
+                    height: '50%',
+                    objectFit: 'cover'
+                  }} 
+                />
+              </Box>
               <Card sx={{ 
-                width: '90%',
+                width: '50%',
                 mx: 'auto', 
                 mt: { xs: -5, sm: -8, md: -10 }, 
                 position: 'relative', 
@@ -99,7 +114,7 @@ const SeeOurReviewSection = () => {
                 <CardContent>
                   <Typography variant="h6" sx={{ color: '#1b1c57', fontWeight: 600 }}>
                     {review.title}
-                  </Typography>
+                  </Typography> 
                   <Typography sx={{ color: '#878b96', fontSize: { xs: '0.7rem', sm: '0.8rem' } }}>
                     {review.content}
                   </Typography>

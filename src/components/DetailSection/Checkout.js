@@ -18,9 +18,13 @@ import {
   Box,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getHouseById } from '../../Services/AdminServices';
+import { getHouseById,sendCartDetails } from '../../Services/AdminServices';
 import toast from 'react-hot-toast';
 import AdjustIcon from '@mui/icons-material/Adjust';
+
+
+
+
 function Checkout( ) {
   const location = useLocation();
   const { houseId } = useParams();
@@ -28,6 +32,45 @@ function Checkout( ) {
   const [house, setHouse] = useState({});
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+
+
+  const handleSendRequest = async () => {
+    try {
+      const emailid = 'faithshabu@gmail.com'; 
+      const requestData = {
+        emailid: emailid,
+        customerDetails: {
+          name: customerName,
+          email: customerEmail,
+          contact: customerPhone
+        },
+        houseDetails: {
+          name: house.name,
+          basicPrice: house.basicPrice
+        },
+        customizationOptions: selectedCards.map(card => ({
+          name: card.name,
+          price: card.price * (card.quantity || 1)
+        }))
+      };
+  
+      const response = await sendCartDetails(requestData);
+  
+      if (response.data.success) {
+        toast.success('Request sent successfully!');
+        handleClose();
+      } else {
+        toast.error('Failed to send request. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending request:', error);
+      toast.error('An error occurred. Please try again.');
+    }
+  };
+  
 
   useEffect(() => {
     if (location.state?.house) {
@@ -89,10 +132,10 @@ function Checkout( ) {
       <Grid container spacing={2}>
         <Grid item xs={12} lg={6} md={6}>
           <Box>
-            <Typography variant="h4" sx={{ fontSize: '2.1em', fontWeight: 700 }}>
+            <Typography variant="h5" sx={{ fontSize: '1.8em', fontWeight: 700 }}>
               {house.name}
             </Typography>
-            <Typography variant="h6" sx={{ color: '#10B981', fontSize: '1.8em', fontWeight: 700 }}>
+            <Typography variant="h4" sx={{ color: '#10B981', fontSize: '2.2em', fontWeight: 700 }}>
               €&nbsp;{house.basicPrice}
             </Typography>
            
@@ -191,9 +234,7 @@ function Checkout( ) {
     <AdjustIcon style={{ color: '#10B981', fontSize: '1em', marginRight: '0.5em' }} />
     Delivery within 90 days
   </Typography>
-  <Button onClick={handleClose} style={{ color: '#1C2365' }} >
-            Cancel
-          </Button>
+  
   <Button 
             variant="contained"
             style={{
@@ -215,13 +256,13 @@ function Checkout( ) {
       </Grid>
 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle   sx={{
-              color: '#1b1c57',
-              fontFamily: 'Lexend, var(--default-font-family)',
-              fontSize: { xs: '26px', sm: '32px', lg: '32px' },
-              fontWeight: 600,
-              mb: '10px',
-            }}    >Contact Information</DialogTitle>
+        <DialogTitle sx={{
+          color: '#1b1c57',
+          fontFamily: 'Lexend, var(--default-font-family)',
+          fontSize: { xs: '26px', sm: '32px', lg: '32px' },
+          fontWeight: 600,
+          mb: '10px',
+        }}>Contact Information</DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField
@@ -229,6 +270,8 @@ function Checkout( ) {
               variant="outlined"
               margin="normal"
               fullWidth
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
             />
             <TextField
               label="Email"
@@ -236,6 +279,8 @@ function Checkout( ) {
               variant="outlined"
               margin="normal"
               fullWidth
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
             />
             <TextField
               label="Phone"
@@ -243,29 +288,29 @@ function Checkout( ) {
               variant="outlined"
               margin="normal"
               fullWidth
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
             />
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} style={{ color: '#1C2365' }} >
+          <Button onClick={handleClose} style={{ color: '#1C2365' }}>
             Cancel
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={handleSendRequest}
             variant="contained"
             style={{
               textTransform: 'none',
               fontSize: '16px',
               backgroundColor: '#1C2365',
               color: 'white',
-              
             }}
           >
             Send Request
           </Button>
         </DialogActions>
       </Dialog>
-
       
     
     </Box>

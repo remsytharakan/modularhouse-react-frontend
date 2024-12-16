@@ -1,6 +1,6 @@
 import { Button, Icon, InputAdornment, TextField, Typography, Grid, useMediaQuery } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import logoo from './logoo.png';
+import logoo from '../Assets/logoo.png';
 import React, { useEffect, useState } from 'react';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';

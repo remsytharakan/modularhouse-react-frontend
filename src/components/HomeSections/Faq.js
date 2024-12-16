@@ -41,7 +41,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 A Modular house is a compact, well-designed small home, often built on wheels to be mobile.
               </Typography>
             </AccordionDetails>
@@ -56,7 +56,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 You can buy modular houses from us. We offer a wide range of modular house models.
               </Typography>
             </AccordionDetails>
@@ -71,7 +71,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 No, modular houses are compact houses that are often on wheels. Mobile homes are usually larger residential structures that are also mobile.
               </Typography>
             </AccordionDetails>
@@ -100,7 +100,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                  The size of modular houses varies, but they are usually between 15 and 40 square meters.
               </Typography>
             </AccordionDetails>
@@ -156,7 +156,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 A Modular house is a compact, well-designed small home, often built on wheels to be mobile.
               </Typography>
             </AccordionDetails>
@@ -171,7 +171,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 You can buy modular houses from us. We offer a wide range of modular house models.
               </Typography>
             </AccordionDetails>
@@ -186,7 +186,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                 No, modular houses are compact houses that are often on wheels. Mobile homes are usually larger residential structures that are also mobile.
               </Typography>
             </AccordionDetails>
@@ -215,7 +215,7 @@ function Faq() {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography variant='body1' sx={{ color: "#333", lineHeight: 1.6 }}>
+              <Typography variant='body1' sx={{ color: "#1C2365", lineHeight: 1.6 }}>
                  The size of modular houses varies, but they are usually between 15 and 40 square meters.
               </Typography>
             </AccordionDetails>

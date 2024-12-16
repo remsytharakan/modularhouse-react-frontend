@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../../components/Navbar/Navbar';
+
 import { Grid, Box, TextField, Button, Checkbox, FormControlLabel, Typography, Container, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import review from '../../Assets/review.png';
 import border from '../../Assets/border.png';
-
+import Footer from '../../components/Footer/Footer';
 const HeroSection = styled(Box)(({ theme }) => ({
   position: 'relative',
   height: '80vh', 
@@ -165,6 +165,10 @@ const ContactUs = () => {
           </Grid>
         </Container>
       </HeroSection>
+
+     
+        
+       
     </div>
   );
 };

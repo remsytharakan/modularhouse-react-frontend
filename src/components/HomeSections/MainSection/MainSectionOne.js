@@ -8,7 +8,7 @@ function MainSectionOne() {
       <Box 
         sx={{
           mr: { xs: 2, md: 2, lg: 5 }, 
-          mt: { xs: 3, md: 6, lg: 16 }, 
+          mt: { xs: 3, md: 6, lg: 8 }, 
           ml: { xs: 2, md: 8, lg: 10 } 
         }}
       >

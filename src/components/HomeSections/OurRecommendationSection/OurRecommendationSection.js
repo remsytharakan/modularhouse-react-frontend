@@ -60,7 +60,7 @@ function OurRecommendation() {
   };
 
   return (
-    <Box sx={{ mt: 2, px: { xs: 4, sm: 4, md: 8, lg: 10 } }}>
+    <Box sx={{ mt: 1, px: { xs: 4, sm: 4, md: 8, lg: 8 } }}>
       <Box>
         <Typography variant="h4" sx={{ color: '#1b1c57' }} gutterBottom>
           Featured Houses
